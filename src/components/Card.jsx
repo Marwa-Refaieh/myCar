@@ -10,9 +10,9 @@ const Card = () => {
 
 
     return (
-        <Link to={'/details/1'} className='w-full'>
+        <Link to={'/details/1'} className='w-full sm:w-[47%] lg:w-[30%]'>
             <div
-                className="w-full sm:w-[47%] lg:w-[30%] border-[1px] border-Myprimary rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl">
+                className="border-[1px] border-Myprimary rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl">
                 <img
                     src={car}
                     alt="Product Image"

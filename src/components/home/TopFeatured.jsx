@@ -8,7 +8,7 @@ const TopFeatured = () => {
 
     return (
         <div>
-            <Tabs defaultValue="all" className="max-w-7xl mx-auto px-4 flex flex-col items-center">
+            <Tabs defaultValue="all" className="max-w-7xl mx-auto px-4 flex flex-col items-center ">
                 <h2 className='font-bold text-center mb-10 text-Myprimary text-5xl'>Our Top Featured Vehicles</h2>
                 <TabsList className="hidden md:flex bg-[#4a4646] py-4 md:py-7 px-0 md:px-0 mx-2 md:mx-4 rounded-full overflow-hidden text-white text-lg md:text-xl font-medium">
                     <TabsTrigger

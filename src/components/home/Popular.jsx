@@ -5,8 +5,10 @@ const Popular = () => {
     return (
         <div>
             <h2 className="text-5xl font-bold text-center mb-10 text-Myprimary ">Explore Popular Categories</h2>
-            <div>
-                <Card />
+            <div className="flex flex-wrap gap-8 justify-center my-10">
+                {[...Array(3)].map((_, index) => (
+                    <Card key={index} />
+                ))}
             </div>
         </div>
     );

@@ -38,7 +38,7 @@ const Brands = () => {
     };
 
     return (
-        <div className="flex flex-wrap items-center justify-center gap-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-center">
             {brandsData.map((brand, index) => (
                 <div
                     key={index}
@@ -46,22 +46,20 @@ const Brands = () => {
                     className="flex flex-col items-center justify-center"
                 >
                     <div
-                        className="relative border rounded-2xl overflow-hidden cursor-pointer
-                        hover:scale-110 transition-transform duration-300 ease-in-outshadow-md drop-shadow-[0_0_2px_rgba(255,255,255,0.7)] w-44 h-44"
+                        className="relative rounded-2xl overflow-hidden cursor-pointer
+                hover:scale-110 transition-transform duration-300 ease-in-out shadow-md w-32 h-32"
                     >
                         <img
                             src={brand.src}
                             alt={brand.alt}
-                            className="w-full h-full object-cover bg-[#121212]"
+                            className="w-full h-full object-cover"
                         />
-                        <p className="absolute bottom-2 left-[50%] transform 
-                            translate-x-[-50%] text-white text-lg font-semibold drop-shadow-md select-none">
-                            {brand.name}
-                        </p>
+                    
                     </div>
                 </div>
             ))}
         </div>
+
     );
 }
 

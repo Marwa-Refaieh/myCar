@@ -27,7 +27,8 @@ const SellerTabs = () => {
                 </TabsList>
 
                 <TabsContent value="details" className="p-4 ">
-                    <Card2 />
+                    <Card2 showActions={true} />
+
                 </TabsContent>
 
                 <TabsContent value="reviews" className="p-4 ">
