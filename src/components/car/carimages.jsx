@@ -1,7 +1,12 @@
+import { useTranslation } from 'react-i18next';
+
 const CarImages = ({ register, errors, watch, setValue }) => {
   const images = watch("images");
   const video = watch("video");
   const model3D = watch("model3D");
+
+  const { t } = useTranslation('step3');
+
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -14,7 +19,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
   };
 
   const handle3DChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]; 
     setValue("model3D", file);
   };
 
@@ -22,7 +27,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
     <div className="space-y-6 text-white">
       {/* Photos */}
       <div>
-        <label className="block font-medium mb-1">Photo</label>
+        <label className="block font-medium mb-1">{t('photo')}</label>
         <input
           type="file"
           accept="image/*"
@@ -32,7 +37,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
         />
         <input
           type="hidden"
-          {...register("images", { required: "الصور مطلوبة" })}
+          {...register("images", { required: t('reqphoto') })}
         />
         {errors.images && <p className="text-red-600">{errors.images.message}</p>}
         <div className="flex gap-2 mt-2 flex-wrap">
@@ -50,7 +55,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
 
       {/* Video */}
       <div>
-        <label className="block font-medium mb-1">Add Video</label>
+        <label className="block font-medium mb-1">{t('video')}</label>
         <input
           type="file"
           accept="video/*"
@@ -65,7 +70,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
 
       {/* 3D File */}
       <div>
-        <label className="block font-medium mb-1">Add 3D file</label>
+        <label className="block font-medium mb-1">{t('3dfile')}</label>
         <input
           type="file"
           accept=".glb,.gltf"
@@ -74,16 +79,16 @@ const CarImages = ({ register, errors, watch, setValue }) => {
         />
         <input type="hidden" {...register("model3D")} />
         {model3D && (
-          <p className="text-sm mt-2">تم اختيار الملف: {model3D.name}</p>
+          <p className="text-sm mt-2">{t('selectedfile')}: {model3D.name}</p>
         )}
       </div>
 
       {/* Price */}
       <div>
-        <label className="block font-medium mb-1">Price</label>
+        <label className="block font-medium mb-1">{t('price')}</label>
         <input
           type="number"
-          {...register("price", { required: "السعر مطلوب" })}
+          {...register("price", { required: t('reqprice') })}
           className="w-full p-2 rounded bg-neutral-800 text-white"
         />
         {errors.price && <p className="text-red-600">{errors.price.message}</p>}
@@ -91,10 +96,10 @@ const CarImages = ({ register, errors, watch, setValue }) => {
 
       {/* Description */}
       <div>
-        <label className="block font-medium mb-1">Description</label>
+        <label className="block font-medium mb-1">{t('desc')}</label>
         <textarea
           rows={4}
-          {...register("description", { required: "الوصف مطلوب" })}
+          {...register("description", { required: t('reqdesc') })}
           className="w-full p-2 rounded bg-neutral-800 text-white"
         ></textarea>
         {errors.description && <p className="text-red-600">{errors.description.message}</p>}
@@ -102,10 +107,10 @@ const CarImages = ({ register, errors, watch, setValue }) => {
 
       {/* Location */}
       <div>
-        <label className="block font-medium mb-1">Location</label>
+        <label className="block font-medium mb-1">{t('location')}</label>
         <input
           type="text"
-          {...register("location", { required: "الموقع مطلوب" })}
+          {...register("location", { required: t('reqlocation') })}
           className="w-full p-2 rounded bg-neutral-800 text-white"
         />
         {errors.location && <p className="text-red-600">{errors.location.message}</p>}

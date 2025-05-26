@@ -1,42 +1,52 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-export default function Complaint({id , date , status}) {
-    const statusStyles = {
-        "Under Study": {
-          color: "text-blue-500",
-          border: "border-blue-500",
-          icon: "🌀",
-        },
-        "Completed": {
-          color: "text-green-500",
-          border: "border-green-500",
-          icon: "✅",
-        },
-        "Not clarification": {
-          color: "text-red-500",
-          border: "border-red-500",
-          icon: "❌",
-        },
-      };
+import { useState , useEffect } from "react";
+import axios from "axios";
+import { baseUrl } from "@/baseUrl";
+export default function Complaint() {
+        const [data, setData] = useState([]);
+        const [loading, setLoading] = useState(true);
+        useEffect(() => {
+          const fetchData = async () => {
+            try {
+              const response = await axios.get(`${baseUrl}api/my-complaints`);
+              setData(response.data.data);
+            } catch (error) {
+              console.error('Error fetching name:', error);
+            } finally {
+              setLoading(false);
+            }
+          };
+        
+          fetchData();
+        }, []); 
       
-   
-        const style = statusStyles[status] || {
-          color: "text-gray-500",
-          border: "border-gray-500",
-          icon: "❓",
-        };
+        if (loading) return <div className="flex justify-center items-center h-40">
+        <div className="flex space-x-2">
+            <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+            <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+            <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
+        </div>
+      </div>
+      
+      
+      if(data.length == 0) return <div className="bg-[#232321] p-3 rounded-xl text-right w-full md:w-[40%] mx-auto">
+           <h2 className="text-center">not found notifications</h2>
+      </div>
+      console.log(data);
+      
       
   return (
     <div className=" text-white rounded-xl p-4 shadow-lg mb-4 w-full md:w-[40%] mx-auto bg-[#232321]">
-      <p className="text-sm">Complaints Number : <span className="font-semibold">#{id}</span></p>
-      <p className="text-sm mt-2">Last Update : <span className="font-semibold">{date}</span></p>
+      <p className="text-sm">Complaints Number : <span className="font-semibold">888</span></p>
+      <p className="text-sm mt-2">Last Update : <span className="font-semibold">klok</span></p>
       <div className="flex items-center mt-3">
-        <div className={`w-6 h-6 rounded-full border-4 ${style.border} mr-2 flex items-center justify-center text-sm`}>
-          <span>{style.icon}</span>
+        <div className={`w-6 h-6 rounded-full border-4 border-gray-500 mr-2 flex items-center justify-center text-sm`}>
+          <span>❓</span>
         </div>
-        <span className={`${style.color} text-sm`}>{status}</span>
+        <span className={`text-gray-500 text-sm`}>ioi</span>
       </div>
-      <Link to={`/complaint/${id}`} className="mt-2 text-yellow-400 w-fit cursor-pointer hover:underline">Details</Link>
+      <Link to={`/complaint/23423`} className="mt-2 text-yellow-400 w-fit cursor-pointer hover:underline">Details</Link>
     </div>
   )
 }

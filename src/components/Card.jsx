@@ -24,7 +24,7 @@ const Card = ({ car }) => {
                     style={{ aspectRatio: "600/400", objectFit: "cover" }}
                 />
                 <div className="p-4 space-y-2">
-                    <div className="flex justify-between border-b border-white/30 pb-4">
+                    <div className="flex justify-between items-center border-b border-white/30 pb-4">
                         <h3 className="text-2xl font-semibold text-Myprimary">
                             {car.name || t('car.name_not_available')}
                         </h3>

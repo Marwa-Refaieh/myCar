@@ -1,0 +1,13 @@
+{
+    "photo" : "photo",
+    "reqphoto" : "photo required",
+    "video" : "Add video",
+    "3dfile" : "3d file",
+    "selectedfile" : "uploaded file",
+    "price" : "price",
+    "reqprice" :"Price required",
+    "desc" : "description",
+    "reqdesc" : "description required",
+    "location" : "location",
+    "reqlocation" : "location required"
+}
