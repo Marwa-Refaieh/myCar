@@ -1,0 +1,29 @@
+{
+  "car": {
+    "image_alt": "Car Image",
+    "name_not_available": "Name not available",
+    "price_not_available": "Price not available",
+    "distance": "Distance",
+    "distance_not_available": "Distance not available",
+    "year": "Year",
+    "year_not_available": "Year not available",
+    "transmission": "Transmission",
+    "transmission_not_available": "Transmission not available",
+    "location": "Location",
+    "location_not_available": "Location not available"
+  },
+  "searchResults": {
+    "goBack": "Go Back",
+    "retry": "Retry",
+    "errorFetching": "Failed to fetch search results. Please try again.",
+    "noResults": "No results found for",
+    "tryDifferentKeywords": "Try refining your search with different keywords."
+  },
+  "cars": {
+    "No cars available for this category.": "No cars available for this category.",
+    "Failed to fetch data":"Failed to fetch data",
+    "No cars available for this brand":"No cars available for this brand",
+    "Explore Popular Categories":"Explore Popular Categories",
+    "No cars available":"No cars available"
+  }
+}

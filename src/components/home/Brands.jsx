@@ -1,66 +1,76 @@
 import React, { useEffect, useState } from 'react';
-import brand1 from '../../assets/home/brand1.webp'
-import brand2 from '../../assets/home/brand2.webp'
-import brand3 from '../../assets/home/brand3.webp'
-import brand4 from '../../assets/home/brand4.webp'
-import brand5 from '../../assets/home/brand5.webp'
-import brand6 from '../../assets/home/brand6.webp'
-import brand7 from '../../assets/home/brand7.webp'
-import brand8 from '../../assets/home/brand8.webp'
-import brand9 from '../../assets/home/brand9.webp'
-import brand10 from '../../assets/home/brand10.webp'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Brands = () => {
+    const { t } = useTranslation('msg');
+
     const navigate = useNavigate();
     const [brands, setBrands] = useState([]);
-    const brandsData = [
-        { src: brand1, alt: 'Brand', name: 'Toyota' },
-        { src: brand2, alt: 'Brand', name: 'Honda' },
-        { src: brand3, alt: 'Brand', name: 'Ford' },
-        { src: brand4, alt: 'Brand', name: 'Chevrolet' },
-        { src: brand5, alt: 'Brand', name: 'BMW' },
-        { src: brand6, alt: 'Brand', name: 'Audi' },
-        { src: brand7, alt: 'Brand', name: 'Mercedes' },
-        { src: brand8, alt: 'Brand', name: 'Nissan' },
-        { src: brand9, alt: 'Brand', name: 'Hyundai' },
-        { src: brand10, alt: 'Brand', name: 'Kia' },
-    ];
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
-        axios.get('/api/brands')
-            .then(res => setBrands(res.data))
-            .catch(err => console.error(err));
+        axios.get('https://mycarapplication.com/api/home')
+            .then(res => {
+                setBrands(res.data.data.brands);
+                setLoading(false);
+            })
+            .catch(() => {
+                setError(t('cars.Failed to fetch data'));
+                setLoading(false);
+            });
     }, []);
 
     const handleClick = (id, name) => {
         navigate(`/brand/${id}`, { state: { name } });
     };
 
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-40">
+                <div className="flex space-x-2">
+                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+
+            <div className="max-w-7xl mx-auto px-4 py-20">
+                <p className="text-center text-red-500 text-3xl">{error}</p>
+            </div>
+
+        );
+    }
+
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-center">
-            {brandsData.map((brand, index) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-center w-full">
+            {brands.map((brand) => (
                 <div
-                    key={index}
-                    onClick={() => handleClick(index, brand.name)}
-                    className="flex flex-col items-center justify-center"
+                    key={brand.id}
+                    onClick={() => handleClick(brand.id, brand.name)}
+                    className="flex flex-col items-center justify-center cursor-pointer"
                 >
                     <div
-                        className="relative rounded-2xl overflow-hidden cursor-pointer
-                hover:scale-110 transition-transform duration-300 ease-in-out shadow-md w-32 h-32"
+                        className="relative rounded-2xl overflow-hidden
+                        hover:scale-110 transition-transform duration-300 ease-in-out shadow-md w-32 h-32"
                     >
                         <img
-                            src={brand.src}
-                            alt={brand.alt}
+                            src={brand.logo}
+                            alt={brand.name}
                             className="w-full h-full object-cover"
                         />
-                    
                     </div>
                 </div>
             ))}
         </div>
-
     );
-}
+};
 
 export default Brands;

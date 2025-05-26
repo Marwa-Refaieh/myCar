@@ -3,12 +3,14 @@ import buy from '../../assets/home/buy.webp';
 import sell from '../../assets/home/sell.webp';
 import rent from '../../assets/home/rent.webp';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Services = () => {
+    const { t } = useTranslation('home');
     const images = [
-        { src: buy, alt: 'Buy a car', title: 'buy' },
-        { src: sell, alt: 'Sell a car', title: 'sell' },
-        { src: rent, alt: 'Rent a car', title: 'rent' },
+        { src: buy, alt: 'Buy a car', title: t('buy') },
+        { src: sell, alt: 'Sell a car', title: t('sell') },
+        { src: rent, alt: 'Rent a car', title: t('rent' ) },
     ];
 
     return (
@@ -37,7 +39,7 @@ const Services = () => {
                             <div className="[transform:translateZ(150px)] text-center">
                                 <Link to={'/cars'} state={{ defaultTab: img.title }}>
                                     <button className="text-black text-sm rounded-full font-semibold bg-Myprimary px-6 py-2  hover:bg-primaryHover transition relative underline uppercase">
-                                        Order Now
+                                        {t("Order Now")}
                                     </button>
                                 </Link>
 

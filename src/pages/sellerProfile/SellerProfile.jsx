@@ -2,97 +2,88 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import StarRatings from 'react-star-ratings';
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import LikeButton from "@/components/LikeButton";
-import car from '../../assets/home/car1.webp';
 import ReportModal from "@/components/ReportModal";
 import SellerTabs from "@/components/SellerProfile/SellerTabs";
-import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import img from "../../assets/image.webp";
 
 export default function SellerProfile() {
-    const param = useParams()
-    const id = param.id
-
+    const navigate = useNavigate();
+    const { t, i18n } = useTranslation("home");
+    const { id } = useParams();
     const [seller, setSeller] = useState(null);
-    const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [isFollowing, setIsFollowing] = useState(false);
     const [error, setError] = useState(null);
+    const [isFollowing, setIsFollowing] = useState(false);
 
     useEffect(() => {
-        const fakeSeller = {
-            id: 11,
-            name: "name_y",
-            avatarUrl: "/avatar.jpg",
-            followingCount: 14,
-            followerCount: 1900,
-            rating: 3.5,
-            reviewsCount: 230,
-            isLiked: false,
-            isFollowing: true,
-        };
-
-        const fakeCars = [
-            {
-                id: 1,
-                name: "Toyota Corolla 2021",
-                image: car,
-                kilometers: 60000,
-                year: 2021,
-                transmission: "Automatic",
-                location: "Damascus",
-                price: 17000,
-                rating: 4.9,
-            },
-            {
-                id: 2,
-                name: "Hyundai Elantra 2020",
-                image: car,
-                kilometers: 45000,
-                year: 2020,
-                transmission: "Manual",
-                location: "Aleppo",
-                price: 14500,
-                rating: 4.7,
-            },
-        ];
-
-        setTimeout(() => {
-            setSeller(fakeSeller);
-            setCars(fakeCars);
-            setIsFollowing(fakeSeller.isFollowing);
-            setLoading(false);
-        }, 800);
-    }, []);
-
-    const handleFollowToggle = () => {
-        const actionUrl = isFollowing
-            ? `/api/unfollow/${seller.id}`
-            : `/api/follow/${seller.id}`;
-
-        axios.post(actionUrl)
-            .then(() => {
-                setIsFollowing(!isFollowing);
+        if (!id) return;
+        axios.get(`https://mycarapplication.com/api/user/get-seller-details/${id}`)
+            .then((res) => {
+                setSeller(res.data);
+                setIsFollowing(res.data.is_follow || false);
             })
             .catch((err) => {
-                console.error("Error toggling follow state:", err);
+                console.error("Error fetching seller data", err);
+                setError("Failed to load seller data.");
+            })
+            .finally(() => {
+                setLoading(false);
             });
+    }, [id]);
+
+
+    const handleFollowToggle = () => {
+        const token = localStorage.getItem("authToken");
+
+        if (!token) {
+            navigate("/signin");
+            return;
+        }
+
+        axios.post(
+            "https://mycarapplication.com/api/follow/toggle",
+            { user_id: seller.id },
+            { headers: { Authorization: `Bearer ${token}` } }
+        )
+            .then(() => setIsFollowing(prev => !prev))
+            .catch((err) => console.error("Follow toggle error", err));
     };
 
     const handleReport = (reason) => {
-        const reportUrl = "/api/report";
-
-        axios.post(reportUrl, { reason })
-            .then(response => {
-                console.log("Report submitted successfully:", response.data);
-            })
-            .catch(error => {
-                console.error("Error submitting report:", error);
-            });
+        axios
+            .post(`https://mycarapplication.com/report`, { reason })
+            .then((res) => console.log("Reported:", res.data))
+            .catch((err) => console.error("Report failed", err));
     };
 
-    if (loading) return <div className="text-white text-center mt-10">Loading...</div>;
-    if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
+    if (loading) {
+        return (
+            <div>
+                <div className="flex justify-center items-center min-h-[90vh]">
+                    <div className="flex space-x-2">
+                        <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                        <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                        <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
+                    </div>
+                </div>
+            </div>
+
+        );
+    }
+
+    if (error) {
+        return (
+            <div>
+                <div className="max-w-7xl mx-auto px-4 py-20">
+                    <p className="text-center text-red-500 text-3xl">{error}</p>
+                </div>
+            </div>
+        );
+    }
     if (!seller) return <div className="text-white text-center mt-10">No seller data.</div>;
 
     return (
@@ -105,38 +96,40 @@ export default function SellerProfile() {
             <div className="pb-16 flex flex-col md:flex-row items-center justify-between gap-8">
                 <div className="flex-shrink-0">
                     <img
-                        src={seller.avatarUrl}
-                        alt={seller.name}
+                        src={seller.image_url || img}
+                        alt={seller.full_name}
                         className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-yellow-500 shadow-md object-cover transition-transform duration-300 hover:scale-105"
                     />
                 </div>
 
-                <div className="flex-1 space-y-4 text-center md:text-left">
-                    <h2 className="text-2xl md:text-3xl font-bold">@{seller.name} {id}</h2>
+                <div className={`flex-1 space-y-4 text-center ${i18n.language === 'en' ? 'md:text-left' : 'md:text-right'}`}>
+                    <h2 className="text-2xl md:text-3xl font-bold">@{seller.username}</h2>
+                    {/* <p className="text-gray-400">{seller.bio}</p> */}
+                    {/* <p className="text-gray-400">{seller.city?.name}</p> */}
 
                     <div className="flex gap-6 justify-center md:justify-start text-sm text-gray-400">
-                        <span><strong>{seller.followingCount}</strong> Following</span>
-                        <span><strong>{seller.followerCount}</strong> Followers</span>
+                        <span><strong>{seller.following}</strong> {t("Following")}</span>
+                        <span><strong>{seller.followers}</strong> {t("Followers")}</span>
                     </div>
 
                     <div className="flex items-center justify-center md:justify-start gap-1">
                         <StarRatings
-                            rating={seller.rating}
+                            rating={seller.rating || 0}
                             starRatedColor="#facc15"
                             numberOfStars={5}
                             starDimension="16px"
                             starSpacing="2px"
                         />
                         <span className="ml-2 text-sm text-gray-400">
-                            {seller.rating} ({seller.reviewsCount} Reviews)
+                            {seller.rating || 0} ({seller.reviews_count || 0} {t("Reviews")})
                         </span>
                     </div>
 
                     <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-4">
                         <ReportModal
-                            triggerText="Report"
-                            title="Report Seller"
-                            placeholder="Write the reason for reporting this seller..."
+                            triggerText={t("Report")}
+                            title={t("Report Seller")}
+                            placeholder={t("Write the reason for reporting this seller...")}
                             onSubmit={handleReport}
                         />
 
@@ -144,19 +137,19 @@ export default function SellerProfile() {
                             onClick={handleFollowToggle}
                             className="text-black hover:bg-primaryHover bg-Myprimary"
                         >
-                            {isFollowing ? "Unfollow" : "Follow"}
+                            {isFollowing ? t("Unfollow") : t("Follow")}
                         </Button>
 
                         <LikeButton
                             itemType="seller"
                             itemId={seller.id}
-                            initialLiked={seller.isLiked}
+                            initialLiked={seller.is_favorite}
                         />
                     </div>
                 </div>
             </div>
 
-            <SellerTabs />
+            <SellerTabs cars={seller.cars || []} reviews={seller.reviews || []} />
         </motion.div>
     );
 }

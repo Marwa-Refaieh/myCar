@@ -1,39 +1,94 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs"
 import Card from '../Card';
 import Button from '../Button';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 const TopFeatured = () => {
+    const { t, i18n } = useTranslation(['home', 'msg']);
+    const [newCars, setNewCars] = useState([]);
+    const [allCars, setAllCars] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        axios.get('https://mycarapplication.com/api/home')
+            .then(response => {
+                setNewCars(response.data.data.latest_cars || []);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error(error);
+                setError(t('cars.Failed to fetch data', { ns: 'msg' }));
+                setLoading(false);
+            });
+
+        axios.get('https://mycarapplication.com/api/car')
+            .then(response => {
+                setAllCars(response.data.data || []);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error(error);
+                setError(t('cars.Failed to fetch data', { ns: 'msg' }));
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center gap-4 mt-10">
+                <div className="w-5 h-5 bg-Myprimary rounded-full animate-bounce"></div>
+                <div className="w-5 h-5 bg-Myprimary rounded-full animate-bounce delay-200"></div>
+                <div className="w-5 h-5 bg-Myprimary rounded-full animate-bounce delay-400"></div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+
+            <div className="max-w-7xl mx-auto px-4 py-20">
+                <p className="text-center text-red-500 text-3xl">{error}</p>
+            </div>
+
+        );
+    }
 
     return (
         <div>
-            <Tabs defaultValue="all" className="max-w-7xl mx-auto px-4 flex flex-col items-center ">
-                <h2 className='font-bold text-center mb-10 text-Myprimary text-5xl'>Our Top Featured Vehicles</h2>
+            <Tabs dir={i18n.language === 'ar' ? 'rtl' : 'ltr'} defaultValue="all" className="max-w-7xl mx-auto px-4 flex flex-col items-center ">
+                <h2 className='font-bold text-center mb-10 text-Myprimary text-5xl'>
+                    {t("Our Top Featured Vehicles")}</h2>
                 <TabsList className="hidden md:flex bg-[#4a4646] py-4 md:py-7 px-0 md:px-0 mx-2 md:mx-4 rounded-full overflow-hidden text-white text-lg md:text-xl font-medium">
                     <TabsTrigger
                         value="all"
-                        className="py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-r border-white/20 text-base"
+                        className={`py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-base 
+                        ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
                     >
-                        All Cars
+                        {t("All Cars")}
                     </TabsTrigger>
                     <TabsTrigger
                         value="new"
-                        className="py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-r border-white/20 text-base"
+                        className={`py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-base 
+                        ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
                     >
-                        New Arrival
+                        {t("New Arrival")}
                     </TabsTrigger>
                     <TabsTrigger
                         value="best"
-                        className="py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-r border-white/20 text-base"
+                        className={`py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-base 
+                        ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
                     >
-                        Best Seller
+                        {t("Best Seller")}
                     </TabsTrigger>
                     <TabsTrigger
                         value="used"
                         className="py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all text-base"
                     >
-                        Used Cars
+                        {t("Used Cars")}
                     </TabsTrigger>
                 </TabsList>
 
@@ -41,15 +96,16 @@ const TopFeatured = () => {
                     <TabsList className="flex bg-[#4a4646] py-6 px-0 mx-2 rounded-full overflow-hidden text-white text-lg font-medium">
                         <TabsTrigger
                             value="all"
-                            className="w-full p-6 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-r border-white/20 text-sm"
+                            className={`w-full p-6 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-sm
+                            ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
                         >
-                            All Cars
+                            {t("All Cars")}
                         </TabsTrigger>
                         <TabsTrigger
                             value="new"
                             className="w-full p-6 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all text-sm"
                         >
-                            New Arrival
+                            {t("New Arrival")}
                         </TabsTrigger>
 
                     </TabsList>
@@ -58,39 +114,57 @@ const TopFeatured = () => {
 
                         <TabsTrigger
                             value="best"
-                            className="p-6 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-r border-white/20 text-sm"
+                            className={`p-6 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-sm
+                            ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
                         >
-                            Best Seller
+                            {t("Best Seller")}
                         </TabsTrigger>
                         <TabsTrigger
                             value="used"
                             className="p-6 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all text-sm"
                         >
-                            Used Cars
+                            {t("Used Cars")}
                         </TabsTrigger>
                     </TabsList>
                 </div>
 
                 <TabsContent value="all" className="w-full">
-                    <div className="flex flex-wrap gap-8 justify-center my-10">
-                        {[...Array(5)].map((_, index) => (
-                            <Card key={index} />
-                        ))}
-                    </div>
-                    <Link to={"/cars"} className='flex justify-center'>
-                        <Button title="SEE ALL CARS" />
-                    </Link>
+                    {allCars.length > 0 ? (
+                        <>
+                            <div className="flex flex-wrap gap-8 justify-center my-10">
+                                {allCars.slice(0, 6).map((car) => (
+                                    <Card key={car.id} car={car} />
+                                ))}
+                            </div>
+                            <Link to={"/cars"} className='flex justify-center'>
+                                <Button title={t("SEE ALL CARS")} />
+                            </Link>
+                        </>
+                    ) : (
+                        <p className="text-center text-gray-500 text-xl">
+                            {t("cars.No cars available", { ns: 'msg' })}
+                        </p>
+                    )}
+
                 </TabsContent>
 
                 <TabsContent value="new" className="w-full">
-                    <div className="flex flex-wrap gap-8 justify-center my-10">
-                        {[...Array(3)].map((_, index) => (
-                            <Card key={index} />
-                        ))}
-                    </div>
-                    <Link to={"/new"} className='flex justify-center'>
-                        <Button title="SEE New Arrival" />
-                    </Link>
+                    {newCars.length > 0 ? (
+                        <>
+                            <div className="flex flex-wrap gap-8 justify-center my-10">
+                                {newCars.slice(0, 6).map((car) => (
+                                    <Card key={car.id} car={car} />
+                                ))}
+                            </div>
+                            <Link to={"/new"} className='flex justify-center'>
+                                <Button title={t("SEE New Arrival")} />
+                            </Link>
+                        </>
+                    ) : (
+                        <p className="text-center text-gray-500 text-xl">
+                            {t("cars.No cars available", { ns: 'msg' })}
+                        </p>
+                    )}
                 </TabsContent>
 
                 <TabsContent value="best" className="w-full">
@@ -99,9 +173,9 @@ const TopFeatured = () => {
                             <Card key={index} />
                         ))}
                     </div>
-                    <div className='flex justify-center'>
-                        <Button title="SEE Best Seller" />
-                    </div>
+                    <Link to={"/best"} className='flex justify-center'>
+                        <Button title={t("SEE Best Seller")} />
+                    </Link>
                 </TabsContent>
 
                 <TabsContent value="used" className="w-full">
@@ -111,7 +185,7 @@ const TopFeatured = () => {
                         ))}
                     </div>
                     <div className='flex justify-center'>
-                        <Button title="SEE Used Cars" />
+                        <Button title={t("SEE Used Cars")} />
                     </div>
                 </TabsContent>
             </Tabs>

@@ -2,15 +2,18 @@ import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, Dialog
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ReportModal({
-    triggerText = "Report",       
-    title = "Report Item",       
+    triggerText = "Report",
+    title = "Report Item",
     placeholder = "Write your reason here...",
-    onSubmit                  
+    onSubmit
 }) {
     const [reason, setReason] = useState("");
     const [open, setOpen] = useState(false);
+    const { t } = useTranslation('home');
+
 
     const handleSubmit = () => {
         if (!reason.trim()) {
@@ -48,7 +51,7 @@ export default function ReportModal({
 
                 <DialogFooter>
                     <Button variant="destructive" onClick={handleSubmit} className="bg-Myprimary text-black hover:bg-primaryHover">
-                        Submit
+                        {t("Submit")}
                     </Button>
                 </DialogFooter>
             </DialogContent>

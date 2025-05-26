@@ -24,6 +24,9 @@ import SearchResultsPage from './pages/search/SearchResults'
 import ComplaintDetails from './components/setting/complaintDatials'
 import EditProfile from './pages/editProfile/editProfile'
 import CreateCarPage from './pages/CreateCar/createCar'
+import './i18n';
+import BestSeller from './pages/bestSeller/BestSeller'
+
 function App() {
 
   const ScrollToTop = () => {
@@ -41,6 +44,7 @@ function App() {
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
+
           <Route element={
             <SidebarProvider>
               <Navbar />
@@ -59,6 +63,7 @@ function App() {
             <Route path='/brand/:id' element={<Brand />} />
             <Route path='/popular' element={<PopularCategories />} />
             <Route path='/new' element={<NewArrival />} />
+            <Route path='/best' element={<BestSeller />} />
             <Route path='/cars' element={<Cars />} />
             <Route path='/details/:id' element={<CarDetails />} />
             <Route path='/search' element={<SearchResultsPage />} />

@@ -10,11 +10,18 @@ import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import NavbarSearch from './nav/Search';
 import MenuList from './nav/MenuList';
+import { useTranslation } from 'react-i18next';
 
 const Navbar = () => {
     const { toggleSidebar } = useSidebar();
-
+    const { t, i18n } = useTranslation('home');
     const [isOpen, setIsOpen] = useState(false);
+
+    const handleLangChange = (lang) => {
+        i18n.changeLanguage(lang);
+        localStorage.setItem('i18nextLng', lang);
+        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    };
     return (
 
         <nav className="bg-Mybackground shadow-lg fixed top-0 z-40 shadow-white/10 w-full">
@@ -36,21 +43,30 @@ const Navbar = () => {
                     {/* Desktop Menu */}
                     <div className='flex items-center gap-4'>
                         <div className="hidden md:flex space-x-6">
-                            <div className="flex items-center space-x-4">
+                            <div className="flex items-center gap-4">
                                 <Link to={'/'} className='cursor-pointer hover:text-Myprimary transition'>
-                                    Home
+                                    {t('Home')}
                                 </Link>
                                 <Link to={'/cars'} className='cursor-pointer hover:text-Myprimary transition'>
-                                    Cars
+                                    {t("Cars")}
                                 </Link>
 
                                 <MenuList />
+                                {/* زر اللغة */}
+                                <select
+                                    onChange={(e) => handleLangChange(e.target.value)}
+                                    value={i18n.language}
+                                    className="bg-transparent border border-gray-300 rounded-md px-2 py-1 text-white hover:border-Myprimary focus:outline-none"
+                                >
+                                    <option value="en" className='text-black'>English</option>
+                                    <option value="ar" className='text-black'>العربية</option>
+                                </select>
 
                                 <Link
                                     to={'/signin'}
-                                    className="w-20 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
+                                    className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
                                 >
-                                    Sign In
+                                    {t('Sign In')}
                                 </Link>
                             </div>
                         </div>
@@ -84,23 +100,19 @@ const Navbar = () => {
             {isOpen && (
                 <div className="md:hidden bg-[#121212] px-4 py-4 space-y-2 shadow-md flex flex-col">
                     <Link to={'/'} className='cursor-pointer hover:text-Myprimary transition'>
-                        Home
+                        {t("Home")}
                     </Link>
-                    <Link to={'/favorite'} className='cursor-pointer hover:text-Myprimary transition'>
-                        Favorite
+                    <Link to={'/cars'} className='cursor-pointer hover:text-Myprimary transition'>
+                        {t("Cars")}
                     </Link>
-                    <Link to={'/profile'} className='cursor-pointer hover:text-Myprimary transition'>
-                        Profile
-                    </Link>
-                    <Link to={'/setting'} className='cursor-pointer hover:text-Myprimary transition'>
-                        Setting
-                    </Link>
+
+                       <MenuList isMobile={true} />
 
                     <Link
                         to={'/signin'}
                         className="w-20 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
                     >
-                        Sign In
+                        {t('Sign In')}
                     </Link>
                 </div>
             )}

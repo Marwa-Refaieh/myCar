@@ -4,10 +4,12 @@ import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Search, History, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 const STORAGE_KEY = 'dreamCarSearchHistory';
 
 const NavbarSearch = () => {
+    const { t, i18n } = useTranslation('home');
     const [term, setTerm] = useState('');
     const [history, setHistory] = useState([]);
     const [showPopover, setShowPopover] = useState(false);
@@ -39,7 +41,7 @@ const NavbarSearch = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
-    
+
     const performSearchApi = (query) => {
         return axios.get(`/api/search?q=${encodeURIComponent(query)}`)
             .then(response => response.data)
@@ -55,8 +57,8 @@ const NavbarSearch = () => {
 
         const newHistory = [query, ...history.filter((h) => h !== query)].slice(0, 5);
         setHistory(newHistory);
-       
-        performSearchApi(query).then(results => {
+
+        performSearchApi(query).then(() => {
             navigate(`/search?q=${encodeURIComponent(query)}`);
         });
 
@@ -101,12 +103,12 @@ const NavbarSearch = () => {
     return (
         <div className="w-full flex justify-center items-center ">
             <div className="relative w-full max-w-xl flex items-center" ref={popoverRef}>
-                <Search className="absolute left-3 text-gray-400" size={18} />
+                <Search className={`absolute text-gray-400 ${i18n.language === 'ar' ? 'right-3' : 'left-3'}`} size={18} />
                 <input
                     type="text"
                     value={term}
                     ref={inputRef}
-                    placeholder="Search"
+                    placeholder={t('search')}
                     className="w-full py-2 pl-10 pr-10 bg-transparent text-white placeholder:text-gray-400 border-none outline-none"
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
@@ -118,7 +120,8 @@ const NavbarSearch = () => {
                 {filteredHistory.length > 0 && (
                     <>
                         <button
-                            className="absolute right-2 text-gray-400 hover:text-white"
+                            className={`absolute text-gray-400 hover:text-white 
+                            ${i18n.language === 'ar' ? 'left-2' : 'right-3'}`}
                             onClick={() => setShowPopover(!showPopover)}
                         >
                             <History size={18} />
@@ -127,14 +130,14 @@ const NavbarSearch = () => {
                         {showPopover && (
                             <div className="absolute top-full mt-2 w-full bg-zinc-900 text-white border border-zinc-700 rounded-lg shadow-lg z-10">
                                 <div className="flex items-center justify-between p-4 text-sm text-gray-400 ">
-                                    <span>Search History</span>
+                                    <span>{t('Search History')}</span>
                                     <Button
                                         variant="ghost"
                                         size="sm"
                                         onClick={() => setHistory([])}
                                         className="text-blue-400 hover:text-blue-300 px-2 h-auto hover:bg-transparent"
                                     >
-                                        Clear All
+                                        {t('Clear All')}
                                     </Button>
                                 </div>
                                 <Separator className="bg-zinc-700" />
