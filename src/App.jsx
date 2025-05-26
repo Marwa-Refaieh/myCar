@@ -24,7 +24,7 @@ import SearchResultsPage from './pages/search/SearchResults'
 import ComplaintDetails from './components/setting/complaintDatials'
 import EditProfile from './pages/editProfile/editProfile'
 import CreateCarPage from './pages/CreateCar/createCar'
-import './i18n';
+import '../src/i18/index.js';
 import BestSeller from './pages/bestSeller/BestSeller'
 
 function App() {

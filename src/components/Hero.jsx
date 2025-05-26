@@ -1,6 +1,7 @@
 import React from 'react';
-import hero from '../assets/hero2.png';
-import wave from '../assets/wave.png';
+// import hero from '../assets/hero2.png';
+import hero3 from '../assets/hero3.png';
+// import wave from '../assets/wave.png';
 import { FaSearch } from 'react-icons/fa';
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import {
@@ -20,7 +21,11 @@ const Hero = () => {
     const handlePriceChange = (range) => setPrice(range);
 
     return (
-        <section className="relative lg:min-h-[90vh] w-full mt-16 bg-[#232321] flex items-center px-5 md:px-20 flex-col-reverse lg:flex-row justify-between overflow-hidden py-5 lg:py-0">
+        <section
+            className="relative min-h-[94vh] w-full mt-10 bg-[#040403] flex items-center px-5 md:px-20 flex-col-reverse lg:flex-row justify-between overflow-hidden py-5 lg:py-0 bg-no-repeat bg-right bg-cover"
+            style={{ backgroundImage: `url(${hero3})` }}
+        >
+            <div className="absolute inset-0 z-0 bg-gradient-to-r from-black via-black/50 to-transparent"></div>
             <div className="relative z-20 flex flex-col justify-center items-start h-full gap-6 w-full lg:w-1/2 ">
                 <h1 className="text-Myprimary text-5xl sm:text-6xl lg:text-7xl font-bold">
                     {t("Find A Car")}
@@ -28,7 +33,6 @@ const Hero = () => {
                 <h2 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold">
                     {t("Quick And Super Easy!")}
                 </h2>
-
                 {/* Conditions Tabs */}
                 <Tabs defaultValue="all" className="w-full mt-4">
                     <div dir={i18n.language === 'ar' ? 'rtl' : 'ltr'} className="flex flex-col justify-center items-start text-white font-semibold gap-6 flex-wrap">
@@ -253,21 +257,21 @@ const Hero = () => {
             </div>
 
 
-            <div className="hidden lg:flex w-full lg:w-1/2 flex justify-center items-center">
+            {/* <div className="hidden lg:flex w-full lg:w-1/2 flex justify-center items-center">
                 <img
                     src={hero}
                     alt="Car Background"
                     className={`max-w-full md:max-h-[80vh] max-h-[50vh] object-contain relative z-10 
                     ${i18n.language === 'ar' ? '-scale-x-100' : ''}`}
                 />
-            </div>
+            </div> */}
 
             {/* Wave Decoration */}
-            <img
+            {/* <img
                 src={wave}
                 alt="Wave Decoration"
                 className="absolute bottom-0 left-0 w-full object-cover pointer-events-none z-0"
-            />
+            /> */}
         </section>
     );
 };

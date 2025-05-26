@@ -17,34 +17,42 @@ import arstep3 from '../locales/ar/step3.json'
 import enstep3 from '../locales/en/step3.json'
 import arcreatecar from '../locales/ar/createcar.json'
 import encreatecar from '../locales/en/createcar.json'
-i18n 
+import homeEN from '../locales/en/home.json';
+import homeAR from '../locales/ar/home.json';
+import msgEN from '../locales/en/msg.json';
+import msgAR from '../locales/ar/msg.json';
+i18n
   .use(initReactI18next)
   .init({
     resources: {
       en: {
         login: enLogin,
-        login2 : enLogin2,
-        vercode : envercode,
-        settingpage : ensettingpage,
-        steps : ensteps,
-        step2 : enstep2,
-        step3 : enstep3,
-        createcar : encreatecar
+        login2: enLogin2,
+        vercode: envercode,
+        settingpage: ensettingpage,
+        steps: ensteps,
+        step2: enstep2,
+        step3: enstep3,
+        createcar: encreatecar,
+        home: homeEN,
+        msg: msgEN
       },
       ar: {
         login: arLogin,
-        login2:arLogin2 ,
-        varcode : arvercode,
-        settingpage :arsettingpage,
-        steps : arsteps,
-        step2 : arstep2,
-        step3 :arstep3,
-        createcar : arcreatecar
+        login2: arLogin2,
+        varcode: arvercode,
+        settingpage: arsettingpage,
+        steps: arsteps,
+        step2: arstep2,
+        step3: arstep3,
+        createcar: arcreatecar,
+        home: homeAR,
+        msg: msgAR,
       }
     },
     lng: 'en', // اللغة الافتراضية
     fallbackLng: 'en',
-    ns: ['login' , 'login2' , 'varcode' , 'settingpage' , 'steps' , 'step2' , 'step3' , 'createcar'],
+    ns: ['login', 'login2', 'varcode', 'settingpage', 'steps', 'step2', 'step3', 'createcar'],
     defaultNS: 'login',
     interpolation: {
       escapeValue: false
