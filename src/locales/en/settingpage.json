@@ -1,0 +1,14 @@
+{
+    "setting" : "setting",
+    "shouldsignin" : "Log in for all services",
+    "signin" : "Log in",
+    "lang" :"language",
+    "ar" : "Arabic",
+    "en" : "English",
+    "privecy" : "privacy policy",
+    "faq" : "Frequently Asked Questions",
+    "profile" : "My account",
+    "complaints" : "Complaints",
+    "logout" : "Log out",
+    "noti" : "notifications"
+}

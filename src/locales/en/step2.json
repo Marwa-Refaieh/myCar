@@ -1,0 +1,20 @@
+{
+    "model" : "Model",
+    "reqmodel" : "Model required",
+    "year" : "Year",
+    "reqyear" : "Year required",
+    "transmission" : "Engine type",
+    "reqtransmission" : "Engine type required",
+    "fuel" :"Fuel",
+    "reqfuel" : "Fuel is required",
+    "bodytype" : "Body type",
+    "reqbodytype" : "Body type required",
+    "color" : "color",
+    "reqcolor" : "color required",
+    "preview" : "Preview",
+    "doors" : "Number of doors",
+    "reqdoors" : "Number of doors required",
+    "seats" : "Number of seats",
+    "reqseats" : "Number of seats required" ,
+    "select" : "select"
+}

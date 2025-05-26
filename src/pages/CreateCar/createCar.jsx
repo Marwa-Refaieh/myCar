@@ -5,8 +5,11 @@ import CarBrands from "../../components/car/carbrands";
 import CarDetails from "../../components/car/cardatails";
 import CarImages from "../../components/car/carimages";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 const CreateCarPage = () => {
+  const { t } = useTranslation('createcar');
+
   const navigate = useNavigate();
   const {
     register,
@@ -68,7 +71,7 @@ const CreateCarPage = () => {
         <div className="flex justify-between items-center flex-wrap">
           <CarBrands
             value={watch("brand")}
-            onClick={(e) => setValue("brand", e.target.textContent)}
+            selectBrand={(brand) => setValue("brand", brand)}
           />
           {errors.brand && <p className="text-red-600 mt-1">الرجاء اختيار ماركة</p>}
           <input
@@ -92,23 +95,23 @@ const CreateCarPage = () => {
           onClick={goBack}
           className="border-Myprimary border text-Myprimary py-3 px-10 inline-block font-bold rounded-full hover:bg-primaryHover hover:text-black transition uppercase"
         >
-          {currentStep === 1 ? "إلغاء" : "السابق"}
+          {currentStep === 1 ? t('cancel') : t('back')}
         </button>
-
+ 
         {currentStep < 3 ? (
           <button
             type="button"
             onClick={goNext}
             className="bg-Myprimary inline-block text-black py-3 px-10 font-bold rounded-full hover:bg-primaryHover transition uppercase"
           >
-            التالي
+            {t('next')}
           </button>
         ) : (
           <button
             type="submit"
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
-            إنشاء السيارة
+            {t('create')}
           </button>
         )}
       </div>

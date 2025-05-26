@@ -1,7 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 export default function Vercode() {
+ 
+
   const inputRefs = useRef([]);
   const [otp, setOtp] = useState(Array(6).fill(''));
   const [timeLeft, setTimeLeft] = useState(180); // 3 دقائق
@@ -16,7 +19,7 @@ export default function Vercode() {
   const handleChange = (value, index) => {
     if (!/^\d?$/.test(value)) return;
 
-    const newOtp = [...otp];
+    const newOtp = [...otp]; 
     newOtp[index] = value;
     setOtp(newOtp);
 
@@ -57,14 +60,15 @@ export default function Vercode() {
     return `${m}:${s}`;
   };
 
+  const { t } = useTranslation('varcode'); 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
       <div className="w-full max-w-md text-center space-y-6">
         <img src="/logo.png" alt="Car Logo" className="w-24 h-24 mx-auto" />
 
-        <h2 className="text-xl font-semibold">Enter Verification Code</h2>
+        <h2 className="text-xl font-semibold">{t('ver')}</h2>
         <p className="text-gray-400">
-          Enter code that we have sent to your number <span className="font-bold">0098934***</span>
+          {t('enter')} <span className="font-bold">0098934***</span>
         </p>
 
         {/* مربعات الكود */}
@@ -85,14 +89,14 @@ export default function Vercode() {
 
         {/* المؤقت */}
         <p className="text-gray-400 text-sm">
-          code expires in: <span className="text-yellow-400">{formatTime(timeLeft)}</span>
+          {t('expires')}: <span className="text-yellow-400">{formatTime(timeLeft)}</span>
         </p>
 
         {/* إعادة الإرسال */}
         <p className="text-sm text-gray-400">
-          Didn’t receive the code?{' '}
+          {t('didnt')}?{' '}
           <button onClick={handleResend} className="text-yellow-400 underline">
-            Resend
+            {t('resent')}
           </button>
         </p>
 
@@ -101,7 +105,7 @@ export default function Vercode() {
           onClick={handleVerify}
           className="w-full bg-yellow-400 text-black font-bold py-3 rounded-full"
         >
-          Verify
+          {t('verify')}
         </button>
       </div>
     </div>

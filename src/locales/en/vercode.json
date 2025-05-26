@@ -1,0 +1,8 @@
+{
+    "ver" : "Enter Verification Code",
+    "enter" : "Enter code that we have sent to your number",
+    "expires" : "code expires in",
+    "didnt" : "Didn’t receive the code",
+    "resent" : "Resent",
+    "verify" :"Verify"
+}
