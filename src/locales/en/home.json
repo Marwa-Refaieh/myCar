@@ -113,5 +113,19 @@
   "Cylinders": "Cylinders",
   "Anonymous":"Anonymous",
   "No reviews yet":"No reviews yet",
-  "No cars available":"No cars available"
+  "No cars available":"No cars available",
+  "Filters":"Filters",
+  "Sort":"Sort",
+  "Newest":"Newest",
+  "Name":"Name",
+  "Price: lowest to high":"Price: lowest to high",
+  "Price: highest to low":"Price: highest to low",
+  "Car make/model":"Car make/model",
+  "Body Types":"Body Types",
+  "Body Color":"Body Color",
+  "Navigation":"Navigation",
+  "Sun Roof":"Sun Roof",
+  "2 doors":"2 doors",
+  "7 seater":"7 seater",
+  "Show Results":"Show Results"
 }

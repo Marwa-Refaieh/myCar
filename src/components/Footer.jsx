@@ -10,20 +10,24 @@ const Footer = () => {
         <footer
             className="relative text-white pt-10 pb-6 px-4 overflow-hidden">
             <div
-                className="absolute right-0 top-0 bottom-0 w-full bg-no-repeat bg-right bg-contain opacity-40 z-0"
+                className={`absolute  top-0 bottom-0 w-full bg-no-repeat bg-right bg-contain md:opacity-40 opacity-0 z-0 ${i18n.language === 'ar' ?'left-0':'right-0'}`}
                 style={{ backgroundImage: `url(${footer})` }}
             ></div>
 
             <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-5 items-center justify-center">
                 {/* Logo and Dots */}
                 <div className="flex flex-col items-center justify-center lg:items-start col-span-1 lg:col-span-1">
-                    <img src={logo} alt="Logo" className="w-full" />
-                    <div className="flex gap-3 w-full justify-center">
-                        {[...Array(4)].map((_, i) => (
-                            <span key={i} className="w-5 h-5 bg-yellow-400 rounded-full"></span>
-                        ))}
+                    <div className="relative w-full z-10">
+                        <img src={logo} alt="Logo" className="w-full" />
+
+                        <div className="flex gap-3 w-full justify-center absolute bottom-5 md:bottom-0 left-1/2 -translate-x-1/2 z-20">
+                            {[...Array(4)].map((_, i) => (
+                                <span key={i} className="w-4 h-4 bg-yellow-400 rounded-full"></span>
+                            ))}
+                        </div>
                     </div>
                 </div>
+
 
                 {/* LINKS */}
                 <div className={`text-center ${i18n.language == 'en' ? 'md:text-left' : 'md:text-right'}`}>

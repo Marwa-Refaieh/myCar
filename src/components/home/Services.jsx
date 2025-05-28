@@ -14,7 +14,7 @@ const Services = () => {
     ];
 
     return (
-        <div className="flex flex-wrap justify-center gap-10 py-10 mt-10">
+        <div className="flex flex-wrap justify-center gap-10 pt-10 md:py-10 mt-10">
             {images.map((img, index) => (
                 <div
                     key={index}

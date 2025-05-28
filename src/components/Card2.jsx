@@ -1,11 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import distance from '../assets/distance.svg';
-import calender from '../assets/calender.svg';
 import typeCare from '../assets/type.svg';
 import img from '../assets/image.webp';
 import locationIcon from '../assets/location.svg';
-import { Star } from "lucide-react";
+import { CalendarDays, Gauge, Star } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 
 const Card2 = ({ car }) => {
@@ -31,11 +29,11 @@ const Card2 = ({ car }) => {
                 <div className="flex items-center justify-between pt-1 flex-wrap border-b border-white/30 pb-4">
                     <div className='w-[45%]'>
                         <div className="flex items-center gap-1">
-                            <img src={distance} alt="Distance" className='w-3 text-icon' />
+                            <Gauge className="text-Myprimary w-4 h-4" />
                             <p>{car.odometer?.toLocaleString()} KM</p>
                         </div>
                         <div className="flex items-center gap-1">
-                            <img src={calender} alt="Calender" className='w-3 text-icon' />
+                            <CalendarDays className="text-Myprimary w-4 h-4" />
                             <p>{car.year_production}</p>
                         </div>
                     </div>

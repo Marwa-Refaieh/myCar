@@ -14,86 +14,118 @@ import YearRangeSlider from './filters/YearRangeSlider';
 import SpeedRangeSlider from './filters/SpeedRangeSlider';
 import Button from './filters/Button';
 import BodyTypes from './filters/BodyTypes';
-import compact from '../assets/compact.png';
-import crossover from '../assets/crossover.png';
-import sport from '../assets/sport.png';
-import suv from '../assets/suv.png';
 import ColorPicker from './filters/ColorPicker';
 import HorsepowerSlider from './filters/HorsepowerSlider';
 import PriceSlider from './filters/PriceSlider';
 import Button2 from './Button';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const Sidebar = () => {
+    const { t, i18n } = useTranslation('home');
     const { sidebarOpen, toggleSidebar } = useSidebar();
+    const [city, setCity] = useState([])
+    // const [filteredCars, setFilteredCars] = useState([])
     const [filters, setFilters] = useState({
-        sort: "buy",
-        type: "newest",
-        brand: "",
-        year: [2000, 2025],
-        speed: [0, 300],
-        transmission: "",
-        fuelType: "",
-        bodyType: "",
-        color: "",
-        horsepower: [0, 800],
         features: [],
+        year_production: {
+            from: null,
+            to: null,
+        },
+        type: null,
+        transmission_type: null,
+        body_type: null,
+        fuel_type: null,
+        city_id: null,
+        model_id: null,
+        brand_id: null,
+        odometer: {
+            from: null,
+            to: null,
+        },
+        color: null,
+        horsepower: null,
         price: 0,
-        city: "",
+        sort: null
     });
+
+    // const applyFilters = (cars, filters) => {
+    //     return cars.filter(car => {
+
+    //         if (filters.features.length > 0) {
+    //             const hasAllFeatures = filters.features.every(featureId =>
+    //                 car.features?.includes(featureId)
+    //             );
+    //             if (!hasAllFeatures) return false;
+    //         }
+
+    //         if (filters.year_production.from && car.year_production < filters.year_production.from) return false;
+    //         if (filters.year_production.to && car.year_production > filters.year_production.to) return false;
+
+    //         if (filters.type && car.type !== filters.type) return false;
+
+    //         if (filters.transmission_type && car.transmission_type !== Number(filters.transmission_type)) return false;
+
+    //         if (filters.body_type && car.body_type !== Number(filters.body_type)) return false;
+
+    //         if (filters.fuel_type && car.fuel_type !== Number(filters.fuel_type)) return false;
+
+    //         if (filters.city_id && car.city.id !== Number(filters.city_id)) return false;
+
+    //         if (filters.model_id && car.model_id !== Number(filters.model_id)) return false;
+
+    //         if (filters.brand_id && car.brand.id !== Number(filters.brand_id)) return false;
+
+    //         if (filters.odometer.from != null && car.odometer < filters.odometer.from) return false;
+    //         if (filters.odometer.to != null && car.odometer > filters.odometer.to) return false;
+
+    //         if (filters.color && car.color?.toLowerCase() !== filters.color.toLowerCase()) return false;
+
+    //         if (filters.horsepower && car.horsepower !== filters.horsepower) return false;
+
+    //         return true;
+    //     });
+    // };
 
     const countActiveFilters = () => {
         let count = 0;
 
         // sort
-        if (filters.sort !== "buy") count++;
-
-        // type
-        if (filters.type !== "newest") count++;
+        if (filters.type) count++;
 
         // brand
-        if (filters.brand) count++;
+        if (filters.brand_id) count++;
 
         // year ( [2000, 2025])
-        if (filters.year[0] !== 2000 || filters.year[1] !== 2025) count++;
+        if (filters.year_production.from !== null || filters.year_production.to !== null) count++;
 
         // speed ( [0, 300])
-        if (filters.speed[0] !== 0 || filters.speed[1] !== 300) count++;
+        if (filters.odometer.from !== null || filters.odometer.to !== null) count++;
 
         // transmission
-        if (filters.transmission) count++;
+        if (filters.transmission_type) count++;
 
         // fuelType
-        if (filters.fuelType) count++;
+        if (filters.fuel_type) count++;
 
         // bodyType
-        if (filters.bodyType) count++;
+        if (filters.body_type) count++;
 
         // color
         if (filters.color) count++;
 
-        // horsepower ( [0, 800])
-        if (filters.horsepower[0] !== 0 || filters.horsepower[1] !== 800) count++;
+        // horsepower 
+        if (filters.horsepower) count++;
 
         // features 
         if (filters.features.length > 0) count++;
 
-        // price ( 0)
-        if (filters.price !== 0) count++;
-
         // city
-        if (filters.city) count++;
+        if (filters.city_id) count++;
 
         return count;
     };
-
-
-    const bodyTypeData = [
-        { src: compact, name: "compact" },
-        { src: crossover, name: "crossover" },
-        { src: sport, name: "sport" },
-        { src: suv, name: "suv" },
-    ]
 
     const toggleFilter = (key, value, isArray = false) => {
         setFilters(prev => {
@@ -104,7 +136,7 @@ const Sidebar = () => {
                     : [...prev[key], value];
                 return { ...prev, [key]: newArray };
             } else {
-                const newValue = prev[key] === value ? "" : value;
+                const newValue = prev[key] === value ? null : value;
                 return { ...prev, [key]: newValue };
             }
         });
@@ -122,11 +154,25 @@ const Sidebar = () => {
         };
     }, [sidebarOpen]);
 
-
     useEffect(() => {
-        console.log(filters);
+        axios.get('https://mycarapplication.com/api/car-features/get-cities')
+            .then(res => {
+                setCity(res.data.data)
+            })
+    }, []);
 
-    }, [filters]);
+    // useEffect(() => {
+    //     axios.get("https://mycarapplication.com/api/car")
+    //         .then(res => {
+    //             const cars = res.data.data;
+    //             console.log("Total cars:", cars.length);
+
+    //             const filtered = applyFilters(cars, filters);
+    //             console.log("Filtered cars:", filtered.length);
+
+    //             setFilteredCars(filtered);
+    //         });
+    // }, [filters]);
 
     return (
         <>
@@ -137,9 +183,8 @@ const Sidebar = () => {
                 transform transition-transform duration-300 z-50 overflow-y-auto 
                 ${sidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
 
-
                 <div className="p-4 flex justify-between items-center border-b border-gray-700">
-                    <h2 className="text-xl font-bold">Filters</h2>
+                    <h2 className="text-xl font-bold">{t("Filters")}</h2>
                     <button
                         onClick={toggleSidebar}
                         className="text-gray-300 hover:text-Myprimary text-lg transition"
@@ -149,80 +194,88 @@ const Sidebar = () => {
                 </div>
                 <div className="p-4 space-y-4">
 
+                    {/* Type */}
+                    <div className='w-full flex flex-col border-b border-white/35 pb-3'>
+                        <div className='flex items-center gap-2'>
+                            <div className='w-6 bg-Mycard rounded-full p-1'>
+                                <img src={sort} className='w-full h-full' alt="sort" />
+                            </div>
+                            <p className='text-1xl'>{t("Type")}</p>
+                        </div>
+                        <RadioGroup value={filters.type} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+                            onValueChange={(value) => setFilters((prev) => ({ ...prev, type: value }))} className="flex gap-5 pt-5">
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem
+                                    value="1"
+                                    id="buy"
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400 
+                                    ${i18n.language === 'ar' ? 'ml-2' : ''}`}
+                                />
+                                <label htmlFor="buy" className="text-white">{t("Buy")}</label>
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                                <RadioGroupItem
+                                    value="2"
+                                    id="rental"
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400 
+                                    ${i18n.language === 'ar' ? 'ml-2' : ''}`}
+                                />
+                                <label htmlFor="rental" className="text-white">{t("Rental")}</label>
+                            </div>
+                        </RadioGroup>
+                    </div>
+
                     {/* Sort */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
                                 <img src={sort} className='w-full h-full' />
                             </div>
-                            <p className='text-1xl'>Sort</p>
+                            <p className='text-1xl'>{t("Sort")}</p>
                         </div>
-                        <RadioGroup value={filters.sort}
-                            onValueChange={(value) => setFilters((prev) => ({ ...prev, sort: value }))} className="flex gap-5 pt-5">
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem
-                                    value="buy"
-                                    id="buy"
-                                    className="border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400"
-                                />
-                                <label htmlFor="buy" className="text-white">Buy</label>
-                            </div>
-
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem
-                                    value="rental"
-                                    id="rental"
-                                    className="border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400"
-                                />
-                                <label htmlFor="rental" className="text-white">Rental</label>
-                            </div>
-                        </RadioGroup>
-                    </div>
-
-                    {/* Type */}
-                    <div className='w-full flex flex-col border-b border-white/35 pb-3'>
-                        <div className='flex items-center gap-2'>
-                            <div className='w-6 bg-Mycard rounded-full p-1'>
-                                <img src={sort} className='w-full h-full' />
-                            </div>
-                            <p className='text-1xl'>Type</p>
-                        </div>
-                        <RadioGroup value={filters.type}
-                            onValueChange={(value) => setFilters((prev) => ({ ...prev, type: value }))} className=" flex flex-wrap gap-5 pt-5">
+                        <RadioGroup value={filters.sort} dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+                            onValueChange={(value) => setFilters((prev) => ({ ...prev, sort: value }))} className=" flex flex-wrap gap-5 pt-5">
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem
                                     value="newest"
                                     id="newest"
-                                    className="border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400"
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400 
+                                    ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
-                                <label htmlFor="newest" className="text-white">Newest</label>
+                                <label htmlFor="newest" className="text-white">{t("Newest")}</label>
                             </div>
 
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem
                                     value="name"
                                     id="name"
-                                    className="border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400"
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400
+                                    ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
-                                <label htmlFor="name" className="text-white">Name (A-Z)</label>
+                                <label htmlFor="name" className="text-white">{t("Name")} (A-Z)</label>
                             </div>
 
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem
                                     value="price-lowest"
                                     id="price-lowest"
-                                    className="border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400"
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400
+                                    ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
-                                <label htmlFor="price-lowest" className="text-white">Price: lowest to high</label>
+                                <label htmlFor="price-lowest" className="text-white">
+                                    {t("Price: lowest to high")}</label>
                             </div>
 
                             <div className="flex items-center space-x-2">
                                 <RadioGroupItem
                                     value="price-highest"
                                     id="price-highest"
-                                    className="border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400"
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400
+                                    ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
-                                <label htmlFor="price-highest" className="text-white">Price: highest to low</label>
+                                <label htmlFor="price-highest" className="text-white">
+                                    {t("Price: highest to low")}</label>
                             </div>
                         </RadioGroup>
                     </div>
@@ -231,9 +284,9 @@ const Sidebar = () => {
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
-                                <img src={car} className='w-full h-full' />
+                                <img src={car} className='w-full h-full' alt="car" />
                             </div>
-                            <p className='text-1xl'>Car make/model</p>
+                            <p className='text-1xl'>{t("Car make/model")}</p>
                         </div>
                         <div className='py-5'>
                             <Brands setFilters={setFilters} filters={filters} />
@@ -242,39 +295,33 @@ const Sidebar = () => {
 
                     {/* Year */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
-                        <div className='flex items-center gap-2'>
-                            <YearRangeSlider filters={filters} setFilters={setFilters} />
-                        </div>
+                        <YearRangeSlider filters={filters} setFilters={setFilters} />
                     </div>
 
                     {/* Speed */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
-                        <div className='flex items-center gap-2'>
-                            <SpeedRangeSlider filters={filters} setFilters={setFilters} />
-                        </div>
+                        <SpeedRangeSlider filters={filters} setFilters={setFilters} />
                     </div>
 
                     {/* Transmission */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
-                                <img src={transmission} className='w-full h-full' />
+                                <img src={transmission} className='w-full h-full' alt="transmission" />
                             </div>
-                            <p className='text-1xl'>Transmission</p>
+                            <p className='text-1xl'>{t("Transmission")}</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <div onClick={() => toggleFilter("transmission", "automatic")}>
-                                <Button title="Automatic" active={filters.transmission.includes("automatic")} />
+                            <div onClick={() => toggleFilter("transmission_type", 1)}>
+                                <Button title={t("Automatic")} active={filters.transmission_type === 1} />
                             </div>
 
-                            <div onClick={() => toggleFilter("transmission", "manual")}>
+                            <div onClick={() => toggleFilter("transmission_type", 3)}>
                                 <Button
-                                    title="Manual"
-                                    active={filters.transmission.includes("manual")}
+                                    title={t("Manual")}
+                                    active={filters.transmission_type === 3}
                                 />
                             </div>
-
-
                         </div>
                     </div>
 
@@ -282,22 +329,23 @@ const Sidebar = () => {
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
-                                <img src={fuel} className='w-full h-full' />
+                                <img src={fuel} className='w-full h-full' alt="fuel" />
                             </div>
-                            <p className='text-1xl'>Fuel Type</p>
+                            <p className='text-1xl'>{t("Fuel Type")}</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <div onClick={() => toggleFilter("fuelType", "petrol")}>
-                                <Button title="Petrol" active={filters.fuelType.includes("petrol")} />
+                            <div onClick={() => toggleFilter("fuel_type", 1)}>
+                                <Button title={t("Petrol")} active={filters.fuel_type === 1} />
                             </div>
 
-                            <div onClick={() => toggleFilter("fuelType", "diesel")}>
-                                <Button title="Diesel" active={filters.fuelType.includes("diesel")} />
+                            <div onClick={() => toggleFilter("fuel_type", 2)}>
+                                <Button title={t("Diesel")} active={filters.fuel_type === 2} />
                             </div>
 
-                            <div onClick={() => toggleFilter("fuelType", "electric")}>
-                                <Button title="Electric" active={filters.fuelType.includes("electric")} />
+                            <div onClick={() => toggleFilter("fuel_type", 3)}>
+                                <Button title={t("Electric")} active={filters.fuel_type === 3} />
                             </div>
+
                         </div>
                     </div>
 
@@ -305,20 +353,12 @@ const Sidebar = () => {
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
-                                <img src={car} className='w-full h-full' />
+                                <img src={car} className='w-full h-full' alt="car" />
                             </div>
-                            <p className='text-1xl'>Body Types</p>
+                            <p className='text-1xl'>{t("Body Types")}</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            {bodyTypeData.map((item, index) => (
-                                <BodyTypes
-                                    key={index}
-                                    src={item.src}
-                                    name={item.name}
-                                    active={filters.bodyType === item.name}
-                                    onSelect={() => toggleFilter("bodyType", item.name)}
-                                />
-                            ))}
+                            <BodyTypes filters={filters} setFilters={setFilters} />
                         </div>
                     </div>
 
@@ -326,9 +366,9 @@ const Sidebar = () => {
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
-                                <img src={color} className='w-full h-full' />
+                                <img src={color} className='w-full h-full' alt="color" />
                             </div>
-                            <p className='text-1xl'>Body Color</p>
+                            <p className='text-1xl'>{t("Body Color")}</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
                             <ColorPicker onSelectColor={(color) => setFilters(prev => ({ ...prev, color }))} />
@@ -337,38 +377,37 @@ const Sidebar = () => {
 
                     {/* Horsepower */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
-                        <div className='flex items-center gap-2'>
-                            <HorsepowerSlider
-                                onChangeHorsepower={(val) =>
-                                    setFilters((prev) => ({ ...prev, horsepower: val }))
-                                }
-                            />
-                        </div>
+                        <HorsepowerSlider
+                            initialValue={filters.horsepower}
+                            onChangeHorsepower={(val) =>
+                                setFilters((prev) => ({ ...prev, horsepower: val }))
+                            }
+                        />
                     </div>
 
                     {/* Features */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
-                                <img src={Star} className='w-full h-full' />
+                                <img src={Star} className='w-full h-full' alt="star" />
                             </div>
-                            <p className='text-1xl'>Features</p>
+                            <p className='text-1xl'>{t("Features")}</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <div onClick={() => toggleFilter("features", "Navigation", true)}>
-                                <Button title="Navigation" active={filters.features.includes("Navigation")} />
+                            <div onClick={() => toggleFilter("features", 1, true)}>
+                                <Button title={t("Navigation")} active={filters.features.includes(1)} />
                             </div>
 
-                            <div onClick={() => toggleFilter("features", "Sun Roof", true)}>
-                                <Button title="Sun Roof" active={filters.features.includes("Sun Roof")} />
+                            <div onClick={() => toggleFilter("features", 2, true)}>
+                                <Button title={t("Sun Roof")} active={filters.features.includes(2)} />
                             </div>
 
-                            <div onClick={() => toggleFilter("features", "2 doors", true)}>
-                                <Button title="2 doors" active={filters.features.includes("2 doors")} />
+                            <div onClick={() => toggleFilter("features", 3, true)}>
+                                <Button title={t("2 doors")} active={filters.features.includes(3)} />
                             </div>
 
-                            <div onClick={() => toggleFilter("features", "7 seater", true)}>
-                                <Button title="7 seater" active={filters.features.includes("7 seater")} />
+                            <div onClick={() => toggleFilter("features", 4, true)}>
+                                <Button title={t("7 seater")} active={filters.features.includes(4)} />
                             </div>
                         </div>
                     </div>
@@ -387,23 +426,35 @@ const Sidebar = () => {
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
-                                <img src={location} className='w-full h-full' />
+                                <img src={location} className='w-full h-full' alt="location" />
                             </div>
-                            <p className='text-1xl'>City</p>
+                            <p className='text-1xl'>{t("City")}</p>
                         </div>
                         <div className='pt-5 flex flex-wrap gap-4'>
-                            <div onClick={() => toggleFilter("city", "Damas")}>
-                                <Button title="Damas" active={filters.city.includes("Damas")} />
-                            </div>
+                            {city.map((cityItem) => (
+                                <div
+                                    key={cityItem.id}
+                                    onClick={() => toggleFilter("city_id", cityItem.id)}
+                                    className="cursor-pointer"
+                                >
+                                    <Button
+                                        title={cityItem.name}
+                                        active={filters.city_id === cityItem.id}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
 
                     <div className='flex justify-center py-3'>
-                        <Link to={"/filters"} onClick={toggleSidebar}>
-                            <Button2 title={`Show Results${countActiveFilters() > 0 ? ` (${countActiveFilters()})` : ''}`} />
+                        <Link
+                            to="/filters"
+                            state={{ filters }}
+                            onClick={toggleSidebar}
+                        >
+                            <Button2 title={`${t("Show Results")}${countActiveFilters() > 0 ? ` (${countActiveFilters()})` : ''}`} />
                         </Link>
                     </div>
-
                 </div>
             </div>
 

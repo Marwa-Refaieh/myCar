@@ -1,16 +1,21 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import calendar from '../../assets/calendar.png';
+import { useTranslation } from "react-i18next";
 
 const MIN = 2006;
 const MAX = 2025;
 
 export default function YearRangeSlider({ filters, setFilters }) {
-    const range = filters.year || [MIN, MIN + 6]; 
+    const range = filters.year_production ? [filters.year_production.from, filters.year_production.to] : [MIN, MIN + 6];
+    const { t } = useTranslation('home');
 
     const handleRangeChange = (newRange) => {
         setFilters((prev) => ({
             ...prev,
-            year: newRange,
+            year_production: {
+                from: newRange[0],
+                to: newRange[1],
+            },
         }));
     };
 
@@ -21,10 +26,10 @@ export default function YearRangeSlider({ filters, setFilters }) {
                     <div className='w-6 bg-Mycard rounded-full p-1'>
                         <img src={calendar} className='w-full h-full' />
                     </div>
-                    <p className='text-1xl'>Year</p>
+                    <p className='text-1xl'>{t("Year")}</p>
                 </div>
                 <span className="text-lg">
-                    {range[0]} - {range[1]}
+                    {range[0] == null ? "2006" : range[0]} - {range[1] == null ? "2025" : range[1]}
                 </span>
             </div>
 
@@ -67,4 +72,4 @@ export default function YearRangeSlider({ filters, setFilters }) {
         </div>
     );
 }
-[]
+

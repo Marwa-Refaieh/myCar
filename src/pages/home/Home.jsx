@@ -35,7 +35,7 @@ const Home = () => {
             <div className='pt-20 max-w-7xl mx-auto px-4'>
                 <Choose />
             </div>
-            <div className='pt-20 max-w-7xl mx-auto px-4'>
+            <div className='pt-16 md:pt-20 max-w-7xl mx-auto px-4'>
                 <TopFeatured />
             </div>
             <HeroImage />

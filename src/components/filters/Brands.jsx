@@ -1,56 +1,72 @@
-import brand1 from '../../assets/home/brand1.webp'
-import brand2 from '../../assets/home/brand2.webp'
-import brand3 from '../../assets/home/brand3.webp'
-import brand4 from '../../assets/home/brand4.webp'
-import brand5 from '../../assets/home/brand5.webp'
-import brand6 from '../../assets/home/brand6.webp'
-import brand7 from '../../assets/home/brand7.webp'
-import brand8 from '../../assets/home/brand8.webp'
-import brand9 from '../../assets/home/brand9.webp'
-import brand10 from '../../assets/home/brand10.webp'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
-const Brands = ({ setFilters, filters }) => {  
+const Brands = ({ setFilters, filters }) => {
+    const { t } = useTranslation('msg');
+    const [brandsData, setBrandsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const handleBrandClick = (brandName) => {
+    const handleBrandClick = (brandId) => {
         setFilters((prev) => ({
             ...prev,
-            brand: prev.brand === brandName ? "" : brandName, 
+            brand_id: prev.brand === brandId ? "" : brandId, // تحديث الفلتر بالماركة أو إزالة التحديد
         }));
     };
 
-    const brandsData = [
-        { src: brand1, alt: 'Brand', name: 'Toyota' },
-        { src: brand2, alt: 'Brand', name: 'Honda' },
-        { src: brand3, alt: 'Brand', name: 'Ford' },
-        { src: brand4, alt: 'Brand', name: 'Chevrolet' },
-        { src: brand5, alt: 'Brand', name: 'BMW' },
-        { src: brand6, alt: 'Brand', name: 'Audi' },
-        { src: brand7, alt: 'Brand', name: 'Mercedes' },
-        { src: brand8, alt: 'Brand', name: 'Nissan' },
-        { src: brand9, alt: 'Brand', name: 'Hyundai' },
-        { src: brand10, alt: 'Brand', name: 'Kia' },
-    ];
+    useEffect(() => {
+        axios.get('https://mycarapplication.com/api/home')
+            .then(res => {
+                setBrandsData(res.data.data.brands);
+                setLoading(false);
+            })
+            .catch(() => {
+                setError(t('cars.Failed to fetch data'));
+                setLoading(false);
+            });
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center h-40">
+                <div className="flex space-x-2">
+                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
+                </div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="max-w-7xl mx-auto px-4 py-20">
+                <p className="text-center text-red-500 text-3xl">{error}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="flex flex-wrap items-center gap-5">
+            {brandsData.length === 0 && <p>No brands available.</p>}
             {brandsData.map((brand, index) => {
-                const isActive = filters.brand === brand.name;
+                const isActive = filters.brand_id === brand.id;
 
                 return (
                     <div
                         key={index}
-                        onClick={() => handleBrandClick(brand.name)}
+                        onClick={() => handleBrandClick(brand.id)}
                         className="flex flex-col items-center justify-center"
                     >
                         <div
                             className={`relative border rounded-2xl overflow-hidden cursor-pointer
                             shadow-md drop-shadow-[0_0_2px_rgba(255,255,255,0.7)] w-20 h-20 transition
-                            ${isActive ? 'border-Myprimary shadow-[0_0_15px_1px_rgba(255,235,100,0.3)] bg-[rgba(250,204,21,0.1)]' : ''}
-                        `}
+                            ${isActive ? 'border-Myprimary shadow-[0_0_15px_1px_rgba(255,235,100,0.3)] bg-[rgba(250,204,21,0.1)]' : ''}`}
                         >
                             <img
-                                src={brand.src}
-                                alt={brand.alt}
+                                src={brand.logo}
+                                alt={brand.name}
                                 className="w-full h-full object-cover bg-[#121212]"
                             />
                         </div>
@@ -59,7 +75,6 @@ const Brands = ({ setFilters, filters }) => {
             })}
         </div>
     );
-}
-
+};
 
 export default Brands;

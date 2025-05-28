@@ -113,5 +113,19 @@
   "Cylinders": "الأسطوانات",
   "Anonymous": "مجهول",
   "No reviews yet": "لا توجد تقييمات بعد",
-  "No cars available": "لا توجد سيارات متوفرة"
+  "No cars available": "لا توجد سيارات متوفرة",
+  "Filters": "فلاتر",
+  "Sort": "ترتيب",
+  "Newest": "الأحدث",
+  "Name": "الاسم",
+  "Price: lowest to high": "السعر: من الأقل إلى الأعلى",
+  "Price: highest to low": "السعر: من الأعلى إلى الأقل",
+  "Car make/model": "نوع / طراز السيارة",
+  "Body Types": "أنواع الهيكل",
+  "Body Color": "لون الهيكل",
+  "Navigation": "نظام الملاحة",
+  "Sun Roof": "سقف بانورامي",
+  "2 doors": "بابين",
+  "7 seater": "سبعة مقاعد",
+  "Show Results": "عرض النتائج"
 }

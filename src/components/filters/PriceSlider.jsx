@@ -1,10 +1,13 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import pricetag from '../../assets/pricetag.png';
+import { useTranslation } from "react-i18next";
 
 const MIN = 0;
 const MAX = 30000;
 
 export default function PriceSlider({ value, onChange }) {
+    const { t } = useTranslation('home');
+
     return (
         <div className="text-white rounded-xl w-full max-w-lg mx-auto ">
             <div className="flex items-center justify-between mb-5">
@@ -12,7 +15,7 @@ export default function PriceSlider({ value, onChange }) {
                     <div className='w-6 bg-Mycard rounded-full p-1'>
                         <img src={pricetag} className='w-full h-full' />
                     </div>
-                    <p className='text-1xl'>Price</p>
+                    <p className='text-1xl'>{t("Price")}</p>
                 </div>
                 <span className="text-lg">${value.toLocaleString()}</span>
             </div>
@@ -24,7 +27,7 @@ export default function PriceSlider({ value, onChange }) {
                 step={100}
                 value={[value]}
                 onValueChange={(val) => onChange(val[0])}
-                aria-label="Price"
+                aria-label={t("Price")}
             >
                 <SliderPrimitive.Track className="bg-backgroundGray relative grow rounded-full h-[0.35rem]">
                     <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />

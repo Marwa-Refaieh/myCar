@@ -1,19 +1,20 @@
 import React from 'react';
-import distance from '../assets/distance.svg';
-import calendar from '../assets/calender.svg';
 import typeCar from '../assets/type.svg';
 import location from '../assets/location.svg';
 import { Link } from 'react-router-dom';
 import img from '../assets/image.webp';
 import { useTranslation } from 'react-i18next';
+import { Gauge } from 'lucide-react';
+import { CalendarDays } from "lucide-react";
 
 const Card = ({ car }) => {
-    const { t ,i18n} = useTranslation('msg');
+    const { t, i18n } = useTranslation('msg');
 
     if (!car) return null;
 
     return (
-        <Link to={`/details/${car.id}`} className='w-full sm:w-[47%] lg:w-[30%]' dir={i18n.language === 'ar' ? 'ltr' : 'ltr'}>
+        <Link to={`/details/${car.id}`} className='w-[75%] xs:w-full sm:w-[60%] 
+        md:w-[47%] lg:w-[30%]' dir={i18n.language === 'ar' ? 'ltr' : 'ltr'}>
             <div className="border-[1px] border-Myprimary rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl">
                 <img
                     src={car.image || img}
@@ -23,7 +24,7 @@ const Card = ({ car }) => {
                     className="w-full h-64 object-cover rounded-3xl"
                     style={{ aspectRatio: "600/400", objectFit: "cover" }}
                 />
-                <div className="p-4 space-y-2">
+                <div className="md:p-2 mt-1">
                     <div className="flex justify-between items-center border-b border-white/30 pb-4">
                         <h3 className="text-2xl font-semibold text-Myprimary">
                             {car.name || t('car.name_not_available')}
@@ -35,12 +36,12 @@ const Card = ({ car }) => {
 
                     <div className="flex items-center justify-between pt-4 flex-wrap gap-y-2 text-sm">
                         <div className="flex items-center gap-1">
-                            <img src={distance} alt={t('car.distance')} />
+                              <Gauge className="text-Myprimary w-4 h-4" />
                             <p>{car.odometer != null ? `${car.odometer.toLocaleString()} km` : t('car.distance_not_available')}</p>
                         </div>
 
                         <div className="flex items-center gap-1">
-                            <img src={calendar} alt={t('car.year')} />
+                              <CalendarDays className="text-Myprimary w-4 h-4" />
                             <p>{car.year_production || t('car.year_not_available')}</p>
                         </div>
 

@@ -1,12 +1,14 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import { useState } from "react";
 import gas from '../../assets/gas.png';
+import { useTranslation } from "react-i18next";
 
 const MIN = 0;
 const MAX = 1000;
 
-export default function HorsepowerSlider({ onChangeHorsepower }) {
-    const [value, setValue] = useState(500);
+export default function HorsepowerSlider({ onChangeHorsepower, initialValue }) {
+    const [value, setValue] = useState(initialValue ?? 500);
+    const { t } = useTranslation('home');
 
     const handleChange = (val) => {
         setValue(val[0]);
@@ -20,7 +22,7 @@ export default function HorsepowerSlider({ onChangeHorsepower }) {
                     <div className='w-6 bg-Mycard rounded-full p-1'>
                         <img src={gas} className='w-full h-full' alt="gas" />
                     </div>
-                    <p className='text-1xl'>Horsepower</p>
+                    <p className='text-1xl'>{t("Horsepower")}</p>
                 </div>
             </div>
 
@@ -31,7 +33,7 @@ export default function HorsepowerSlider({ onChangeHorsepower }) {
                 step={1}
                 value={[value]}
                 onValueChange={handleChange}
-                aria-label="Horsepower"
+                aria-label={t("Horsepower")}
             >
                 <SliderPrimitive.Track className="bg-backgroundGray relative grow rounded-full h-[0.35rem]">
                     <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full transition-all duration-500 ease-in-out" />

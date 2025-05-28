@@ -62,7 +62,7 @@ export default function CarDetails() {
             <div className='max-w-7xl mx-auto px-4 pt-28 md:pt-16'>
                 <div className="flex flex-col items-center lg:items-start gap-10 lg:gap-0 lg:flex-row lg:justify-between">
                     <div className="w-[90%] md:w-[70%] lg:w-[50%]">
-                        <ImageGallery images={car.images} />
+                        <ImageGallery images={car.images} video={car.video_link}/>
                     </div>
                     <div className="w-[90%] md:w-[70%] lg:w-[40%]">
                         <CarData car={car} />

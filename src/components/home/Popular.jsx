@@ -42,7 +42,7 @@ const Popular = () => {
     }
     return (
         <div>
-            <h2 className="text-5xl font-bold text-center mb-10 text-Myprimary">
+            <h2 className="text-3xl md:text-5xl font-bold text-center mb-10 text-Myprimary">
                 {t("cars.Explore Popular Categories")}
             </h2>
             <div className="flex flex-wrap gap-8 justify-center my-10">

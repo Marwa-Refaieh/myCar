@@ -2,7 +2,7 @@ import { useSidebar } from '../context/SidebarContext';
 import logo from '../assets/logo.png';
 // import image from '../assets/image.webp';
 import { FiAlignJustify } from "react-icons/fi";
-import { SlidersHorizontal } from "lucide-react";
+import { AlignJustify, Funnel, SlidersHorizontal } from "lucide-react";
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -24,8 +24,8 @@ const Navbar = () => {
     };
     return (
 
-        <nav className="bg-Mybackground shadow-lg fixed top-0 z-40 shadow-white/10 w-full">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav dir={i18n.language === 'ar' ? 'ltr' : 'ltr'} className="bg-Mybackground shadow-lg fixed top-0 z-40 shadow-white/10 w-full">
+            <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16 items-center">
                     {/* Logo */}
                     <div className="flex items-center space-x-4">
@@ -72,11 +72,19 @@ const Navbar = () => {
                         </div>
                         <button
                             onClick={toggleSidebar}
-                            className="p-2 text-gray-700 hover:text-Myprimary transition text-2xl"
+                            className="hidden md:flex p-2 text-gray-700 hover:text-Myprimary transition text-2xl"
                         >
                             <SlidersHorizontal size={20} />
 
                         </button>
+
+                        <button
+                            onClick={toggleSidebar}
+                            className="md:hidden flex w-fit items-center px-3 h-[40px] text-sm border border-white  text-white bg-transparent hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary hover:text-Myprimary transition mr-2 rounded-3xl"
+                        >
+                            {t('Filters')}
+                        </button>
+
                     </div>
 
 
@@ -88,9 +96,19 @@ const Navbar = () => {
 
 
                     {/* Mobile Button */}
-                    <div className="md:hidden">
-                        <button onClick={() => setIsOpen(!isOpen)}>
-                            {isOpen ? <X size={24} /> : <FiAlignJustify size={24} />}
+                    <div className="md:hidden flex items-center">
+
+                        <button className='relative w-6 h-6 overflow-hidden' onClick={() => setIsOpen(!isOpen)}>
+                            <span
+                                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+                            >
+                                <X size={24} />
+                            </span>
+                            <span
+                                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}
+                            >
+                                <AlignJustify size={24} />
+                            </span>
                         </button>
                     </div>
                 </div>
@@ -106,7 +124,7 @@ const Navbar = () => {
                         {t("Cars")}
                     </Link>
 
-                       <MenuList isMobile={true} />
+                    <MenuList isMobile={true} />
 
                     <Link
                         to={'/signin'}
