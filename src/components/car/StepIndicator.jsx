@@ -22,7 +22,7 @@ const StepIndicator = ({ currentStep }) => {
 
 
 
-      
+       
       
     </div>
       {/* Line */}

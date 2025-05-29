@@ -1,7 +1,7 @@
 import React, { useState , useEffect} from 'react';
 import axios from 'axios';
 import { baseUrl } from '@/baseUrl'; 
-const CarBrands = ({ value, selectBrand }) => {
+const CarBrands = ({  selectBrand }) => {
     const [activeIndex, setActiveIndex] = useState(null); 
 
     // fetch data
@@ -24,7 +24,7 @@ const CarBrands = ({ value, selectBrand }) => {
       fetchName();
     }, []); // Empty dependency array means this runs once on mount
 
-    if (loading) return <div className="flex justify-center items-center h-40">
+    if (loading) return <div className="  block mx-auto  h-40">
     <div className="flex space-x-2">
         <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
         <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
@@ -35,7 +35,7 @@ const CarBrands = ({ value, selectBrand }) => {
     const handelBrand = (e) =>{
 
       localStorage.setItem('selectedBrand' , JSON.stringify(e.id))
-      selectBrand(e.name)
+      selectBrand(JSON.stringify(e.id))
     }
       
  

@@ -1,4 +1,5 @@
 {
+    "linkvideo" : "أدخل لينك الفديو",
     "photo" : "الصور",
     "reqphoto" : "الصور مطلوبة",
     "video" : "أضف فديو",
@@ -9,5 +10,14 @@
     "desc" : "الوصف",
     "reqdesc" : "الوصف مطلوب",
     "location" : "الموقع",
-    "reqlocation" : "الموقع مطلوب"
+    "reqlocation" : "الموقع مطلوب",
+    "horsepower" : "قوة الحصان",
+    "horsepowerenter" : "ادخل قوة الحصان",
+    "reqhorsepower" : "قوة الحصان مطلوبة",
+    "odometer" : "عداد المسافات",
+    "reqodometer" : "عداد المسافات مطلوب",
+    "tax_and_insurance" : "الضرائب والتأمين",
+    "reqtax_and_insurance" : "الضرائب والتأمين مطلوبين",
+    "engine_size" : "حجم المحرك",
+    "reqengine_size" : "حجم المحرك مطلوب"
 }

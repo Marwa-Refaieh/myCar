@@ -14,7 +14,7 @@ const CreateCarPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    watch, 
     setValue,
     trigger,
     formState: { errors },
@@ -34,14 +34,15 @@ const CreateCarPage = () => {
       valid = await trigger("brand");
     } else if (currentStep === 2) {
       valid = await trigger([
-        "name",
+        "city_id" ,
+        "name" ,
         "price",
         "color",
-        "model",
-        "year",
-        "transmission",
-        "fuel",
-        "bodyType",
+        "model_id",
+        "year_production",
+        "transmission_type",
+        "fuel_type",
+        "body_type",
         "doors",
         "seats"
       ]);
@@ -49,7 +50,7 @@ const CreateCarPage = () => {
       valid = await trigger(["images", "location", "description"]);
     }
 
-    if (valid) {
+    if (valid) { 
       setCurrentStep((prev) => prev + 1);
     }
   };
@@ -70,13 +71,13 @@ const CreateCarPage = () => {
       {currentStep === 1 && (
         <div className="flex justify-between items-center flex-wrap">
           <CarBrands
-            value={watch("brand")}
-            selectBrand={(brand) => setValue("brand", brand)}
+            // value={watch("brand")}
+            selectBrand={(brand) => setValue("brand_id", brand)}
           />
           {errors.brand && <p className="text-red-600 mt-1">الرجاء اختيار ماركة</p>}
           <input
             type="hidden"
-            {...register("brand", { required: true })}
+            {...register("brand_id", { required: true })}
           />
         </div>
       )}

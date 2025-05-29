@@ -1,4 +1,6 @@
 {
+    "city" : "city",
+    "reqcity" : "City required",
     "model" : "Model",
     "reqmodel" : "Model required",
     "year" : "Year",

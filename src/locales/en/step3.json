@@ -1,4 +1,5 @@
 {
+    "linkvideo" : "enter video link",
     "photo" : "photo",
     "reqphoto" : "photo required",
     "video" : "Add video",
@@ -9,5 +10,14 @@
     "desc" : "description",
     "reqdesc" : "description required",
     "location" : "location",
-    "reqlocation" : "location required"
+    "reqlocation" : "location required",
+    "horsepower" : "horsepower",
+    "horsepowerenter" : "enter horsepower",
+    "reqhorsepower" : "horsepower required",
+    "odometer" : "odometer",
+    "reqodometer" : "odometer required",
+    "tax_and_insurance" : "tax and insurance",
+    "reqtax_and_insurance" : "tax and insurance required",
+    "engine_size" : "engine size",
+    "reqengine_size" : "engine size required"
 }
