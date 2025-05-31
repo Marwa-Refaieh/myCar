@@ -39,11 +39,11 @@ import Title from "@/components/Title";
 const Filters = () => {
 
     const location = useLocation();
-    const filters = location.state?.filters; 
+    const filters = location.state?.filters;
 
     const [filteredCars, setFilteredCars] = useState([]);
     const [loading, setLoading] = useState(false);
-    
+
     const buildFiltersArray = (filters) => {
         const result = [];
 
@@ -56,7 +56,12 @@ const Filters = () => {
         if (filters.city_id) result.push({ name: "city_id", value: filters.city_id });
         if (filters.model_id) result.push({ name: "model_id", value: filters.model_id });
         if (filters.brand_id) result.push({ name: "brand_id", value: filters.brand_id });
-        if (filters.odometer.from && filters.odometer.to) result.push({ name: "odometer", value: filters.odometer });
+        if (filters.odometer?.from != null && filters.odometer?.to != null) {
+            result.push({ name: "odometer", value: filters.odometer });
+        }
+        if (filters.price?.from != null && filters.price?.to != null) {
+            result.push({ name: "price", value: filters.price });
+        }
         if (filters.color) result.push({ name: "color", value: filters.color });
         if (filters.horsepower) result.push({ name: "horsepower", operation: "eq", value: filters.horsepower });
 
@@ -69,26 +74,32 @@ const Filters = () => {
         setLoading(true);
         const Filters = buildFiltersArray(filters);
 
+        console.log("Filters to be sent:", Filters);
+        console.log("orders to be sent:", filters.orders);
+
         try {
             const response = await axios({
                 method: "get",
                 url: "https://mycarapplication.com/api/car",
-                data: {
-                    Filters,
-                    orders: []
+                params: {
+                    Filters: Filters,
+                    orders: filters.orders
                 },
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
+
             console.log("Response data:", response.data);
             setFilteredCars(response.data.data);
         } catch (error) {
             console.error("Error fetching filtered cars:", error);
             setFilteredCars([]);
         }
+
         setLoading(false);
     };
+
 
 
     useEffect(() => {

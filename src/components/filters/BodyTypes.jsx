@@ -9,7 +9,7 @@ const bodyTypeData = [
   { src: compact, name: "compact", value: 1 },
   { src: crossover, name: "crossover", value: 3 },
   { src: sport, name: "sport", value: 2 },
-  { src: suv, name: "suv", value: 5 },
+  { src: suv, name: "suv", value: 4 },
   { src: sedan, name: "sedan", value: 6 },
 ];
 

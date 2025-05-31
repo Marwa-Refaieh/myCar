@@ -6,7 +6,10 @@ const MIN = 0;
 const MAX = 200000;
 
 export default function SpeedRangeSlider({ filters, setFilters }) {
-    const range = filters.odometer ? [filters.odometer.from, filters.odometer.to] : [MIN, MAX];
+    const range = [
+        filters.odometer?.from ?? MIN,
+        filters.odometer?.to ?? null,
+    ];
     const { t } = useTranslation('home');
 
     const handleSpeedChange = (newRange) => {

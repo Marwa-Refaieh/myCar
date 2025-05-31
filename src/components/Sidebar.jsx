@@ -21,6 +21,7 @@ import Button2 from './Button';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import PriceRangeSlider from './filters/PriceRangeSlider';
 
 const Sidebar = () => {
     const { t, i18n } = useTranslation('home');
@@ -30,7 +31,7 @@ const Sidebar = () => {
     const [filters, setFilters] = useState({
         features: [],
         year_production: {
-            from: null,
+            from: 2006,
             to: null,
         },
         type: null,
@@ -41,14 +42,32 @@ const Sidebar = () => {
         model_id: null,
         brand_id: null,
         odometer: {
-            from: null,
+            from: 0,
+            to: null,
+        },
+        price: {
+            from: 0,
             to: null,
         },
         color: null,
         horsepower: null,
-        price: 0,
         sort: null
     });
+
+    const getOrdersFromSort = (sortValue) => {
+        switch (sortValue) {
+            case 'newest':
+                return [{ name: 'year_production', direction: 'desc' }];
+            case 'name':
+                return [{ name: 'name', direction: 'asc' }];
+            case 'price-lowest':
+                return [{ name: 'price', direction: 'asc' }];
+            case 'price-highest':
+                return [{ name: 'price', direction: 'desc' }];
+            default:
+                return [];
+        }
+    };
 
     // const applyFilters = (cars, filters) => {
     //     return cars.filter(car => {
@@ -98,10 +117,10 @@ const Sidebar = () => {
         if (filters.brand_id) count++;
 
         // year ( [2000, 2025])
-        if (filters.year_production.from !== null || filters.year_production.to !== null) count++;
+        if (filters.year_production.from !== 2006 || filters.year_production.to !== null) count++;
 
         // speed ( [0, 300])
-        if (filters.odometer.from !== null || filters.odometer.to !== null) count++;
+        if (filters.odometer.from !== 0 || filters.odometer.to !== null) count++;
 
         // transmission
         if (filters.transmission_type) count++;
@@ -159,7 +178,15 @@ const Sidebar = () => {
             .then(res => {
                 setCity(res.data.data)
             })
+        console.log(filters);
+
     }, []);
+
+    useEffect(() => {
+
+        console.log(filters);
+
+    }, [filters]);
 
     // useEffect(() => {
     //     axios.get("https://mycarapplication.com/api/car")
@@ -415,10 +442,7 @@ const Sidebar = () => {
                     {/* Price */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
-                            <PriceSlider
-                                value={filters.price}
-                                onChange={(val) => setFilters(prev => ({ ...prev, price: val }))}
-                            />
+                            <PriceRangeSlider filters={filters} setFilters={setFilters} />
                         </div>
                     </div>
 
@@ -449,11 +473,12 @@ const Sidebar = () => {
                     <div className='flex justify-center py-3'>
                         <Link
                             to="/filters"
-                            state={{ filters }}
+                            state={{ filters: { ...filters, orders: getOrdersFromSort(filters.sort) } }}
                             onClick={toggleSidebar}
                         >
                             <Button2 title={`${t("Show Results")}${countActiveFilters() > 0 ? ` (${countActiveFilters()})` : ''}`} />
                         </Link>
+
                     </div>
                 </div>
             </div>
