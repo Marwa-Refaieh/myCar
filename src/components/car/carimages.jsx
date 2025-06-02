@@ -2,15 +2,20 @@ import { useTranslation } from 'react-i18next';
 
 const CarImages = ({ register, errors, watch, setValue }) => {
   const images = watch("images");
-  const model3D = watch("model3D");
+  const model3d = watch("model3d");
 
   const { t } = useTranslation('step3');
 
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setValue("images", files);
+  
+    // تحقق أن الملفات ليست فارغة، وأنها فعلاً من النوع File
+    if (files.length > 0 && files[0] instanceof File) {
+      setValue("images", files, { shouldValidate: true });
+    }
   };
+  
  
   const handleVideoChange = (e) => {
     const file = e.target.value;
@@ -19,7 +24,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
 
   const handle3DChange = (e) => {
     const file = e.target.files[0]; 
-    setValue("model3D", file);
+    setValue("model3d", file);
   };
 
   return (
@@ -27,17 +32,18 @@ const CarImages = ({ register, errors, watch, setValue }) => {
       {/* Photos */}
       <div>
         <label className="block font-medium mb-1">{t('photo')}</label>
-        <input
-          type="file"
-          accept="image/*"
-          multiple
-          onChange={handleImageChange}
-          className="block w-full"
-        />
-        <input
-          type="hidden"
-          {...register("images", { required: t('reqphoto') })}
-        />
+        <input 
+  type="file"
+  accept="image/*"
+  multiple
+  onChange={handleImageChange}
+  className="block w-full"
+/>
+
+<input type="hidden" {...register("images", { required: t('reqphoto') })} />
+
+
+  
         {errors.images && <p className="text-red-600">{errors.images.message}</p>}
         <div className="flex gap-2 mt-2 flex-wrap">
           {Array.isArray(images) &&
@@ -105,18 +111,37 @@ const CarImages = ({ register, errors, watch, setValue }) => {
         {errors.engine_size && <p className="text-red-600">{errors.engine_size.message}</p>}
       </div>
 
-      {/* tax_and_insurance */}
+{/* tax_and_insurance */}
+<div>
+  <label className="block font-medium mb-1">{t('tax_and_insurance')}</label>
+  <select
+    {...register("tax_and_insurance", { required: t('reqtax_and_insurance') })}
+    className="w-full p-2 rounded bg-neutral-800 text-white"
+  >
+    <option value="">{t('choose')}</option>
+    <option value="1">{t('yes')}</option>
+    <option value="0">{t('no')}</option>
+  </select>
 
-      <div>
-        <label className="block font-medium mb-1">{t('tax_and_insurance')}</label>
+  {errors.tax_and_insurance && (
+    <p className="text-red-600">{errors.tax_and_insurance.message}</p>
+  )}
+</div>
+
+
+            {/* name of car */}
+
+            <div>
+        <label className="block font-medium mb-1">{t('name')}</label>
         <input
           type="text"
-          {...register("tax_and_insurance", { required: t('reqtax_and_insurance') })}
+          {...register("name", { required: t('reqname') })} 
           className="w-full p-2 rounded bg-neutral-800 text-white"
         />
 
-        {errors.tax_and_insurance && <p className="text-red-600">{errors.tax_and_insurance.message}</p>}
+        {errors.name && <p className="text-red-600">{errors.name.message}</p>}
       </div>
+
 
       {/* 3D File */}
       <div>
@@ -127,9 +152,9 @@ const CarImages = ({ register, errors, watch, setValue }) => {
           onChange={handle3DChange}
           className="block w-full"
         />
-        <input type="hidden" {...register("model3D")} />
-        {model3D && (
-          <p className="text-sm mt-2">{t('selectedfile')}: {model3D.name}</p>
+        <input type="hidden" {...register("model3d")} />
+        {model3d && (
+          <p className="text-sm mt-2">{t('selectedfile')}: {model3d.name}</p>
         )}
       </div>
 
@@ -156,7 +181,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
       </div>
 
       {/* Location */}
-      <div>
+      {/* <div>
         <label className="block font-medium mb-1">{t('location')}</label>
         <input
           type="text"
@@ -164,7 +189,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
           className="w-full p-2 rounded bg-neutral-800 text-white"
         />
         {errors.location && <p className="text-red-600">{errors.location.message}</p>}
-      </div>
+      </div> */}
     </div>
   );
 };

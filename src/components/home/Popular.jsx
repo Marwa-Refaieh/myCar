@@ -2,12 +2,21 @@ import React, { useEffect, useState } from 'react';
 import Card from '../Card';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import useFetchFavorites from '@/hooks/getFavCars';
 
 const Popular = () => {
     const { t } = useTranslation('msg');
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
+
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id));
+        }
+    }, [data]);
 
     useEffect(() => {
         axios.get('https://mycarapplication.com/api/home')
@@ -47,7 +56,7 @@ const Popular = () => {
             </h2>
             <div className="flex flex-wrap gap-8 justify-center my-10">
                 {cars.map((car) => (
-                    <Card key={car.id} car={car} />
+                    <Card key={car.id} car={car} favoriteIds={favoriteIds} />
                 ))}
             </div>
         </div>

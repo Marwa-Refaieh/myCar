@@ -10,8 +10,8 @@ const CarDetails = ({ register, errors }) => {
  
   const { t } = useTranslation('step2');
 
-  const { myModel, loading, lang } = useModelsByBrand();
-  const { myCity , myloading} = getCity()
+  const { myModel, loading, lang , errorModel} = useModelsByBrand();
+  const { myCity , myloading , errorCity} = getCity()
 
 
   if (loading) return <div className="flex justify-center items-center h-40">
@@ -29,6 +29,9 @@ if (myloading) return <div className="flex justify-center items-center h-40">
   <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
 </div>
 </div>
+
+
+ if(errorCity || errorModel) return <p className='block text-red-800 font-bold mx-auto w-fit'>Faild To Fetch Data</p>
 
 
 
@@ -120,11 +123,9 @@ if (myloading) return <div className="flex justify-center items-center h-40">
         <label className="block font-medium">{t('bodytype')}</label>
         <select {...register("body_type", { required: t('reqbodytype') })} className="w-full p-2 rounded bg-neutral-800">
           <option value="" hidden>{t('select')}</option>
-          <option value="5">SUV</option>
+          <option value="4">SUV</option>
           <option value="1">Compact</option>
           <option value="2">SportCoupe</option>
-          <option value="3">Crossover</option>
-          <option value="4">FamilyMBP</option>
         </select>
         {errors.body_type && <p className="text-red-600">{errors.body_type.message}</p>}
       </div>

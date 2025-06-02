@@ -9,7 +9,7 @@ import Card2 from '../Card2';
 import ReviewCard from '../carDetails/ReviewCard';
 import { useTranslation } from 'react-i18next';
 
-const SellerTabs = ({ cars, reviews }) => {
+const SellerTabs = ({ cars, reviews, sellerId }) => {
     const { t, i18n } = useTranslation('home');
 
     return (
@@ -50,7 +50,7 @@ const SellerTabs = ({ cars, reviews }) => {
 
 
                 <TabsContent value="reviews" className="p-4 space-y-4">
-                    <ReviewCard reviews={reviews} />
+                    <ReviewCard reviews={reviews} sellerId={sellerId} />
                 </TabsContent>
 
             </Tabs>

@@ -19,5 +19,10 @@
     "tax_and_insurance" : "tax and insurance",
     "reqtax_and_insurance" : "tax and insurance required",
     "engine_size" : "engine size",
-    "reqengine_size" : "engine size required"
+    "reqengine_size" : "engine size required",
+    "choose" : "choose",
+    "yes" : "yes",
+    "no": "no",
+    "name" : "name of car",
+    "reqnmae" : "name of car required"
 }

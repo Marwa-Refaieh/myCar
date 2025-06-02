@@ -6,7 +6,7 @@ const useModelsByBrand = () => {
   const [myModel, setModel] = useState([]);
   const [loading, setLoading] = useState(true);
   const [lang, setLang] = useState('en');
-
+  const [errorModel , setErrorModel] = useState('')
   useEffect(() => {
     const storedLang = localStorage.getItem('lang');
     setLang(storedLang === 'ar' ? 'ar' : 'en');
@@ -22,6 +22,7 @@ const useModelsByBrand = () => {
         setModel(response.data);
       } catch (error) {
         console.error('Error fetching models:', error);
+        setErrorModel("Faild To Fetch Data")
       } finally {
         setLoading(false);
       }
@@ -30,7 +31,7 @@ const useModelsByBrand = () => {
     fetchModels();
   }, []);
 
-  return { myModel, loading, lang };
+  return { myModel, loading, lang , errorModel};
 };
 
 export default useModelsByBrand;

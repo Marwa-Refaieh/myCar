@@ -3,16 +3,44 @@ import { useTranslation } from 'react-i18next';
 import StarRatings from 'react-star-ratings';
 import CommentModal from '../CommentModal';
 import img from '../../assets/image.webp';
+import axios from 'axios';
 
-const ReviewCard = ({ reviews = [] }) => {
+const ReviewCard = ({ reviews = [], sellerId }) => {
     const { t } = useTranslation('home');
     const [open, setOpen] = useState(false);
     const [comment, setComment] = useState("");
+    console.log(sellerId);
 
-    const handleSubmit = () => {
-        setOpen(false);
-        setComment("");
+    const handleSubmit = ({ comment, rating }) => {
+        const token = localStorage.getItem("token"); // أو حسب تخزينك للتوكن
+
+        if (!token) {
+            console.error("Authentication token not found. Please login.");
+            return;
+        }
+
+        const payload = {
+            rateable_type: "seller",
+            rateable_id: sellerId,
+            value: rating,
+            comment: comment,
+        };
+
+        axios.post('https://mycarapplication.com/api/rates', payload, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+            .then((response) => {
+                setOpen(false);
+                setComment("");
+                console.log(response);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     };
+
 
     return (
         <div>
@@ -22,7 +50,7 @@ const ReviewCard = ({ reviews = [] }) => {
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                             <div>
                                 <img
-                                    src={review.user?.image_url || {img}}
+                                    src={review.user?.image_url || { img }}
                                     alt={review.user?.full_name || "User"}
                                     className="w-20 h-20 rounded-full object-cover"
                                 />

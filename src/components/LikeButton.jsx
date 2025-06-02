@@ -1,12 +1,15 @@
-import { useState } from "react";
 import axios from "axios";
 import { Heart } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function LikeButton({ itemType, itemId, initialLiked = false }) {
-  const [liked, setLiked] = useState(initialLiked);
+export default function LikeButton({ itemType, itemId, isFavorite = false }) {
+  const [liked, setLiked] = useState(isFavorite);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  useEffect(() => {
+    setLiked(isFavorite);
+  }, [isFavorite]);
 
   const handleClick = () => {
     if (loading) return;
@@ -20,25 +23,30 @@ export default function LikeButton({ itemType, itemId, initialLiked = false }) {
 
     setLoading(true);
 
-    axios
-      .post("https://mycarapplication.com/api/favorites/add", {
-        type: itemType,
-        id: itemId,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      })
-      .then(() => {
-        setLiked(true);
-      })
-      .catch((error) => {
-        console.error(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    if (!liked) {
+      
+      axios
+        .post(
+          "https://mycarapplication.com/api/favorites/add",
+          {
+            rateable_type: itemType,
+            rateable_id: itemId,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then(() => {
+          setLiked(true);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   };
+
 
   return (
     <button
@@ -48,14 +56,9 @@ export default function LikeButton({ itemType, itemId, initialLiked = false }) {
       className="hover:bg-transparent"
     >
       <Heart
-        className={`w-5 h-5 transition-colors duration-300 text-white`}
+        className={`w-5 h-5 transition-colors duration-300 text-Myprimary`}
         fill={liked ? "#F1EA28" : "none"}
       />
-      {/* <Heart
-        className={`w-5 h-5 transition-colors duration-300 text-Myprimary ${liked ? "text-Myprimary animate-heartbeat-glow" : "text-gray-400 animate-heartbeat-glow"
-          }`}
-        fill={liked ? "#F1EA28" : "none"}
-      /> */}
     </button>
 
   );

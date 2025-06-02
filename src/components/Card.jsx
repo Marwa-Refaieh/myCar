@@ -1,4 +1,3 @@
-import React from 'react';
 import typeCar from '../assets/type.svg';
 import location from '../assets/location.svg';
 import { Link } from 'react-router-dom';
@@ -8,12 +7,13 @@ import { Gauge } from 'lucide-react';
 import { CalendarDays } from "lucide-react";
 import LikeButton from './LikeButton';
 
-const Card = ({ car }) => {
+const Card = ({ car, favoriteIds }) => {
+
     const { t, i18n } = useTranslation('msg');
 
     if (!car) return null;
     const handleLikeClick = (e) => {
-        e.stopPropagation(); 
+        e.stopPropagation();
         e.preventDefault();
     };
 
@@ -28,16 +28,16 @@ const Card = ({ car }) => {
                     className="w-full h-64 object-cover rounded-3xl"
                     style={{ aspectRatio: "600/400", objectFit: "cover" }}
                 />
-                <button
+                <div
                     className="absolute top-6 right-6 z-10 bg-black/60 rounded-full w-8 h-8 flex justify-center items-center"
                     onClick={handleLikeClick}
                 >
                     <LikeButton
                         itemType="car"
                         itemId={car.id}
-                        initialLiked={car.is_favorite}
+                        isFavorite={favoriteIds.includes(car.id)}
                     />
-                </button>
+                </div>
                 <div className="md:p-2 mt-1">
                     <div className="flex justify-between items-center border-b border-white/30 pb-4">
                         <h3 className="text-2xl font-semibold text-Myprimary">

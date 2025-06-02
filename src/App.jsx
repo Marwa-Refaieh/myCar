@@ -26,6 +26,8 @@ import EditProfile from './pages/editProfile/editProfile'
 import CreateCarPage from './pages/CreateCar/createCar'
 import '../src/i18/index.js';
 import BestSeller from './pages/bestSeller/BestSeller'
+import CompleteInfo from './pages/complete-info/completeInfo'
+import UpdateCar from './pages/updateCar/updateCar'
 
 function App() {
 
@@ -70,10 +72,12 @@ function App() {
             <Route path='/complaint/:id' element={<ComplaintDetails />} />
             <Route path='/editprofile' element={<EditProfile />} />
             <Route path='/create' element={<CreateCarPage />} />
-          </Route>
+            <Route path='/updatecar/:id' element={<UpdateCar />} />
+          </Route> 
 
 
           <Route path='/signin' element={<Signin />} />
+          <Route path='/completeinfo' element={<CompleteInfo />} />
           <Route path='/signin2' element={<Signin2 />} />
           <Route path='/code' element={<Vercode />} />
         </Routes>

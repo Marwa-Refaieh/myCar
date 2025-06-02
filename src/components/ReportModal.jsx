@@ -3,32 +3,47 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+import { Navigate } from "react-router-dom";
 
 export default function ReportModal({
+    sellerId,
     triggerText = "Report",
     title = "Report Item",
     placeholder = "Write your reason here...",
-    onSubmit
 }) {
     const [reason, setReason] = useState("");
     const [open, setOpen] = useState(false);
     const { t } = useTranslation('home');
+    
+    const handleClick = () => {
 
+        const token = localStorage.getItem("token");
 
-    const handleSubmit = () => {
-        if (!reason.trim()) {
-            alert("Please enter a reason.");
+        if (!token) {
+            Navigate("/signin");
             return;
         }
+        axios
+            .post(
+                "https://mycarapplication.com/api/reports/add",
+                {
+                    seller_id: sellerId,
+                    report_reason: reason,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
+            .then((response) => {
+                console.log("تم الإبلاغ بنجاح:", response.data);
+                setReason("");
+                setOpen(false);
+            })
 
-        if (onSubmit) {
-            onSubmit(reason);
-        }
-
-        setReason("");
-        setOpen(false);
     };
-
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -50,7 +65,7 @@ export default function ReportModal({
                 />
 
                 <DialogFooter>
-                    <Button variant="destructive" onClick={handleSubmit} className="bg-Myprimary text-black hover:bg-primaryHover">
+                    <Button variant="destructive" onClick={handleClick} className="bg-Myprimary text-black hover:bg-primaryHover">
                         {t("Submit")}
                     </Button>
                 </DialogFooter>

@@ -18,6 +18,9 @@ export default function SellerProfile() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isFollowing, setIsFollowing] = useState(false);
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const token = localStorage.getItem("token");
+
 
     useEffect(() => {
         if (!id) return;
@@ -35,9 +38,20 @@ export default function SellerProfile() {
             });
     }, [id]);
 
+    useEffect(() => {
+        if (!token) return;
+
+        axios.get("https://mycarapplication.com/api/favorites/get-sellers", {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then(res => {
+                const favoriteSellers = res.data.data;
+                setFavoriteIds(favoriteSellers.map(car => car.id));
+                console.log(favoriteSellers);
+            })
+    }, []);
 
     const handleFollowToggle = () => {
-        const token = localStorage.getItem("authToken");
 
         if (!token) {
             navigate("/signin");
@@ -46,18 +60,11 @@ export default function SellerProfile() {
 
         axios.post(
             "https://mycarapplication.com/api/follow/toggle",
-            { user_id: seller.id },
+            { seller_id: seller.id },
             { headers: { Authorization: `Bearer ${token}` } }
         )
             .then(() => setIsFollowing(prev => !prev))
             .catch((err) => console.error("Follow toggle error", err));
-    };
-
-    const handleReport = (reason) => {
-        axios
-            .post(`https://mycarapplication.com/report`, { reason })
-            .then((res) => console.log("Reported:", res.data))
-            .catch((err) => console.error("Report failed", err));
     };
 
     if (loading) {
@@ -127,10 +134,10 @@ export default function SellerProfile() {
 
                     <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-4">
                         <ReportModal
+                            sellerId={seller.id}
                             triggerText={t("Report")}
                             title={t("Report Seller")}
                             placeholder={t("Write the reason for reporting this seller...")}
-                            onSubmit={handleReport}
                         />
 
                         <Button
@@ -143,13 +150,13 @@ export default function SellerProfile() {
                         <LikeButton
                             itemType="seller"
                             itemId={seller.id}
-                            initialLiked={seller.is_favorite}
+                            isFavorite={favoriteIds.includes(seller.id)}
                         />
                     </div>
                 </div>
             </div>
 
-            <SellerTabs cars={seller.cars || []} reviews={seller.reviews || []} />
+            <SellerTabs cars={seller.cars || []} reviews={seller.reviews || []} sellerId={seller.id}/>
         </motion.div>
     );
 }

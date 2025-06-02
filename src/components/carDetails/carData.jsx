@@ -1,10 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import location from '../../assets/location.png';
 import LikeButton from '../LikeButton';
 import { useTranslation } from 'react-i18next';
+import useFetchFavorites from '@/hooks/getFavCars';
 
 const CarData = ({ car }) => {
     const { t, i18n } = useTranslation('home');
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
+
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id)); 
+        }
+    }, [data]);
 
     if (!car) return null;
 
@@ -26,7 +35,7 @@ const CarData = ({ car }) => {
                 <LikeButton
                     itemType="car"
                     itemId={car.id}
-                    initialLiked={car.is_favorite}
+                    isFavorite={favoriteIds.includes(car.id)}
                 />
             </div>
 
@@ -35,11 +44,11 @@ const CarData = ({ car }) => {
             </p>
 
             <p className="pt-2">
-                {t("Rental Price")} : SYP {car.price ? car.price.toLocaleString() : 
-                t("price not available")} /{' '}
+                {t("Rental Price")} : SYP {car.price ? car.price.toLocaleString() :
+                    t("price not available")} /{' '}
                 <span className="text-Myprimary">
-                    {car.price_type === 1 ? t("day") : car.price_type === 2 ? t("month") : 
-                    t("price type not available")}
+                    {car.price_type === 1 ? t("day") : car.price_type === 2 ? t("month") :
+                        t("price type not available")}
                 </span>
             </p>
 

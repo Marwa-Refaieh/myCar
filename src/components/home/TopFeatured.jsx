@@ -5,6 +5,7 @@ import Button from '../Button';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import useFetchFavorites from '@/hooks/getFavCars';
 
 const TopFeatured = () => {
     const { t, i18n } = useTranslation(['home', 'msg']);
@@ -12,6 +13,14 @@ const TopFeatured = () => {
     const [allCars, setAllCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
+
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id));
+        }
+    }, [data]);
 
     useEffect(() => {
         axios.get('https://mycarapplication.com/api/home')
@@ -133,7 +142,7 @@ const TopFeatured = () => {
                         <>
                             <div className="flex flex-wrap gap-8 justify-center my-10">
                                 {allCars.slice(0, 6).map((car) => (
-                                    <Card key={car.id} car={car} />
+                                    <Card key={car.id} car={car} favoriteIds={favoriteIds} />
                                 ))}
                             </div>
                             <Link to={"/cars"} className='flex justify-center'>
@@ -153,7 +162,7 @@ const TopFeatured = () => {
                         <>
                             <div className="flex flex-wrap gap-8 justify-center my-10">
                                 {newCars.slice(0, 6).map((car) => (
-                                    <Card key={car.id} car={car} />
+                                    <Card key={car.id} car={car} favoriteIds={favoriteIds} />
                                 ))}
                             </div>
                             <Link to={"/new"} className='flex justify-center'>

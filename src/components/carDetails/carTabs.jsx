@@ -15,24 +15,11 @@ import Feather from './Feather';
 import ReviewCard from './ReviewCard';
 import Card2 from '../card2';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import ReportModal from '../ReportModal';
 import { useTranslation } from 'react-i18next';
 
 const CarTabs = ({ car }) => {
     const { t, i18n } = useTranslation('home');
-
-    const handleReport = (reason) => {
-        const reportUrl = "https://mycarapplication.com/api/report";
-
-        axios.post(reportUrl, { reason })
-            .then(response => {
-                console.log("Report submitted successfully:", response.data);
-            })
-            .catch(error => {
-                console.error("Error submitting report:", error);
-            });
-    };
 
     return (
         <div>
@@ -58,7 +45,6 @@ const CarTabs = ({ car }) => {
                         <p className="text-white/50 xs:text-center">
                             {car.created_at ? car.created_at.split(' ')[0] : t("Unknown date")}
                         </p>
-
 
                         <div className="flex flex-col items-start md:flex-row md:items-center gap-8 md:gap-28 mt-4">
 
@@ -103,10 +89,10 @@ const CarTabs = ({ car }) => {
                                 )}
 
                                 <ReportModal
+                                    sellerId={car.user.id}
                                     triggerText={t("Report")}
                                     title={t("Report Seller")}
                                     placeholder={t("Write the reason for reporting this seller...")}
-                                    onSubmit={handleReport}
                                 />
                             </div>
                         </div>
@@ -114,9 +100,9 @@ const CarTabs = ({ car }) => {
 
                     <Specifications car={car} />
 
-                    <div className='border-b border-white/50 pb-8'>
+                    {/* <div className='border-b border-white/50 pb-8'>
                         <Feather car={car} />
-                    </div>
+                    </div> */}
 
                     <div>
                         <p className='text-2xl mt-6'>{t("Recommend")}</p>
