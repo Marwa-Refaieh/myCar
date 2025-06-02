@@ -1,106 +1,90 @@
-// import { useState } from "react";
-// import logo from '../../assets/logo.png';
-// function Signin2() {
-//   const [phone, setPhone] = useState("");
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import logo from '../../assets/logo.png';
+import { baseUrl } from "@/baseUrl";
+import { useNavigate } from "react-router-dom";
+const schema = z.object({
+  mobile: z
+    .string()
+    .min(8, "Phone number is too short")
+    .regex(/^[0-9]+$/, "Only numbers allowed"),
+});
 
-//   const handleSendOtp = async () => {
-//     if (!phone.startsWith("+")) {
-//       alert("يرجى إدخال الرقم بصيغة دولية، مثال: +963xxxxxxxxx");
-//       return;
-//     }
+export default function Signin2() {
+  const navigate = useNavigate()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(schema),
+  });
 
-//     try {
-//       const response = await fetch("https://auth.otpless.app/auth/v1/initiate/otp", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           clientId: "07o4ox5mrlaaog7atbcs",        // ← ضع هنا الـ clientId الخاص بك
-//           clientSecret: "YOUR_CLIENT_SECRET" // ← ضع هنا الـ clientSecret الخاص بك
-//         },
-//         body: JSON.stringify({
-//           phoneNumber: phone,
-//           expiry: 30,             // صلاحية الكود بالدقائق
-//           otpLength: 4,           // عدد أرقام الكود
-//           channels: ["WHATSAPP"]  // الإرسال عبر واتساب
-//         })
-//       });
-
-//       const data = await response.json();
-
-//       if (response.ok) {
-//         console.log("OTP Sent:", data);
-//         alert("✅ تم إرسال الكود على واتساب");
-//         // يمكنك تخزين data.requestId للتحقق من الكود لاحقًا
-//       } else {
-//         console.error("OTP Error:", data);
-//         alert("❌ فشل في إرسال الكود: " + data.message);
-//       }
-//     } catch (error) {
-//       console.error("Network Error:", error);
-//       alert("❌ حدث خطأ في الاتصال");
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-black flex flex-col items-center justify-center px-4">
-//       <img src={logo} alt="logo" className="w-16 mb-6" />
-//       <h1 className="text-white text-2xl font-bold mb-2">Hello!</h1>
-//       <p className="text-gray-400 mb-6">Please enter your account here</p>
-
-//       <input
-//         type="tel"
-//         placeholder="+963xxxxxxxxx"
-//         value={phone}
-//         onChange={(e) => setPhone(e.target.value)}
-//         className="w-full max-w-sm px-4 py-3 mb-4 rounded-full bg-black border border-gray-600 text-white text-center focus:outline-none focus:ring-2 focus:ring-yellow-400"
-//       />
-
-//       <button
-//         onClick={handleSendOtp}
-//         className="w-full max-w-sm bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 rounded-full transition"
-//       >
-//         send
-//       </button>
-//     </div>
-//   );
-// }
-
-// export default Signin2;
-
-
-
-import React, { useEffect } from 'react';
-
-const Signin2 = () => {
-  useEffect(() => {
-    // تأكد من أن الكود يعمل فقط إذا تم تحميل window.otpless
-    if (window.otpless) {
-      window.otpless.init({
-        appId: '07o4ox5mrlaaog7atbcs', // 🔁 استبدله بـ App ID الحقيقي
-        type: 'whatsapp', // 👈 مهم جداً
-        // redirectUrl: 'http://localhost:5173/', // 🟡 اختياري، غيّره حسب مشروعك
-        onLogin: (userData) => {
-          console.log('✅ User Data:', userData);
-
-          // استخراج البيانات
-          const phone = userData.mobile;
-          const email = userData.email;
-          const name = userData.name;
-
-          alert(`Welcome ${name || phone || email}`);
-        },
-      });
-    } else {
-      console.error('❌ OTPless script not loaded.');
+  const onSubmit = async (data) => {
+    const payload = {
+      mobile: data.mobile,
+      fcm_token: "web",
+      token: data.mobile, // ✅ نفس قيمة phone
+    };
+    try {
+      // Replace with your backend endpoint
+      const response = await axios.post(`${baseUrl}api/auth/login-with-otpless`, payload);
+      // console.log("Login Success:", response.data);
+      localStorage.setItem('token' , response.data.token)
+      localStorage.setItem('user_id' , response.data.user.id)
+      if(response.data.user.status == null){
+        navigate('/completeinfo')
+      }else{
+        navigate('/')
+      }
+    } catch (error) {
+      console.error("Login Failed:", error);
     }
-  }, []);
+  };
 
   return (
-    <div>
-      <h2>Login with WhatsApp</h2>
-      <div id="otpless-login-button"></div>
+    <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center px-4">
+      {/* Logo */}
+      <div className="mb-6">
+        <img src={logo} alt="Car Logo" className="w-24 h-24 mx-auto" />
+      </div>
+
+      {/* Heading */}
+      <h1 className="text-2xl font-semibold mb-2">Hello !</h1>
+      <p className="text-sm text-gray-400 mb-6">Please enter your account here</p>
+
+      {/* Form */}
+      <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm space-y-4">
+        <input
+          type="text"
+          placeholder="Enter phone number"
+          className="w-full px-4 py-3 rounded-full bg-gray-900 border border-gray-700 text-black placeholder-gray-500 focus:outline-none"
+          {...register("mobile")}
+        />
+        {errors.mobile && <p className="text-red-500 text-sm">{errors.mobile.message}</p>}
+
+      
+      {isSubmitting ? <div className="absolute bg-black w-full h-full flex justify-center items-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+    <div className="flex space-x-2">
+        <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+        <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+        <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
+    </div>
+</div> :         <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-yellow-400 text-black py-3 rounded-full font-semibold"
+        >
+          go
+        </button>}
+
+      </form>
+
+
+    
+
     </div>
   );
-};
-
-export default Signin2;
+}

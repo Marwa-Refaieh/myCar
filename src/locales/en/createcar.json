@@ -2,5 +2,6 @@
     "next" : "next",
     "back" : "back",
     "create" : "create car",
-    "cancel" :"cancel"
+    "cancel" :"cancel",
+    "update" : "update"
 }

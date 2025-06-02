@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
 import {
   Bell,
   Languages,
@@ -21,11 +21,14 @@ import { useTranslation } from 'react-i18next';
 export default function Setting() {
   const {  t , i18n} = useTranslation('settingpage');
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token); // ✅ اختصار للشرط
+  }, []); // ✅ فقط مرة واحدة عند mount
 
-  const handleLogout = () => setIsLoggedIn(false);
 
   const toggleDropdown = (section) => {
     setOpenDropdown(openDropdown === section ? null : section);
@@ -44,7 +47,7 @@ export default function Setting() {
   }
 
   return (
-    <div className="min-h-screen bg-black w-[100%] md:w-[70%] mx-auto text-white font-sans text-right relative">
+    <div className="min-h-screen bg-black w-[100%] md:w-[70%] mx-auto font-bold text-white font-sans text-right relative">
       <header className="text-center py-4 text-2xl font-bold">{t('setting')}</header>
 
       {!isLoggedIn && (
@@ -111,11 +114,6 @@ export default function Setting() {
                 <Complaint id="123456" date="10 April , 2022" status="Under Study" />
               </Dropdown>
             )}
-            <button
-              className="bg-red-700 mx-auto border-none w-fit mt-16 block text-white font-bold px-2 md:px-4 py-1 rounded-full"
-            >
-              {t('logout')}
-            </button>
           </>
         )}
       </div>

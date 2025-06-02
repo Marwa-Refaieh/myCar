@@ -19,5 +19,10 @@
     "tax_and_insurance" : "الضرائب والتأمين",
     "reqtax_and_insurance" : "الضرائب والتأمين مطلوبين",
     "engine_size" : "حجم المحرك",
-    "reqengine_size" : "حجم المحرك مطلوب"
+    "reqengine_size" : "حجم المحرك مطلوب",
+    "choose" : "أختار خيار",
+    "yes" : "يوجد",
+    "no": "لا يوجد",
+    "name" : "اسم السيارة",
+    "reqnmae" : "اسم السيارة مطلوب"
 }

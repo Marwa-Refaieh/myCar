@@ -2,7 +2,23 @@ import CarCard from '@/components/favorite/card'
 import React from 'react'
 import car from '../../assets/home/car1.webp'
 import UserCard from '@/components/favorite/userCard';
+import useFetchFavorites from '@/hooks/getFavCars';
+import useFetchFavoritesSaller from '@/hooks/getFavSaller';
 export default function Favorite() {
+
+
+
+  const { data, loading, error } = useFetchFavorites();
+  const { dataSaller, loadingSaller, errorSaller } = useFetchFavoritesSaller();
+
+  if (loading || loadingSaller) return <div className="mt-60 block w-fit mx-auto  h-40">
+  <div className="flex space-x-2">
+      <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+      <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+      <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
+  </div>
+</div>
+  if (error || errorSaller) return <p className="text-red-500 mt-60 block w-fit mx-auto  h-40">⚠️ {error}</p>;
 
   return (
     <div className='mt-24'>

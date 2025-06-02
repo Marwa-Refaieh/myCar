@@ -4,12 +4,12 @@ import StepIndicator from "../../components/car/StepIndicator";
 import CarBrands from "../../components/car/carbrands";
 import CarDetails from "../../components/car/cardatails";
 import CarImages from "../../components/car/carimages";
-import { useNavigate } from "react-router-dom";
+import { useNavigate , useParams} from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { baseUrl } from "@/baseUrl";
 import axios from "axios";
-const CreateCarPage = () => {
-  const [showPopup, setShowPopup] = useState(false);
+const UpdateCar = () => {
+  const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
   const { t } = useTranslation('createcar');
@@ -79,7 +79,7 @@ const CreateCarPage = () => {
     formData.append("description", data.description);
   
     try {
-      const response = await axios.post(`${baseUrl}api/car`, formData, {
+      const response = await axios.post(`${baseUrl}api/car/${id}`, formData, {
         headers: {
           Accept: "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -87,12 +87,8 @@ const CreateCarPage = () => {
         },
       });
   
-      console.log("Create car Success:", response.data);
-      setShowPopup(true);
-setTimeout(() => {
-  setShowPopup(false);
-  navigate("/"); // إذا حابب تنتقل لصفحة ثانية بعد النجاح
-}, 3000);
+      console.log("Update car Success:", response.data);
+
 
     } catch (error) {
       console.error("Create car Failed:", error.response?.data || error);
@@ -196,21 +192,17 @@ setTimeout(() => {
             type="submit"
             className="bg-green-600 text-white px-4 py-2 rounded"
           >
-            {t('create')}
+            {t('update')}
           </button>
         )}
       </div>
 
 
     </form>
-{showPopup && (
-  <div className="fixed w-[70%] md:w-[40%] h-28 flex justify-center items-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-black text-yellow-400 px-6 py-3 rounded-xl shadow-md shadow-white z-50 transition-opacity duration-300">
-     تم إنشاء السيارة بنجاح!
-  </div>
-)}
+
     </div>
 
   );
 };
 
-export default CreateCarPage;
+export default UpdateCar;

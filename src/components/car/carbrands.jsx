@@ -3,6 +3,7 @@ import axios from 'axios';
 import { baseUrl } from '@/baseUrl'; 
 const CarBrands = ({  selectBrand }) => {
     const [activeIndex, setActiveIndex] = useState(null); 
+    const [error , setError] = useState('')
 
     // fetch data
 
@@ -16,6 +17,7 @@ const CarBrands = ({  selectBrand }) => {
           setBrands(response.data.data);
         } catch (error) {
           console.error('Error fetching name:', error);
+          setError('Faild To Fetch Data')
         } finally {
           setLoading(false);
         }
@@ -37,6 +39,8 @@ const CarBrands = ({  selectBrand }) => {
       localStorage.setItem('selectedBrand' , JSON.stringify(e.id))
       selectBrand(JSON.stringify(e.id))
     }
+
+    if(error) return <p className='block text-red-800 font-bold mx-auto w-fit'>{error}</p>
       
  
     return (
@@ -51,6 +55,7 @@ const CarBrands = ({  selectBrand }) => {
                 </div>
             </div>
           })}
+          
       </div>
     );
   };
