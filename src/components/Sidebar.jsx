@@ -27,7 +27,6 @@ const Sidebar = () => {
     const { t, i18n } = useTranslation('home');
     const { sidebarOpen, toggleSidebar } = useSidebar();
     const [city, setCity] = useState([])
-    // const [filteredCars, setFilteredCars] = useState([])
     const [filters, setFilters] = useState({
         features: [],
         year_production: {
@@ -68,44 +67,6 @@ const Sidebar = () => {
                 return [];
         }
     };
-
-    // const applyFilters = (cars, filters) => {
-    //     return cars.filter(car => {
-
-    //         if (filters.features.length > 0) {
-    //             const hasAllFeatures = filters.features.every(featureId =>
-    //                 car.features?.includes(featureId)
-    //             );
-    //             if (!hasAllFeatures) return false;
-    //         }
-
-    //         if (filters.year_production.from && car.year_production < filters.year_production.from) return false;
-    //         if (filters.year_production.to && car.year_production > filters.year_production.to) return false;
-
-    //         if (filters.type && car.type !== filters.type) return false;
-
-    //         if (filters.transmission_type && car.transmission_type !== Number(filters.transmission_type)) return false;
-
-    //         if (filters.body_type && car.body_type !== Number(filters.body_type)) return false;
-
-    //         if (filters.fuel_type && car.fuel_type !== Number(filters.fuel_type)) return false;
-
-    //         if (filters.city_id && car.city.id !== Number(filters.city_id)) return false;
-
-    //         if (filters.model_id && car.model_id !== Number(filters.model_id)) return false;
-
-    //         if (filters.brand_id && car.brand.id !== Number(filters.brand_id)) return false;
-
-    //         if (filters.odometer.from != null && car.odometer < filters.odometer.from) return false;
-    //         if (filters.odometer.to != null && car.odometer > filters.odometer.to) return false;
-
-    //         if (filters.color && car.color?.toLowerCase() !== filters.color.toLowerCase()) return false;
-
-    //         if (filters.horsepower && car.horsepower !== filters.horsepower) return false;
-
-    //         return true;
-    //     });
-    // };
 
     const countActiveFilters = () => {
         let count = 0;
@@ -178,28 +139,7 @@ const Sidebar = () => {
             .then(res => {
                 setCity(res.data.data)
             })
-        console.log(filters);
-
     }, []);
-
-    useEffect(() => {
-
-        console.log(filters);
-
-    }, [filters]);
-
-    // useEffect(() => {
-    //     axios.get("https://mycarapplication.com/api/car")
-    //         .then(res => {
-    //             const cars = res.data.data;
-    //             console.log("Total cars:", cars.length);
-
-    //             const filtered = applyFilters(cars, filters);
-    //             console.log("Filtered cars:", filtered.length);
-
-    //             setFilteredCars(filtered);
-    //         });
-    // }, [filters]);
 
     return (
         <>
@@ -470,7 +410,7 @@ const Sidebar = () => {
                         </div>
                     </div>
 
-                    <div className='flex justify-center py-3'>
+                    <div className='flex justify-center py-3 gap-4'>
                         <Link
                             to="/filters"
                             state={{ filters: { ...filters, orders: getOrdersFromSort(filters.sort) } }}
@@ -479,7 +419,38 @@ const Sidebar = () => {
                             <Button2 title={`${t("Show Results")}${countActiveFilters() > 0 ? ` (${countActiveFilters()})` : ''}`} />
                         </Link>
 
+                        <button
+                            onClick={() => setFilters({
+                                features: [],
+                                year_production: {
+                                    from: 2006,
+                                    to: null,
+                                },
+                                type: null,
+                                transmission_type: null,
+                                body_type: null,
+                                fuel_type: null,
+                                city_id: null,
+                                model_id: null,
+                                brand_id: null,
+                                odometer: {
+                                    from: 0,
+                                    to: null,
+                                },
+                                price: {
+                                    from: 0,
+                                    to: null,
+                                },
+                                color: null,
+                                horsepower: null,
+                                sort: null
+                            })}
+                            className="bg-Myprimary rounded-full text-black px-5 py-2 font-bold hover:bg-primaryHover transition"
+                        >
+                            {t("Reset")}
+                        </button>
                     </div>
+
                 </div>
             </div>
 

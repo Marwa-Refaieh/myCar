@@ -62,22 +62,22 @@ const TopFeatured = () => {
             <Tabs dir={i18n.language === 'ar' ? 'rtl' : 'ltr'} defaultValue="all" className="max-w-7xl mx-auto md:px-4 flex flex-col items-center ">
                 <h2 className='font-bold text-center mb-10 text-Myprimary text-3xl md:text-5xl'>
                     {t("Our Top Featured Vehicles")}</h2>
-                <TabsList className="hidden md:flex bg-[#4a4646] py-4 md:py-7 px-0 md:px-0 mx-2 md:mx-4 rounded-full overflow-hidden text-white text-lg md:text-xl font-medium">
+                <TabsList className="bg-[#4a4646] py-4 md:py-7 px-0 md:px-0 mx-2 md:mx-4 rounded-full overflow-hidden text-white text-lg md:text-xl font-medium">
                     <TabsTrigger
                         value="all"
-                        className={`py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-base 
+                        className={`py-7 px-5 md:px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-base 
                         ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
                     >
                         {t("All Cars")}
                     </TabsTrigger>
                     <TabsTrigger
                         value="new"
-                        className={`py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-base 
+                        className={`py-7 px-5 md:px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-base 
                         ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
                     >
                         {t("New Arrival")}
                     </TabsTrigger>
-                    <TabsTrigger
+                    {/* <TabsTrigger
                         value="best"
                         className={`py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all border-white/20 text-base 
                         ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
@@ -89,10 +89,10 @@ const TopFeatured = () => {
                         className="py-7 px-10 data-[state=active]:bg-[#f1ea28] data-[state=active]:text-black transition-all text-base"
                     >
                         {t("Used Cars")}
-                    </TabsTrigger>
+                    </TabsTrigger> */}
                 </TabsList>
 
-                <div className='space-y-5 block md:hidden'>
+                {/* <div className='space-y-5 block md:hidden'>
                     <TabsList className="flex bg-[#4a4646] py-6 px-0 mx-2 rounded-full overflow-hidden text-white text-lg font-medium">
                         <TabsTrigger
                             value="all"
@@ -126,7 +126,7 @@ const TopFeatured = () => {
                             {t("Used Cars")}
                         </TabsTrigger>
                     </TabsList>
-                </div>
+                </div> */}
 
                 <TabsContent value="all" className="w-full">
                     {allCars.length > 0 ? (
@@ -167,7 +167,7 @@ const TopFeatured = () => {
                     )}
                 </TabsContent>
 
-                <TabsContent value="best" className="w-full">
+                {/* <TabsContent value="best" className="w-full">
                     <div className="flex flex-wrap gap-8 justify-center my-10">
                         {[...Array(2)].map((_, index) => (
                             <Card key={index} />
@@ -187,7 +187,7 @@ const TopFeatured = () => {
                     <div className='flex justify-center'>
                         <Button title={t("SEE Used Cars")} />
                     </div>
-                </TabsContent>
+                </TabsContent> */}
             </Tabs>
         </div>
     );

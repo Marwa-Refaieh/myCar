@@ -1,7 +1,6 @@
-import React from 'react';
-// import hero from '../assets/hero2.png';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import hero3 from '../assets/hero3.png';
-// import wave from '../assets/wave.png';
 import { FaSearch } from 'react-icons/fa';
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import {
@@ -11,14 +10,97 @@ import {
     TabsContent,
 } from "@/components/ui/tabs";
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 const MIN = 100;
 const MAX = 15000;
 
 const Hero = () => {
     const { t, i18n } = useTranslation('home');
-    const [price, setPrice] = React.useState([MIN, 5000]);
-    const handlePriceChange = (range) => setPrice(range);
+    const [city, setCity] = useState([])
+    const [brand, setBrand] = useState([])
+    const [model, setModel] = useState([])
+
+    const [input, setInput] = useState({
+        cityId: "",
+        brandId: "",
+        modelId: "",
+    })
+
+    const [filters, setFilters] = useState({
+        city_id: null,
+        model_id: null,
+        brand_id: null,
+        price: {
+            from: 0,
+            to: null,
+        },
+    });
+
+    const handlePriceChange = (newRange) => {
+        setFilters(prev => ({
+            ...prev,
+            price: {
+                from: newRange[0],
+                to: newRange[1],
+            }
+        }));
+    };
+
+    useEffect(() => {
+        const foundCity = city.find(
+            c => c.name.toLowerCase() === input.cityId.toLowerCase()
+        );
+
+        setFilters(prev => ({
+            ...prev,
+            city_id: foundCity ? foundCity.id : null
+        }));
+    }, [input.cityId]);
+
+    useEffect(() => {
+        const foundBrand = brand.find(
+            c => c.name.toLowerCase() === input.brandId.toLowerCase()
+        );
+
+        if (foundBrand) {
+            setFilters(prev => ({
+                ...prev,
+                brand_id: foundBrand.id
+            }));
+            setModel(foundBrand.brandModels || []);
+        } else {
+            setFilters(prev => ({ ...prev, brand_id: null }));
+            setModel([]);
+        }
+    }, [input.brandId]);
+
+    useEffect(() => {
+        const foundModel = model.find(
+            model => model.name.toLowerCase() === input.modelId.toLowerCase()
+        );
+
+        setFilters(prev => ({
+            ...prev,
+            model_id: foundModel ? foundModel.id : null
+        }));
+    }, [input.modelId, model]);
+
+    useEffect(() => {
+        axios.get('https://mycarapplication.com/api/car-features/get-cities')
+            .then(res => {
+                setCity(res.data.data)
+                console.log(res.data.data);
+
+            })
+        axios.get('https://mycarapplication.com/api/car-features/get-brands')
+            .then(res => {
+                setBrand(res.data.data)
+                console.log(res.data.data);
+
+            })
+
+    }, []);
 
     return (
         <section
@@ -61,55 +143,61 @@ const Hero = () => {
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
-                                        <input type='text' placeholder='City' className='py-3 md:p-0
-                                w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg'/>
+                                        <input type='text' placeholder='City' value={input.cityId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
+                                            w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
-                                        <input type='text' placeholder='BMW' className='py-3 md:p-0
-                                w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg'/>
+                                        <input type='text' placeholder='BMW' value={input.brandId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Model")}</label>
-                                        <input type='text' placeholder='M5' className='py-3 md:p-0
-                                w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg'/>
+                                        <input type='text' placeholder='M5' value={input.modelId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
                                     </div>
 
                                     <div className='md:w-full '>
                                         <label className='mb-5 md:mb-2 block md:text-xl'>{t("Price")}</label>
+
                                         <SliderPrimitive.Root
                                             className="relative flex items-center select-none touch-none w-full h-3"
                                             min={MIN}
                                             max={MAX}
                                             step={100}
-                                            value={price}
+                                            value={[filters.price.from ?? MIN, filters.price.to ?? MAX]}
                                             onValueChange={handlePriceChange}
                                             aria-label="Price range"
                                         >
-                                            <SliderPrimitive.Track className="bg-[#353534] relative grow 
-                                         h-[0.4rem] md:h-[0.1rem] rounded-md">
+                                            <SliderPrimitive.Track className="bg-[#353534] relative grow h-[0.4rem] md:h-[0.1rem] rounded-md">
                                                 <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />
                                             </SliderPrimitive.Track>
-                                            {price.map((_, i) => (
+
+                                            {[filters.price.from, filters.price.to].map((_, i) => (
                                                 <SliderPrimitive.Thumb
                                                     key={i}
                                                     className="block w-4 h-4 md:w-2 md:h-2 md:border md:border-black bg-Myprimary rounded-full cursor-pointer hover:scale-110 transition"
                                                 />
                                             ))}
                                         </SliderPrimitive.Root>
+
                                         <div className="text-xs pt-5 md:pt-1">
-                                            {price[0]}$ - {price[1]}$
+                                            {filters.price.from ?? 0}$ - {filters.price.to ?? MAX}$
                                         </div>
                                     </div>
-                                    <button className='md:hidden w-full py-2 bg-Myprimary hover:bg-primaryHover rounded-full mt-4 text-black'>Search</button>
 
-                                    <div className='hidden md:flex justify-center w-full md:w-fit'>
+                                    <Link to="/filters" state={{ filters }}>
+                                        <button className='md:hidden w-full py-2 bg-Myprimary hover:bg-primaryHover rounded-full mt-4 text-black'>Search</button>
+                                    </Link>
+
+                                    <Link to="/filters" state={{ filters }} className='hidden md:flex justify-center w-full md:w-fit'>
                                         <button className="bg-black/80 mx-auto md:mx-0 w-12 h-12 flex items-center justify-center rounded-full shadow-md transition ">
                                             <FaSearch className="text-Myprimary hover:text-primaryHover" size={20} />
                                         </button>
-                                    </div>
+                                    </Link>
                                 </div>
                             </TabsContent>
 
@@ -118,55 +206,61 @@ const Hero = () => {
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
-                                        <input type='text' placeholder='City' className='py-3 md:p-0
-                                w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg'/>
+                                        <input type='text' placeholder='City' value={input.cityId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
+                                            w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
-                                        <input type='text' placeholder='BMW' className='py-3 md:p-0
-                                w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg'/>
+                                        <input type='text' placeholder='BMW' value={input.brandId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Model")}</label>
-                                        <input type='text' placeholder='M5' className='py-3 md:p-0
-                                w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg'/>
+                                        <input type='text' placeholder='M5' value={input.modelId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
                                     </div>
 
                                     <div className='md:w-full '>
                                         <label className='mb-5 md:mb-2 block md:text-xl'>{t("Price")}</label>
+
                                         <SliderPrimitive.Root
                                             className="relative flex items-center select-none touch-none w-full h-3"
                                             min={MIN}
                                             max={MAX}
                                             step={100}
-                                            value={price}
+                                            value={[filters.price.from ?? MIN, filters.price.to ?? MAX]}
                                             onValueChange={handlePriceChange}
                                             aria-label="Price range"
                                         >
-                                            <SliderPrimitive.Track className="bg-[#353534] relative grow 
-                                         h-[0.4rem] md:h-[0.1rem] rounded-md">
+                                            <SliderPrimitive.Track className="bg-[#353534] relative grow h-[0.4rem] md:h-[0.1rem] rounded-md">
                                                 <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />
                                             </SliderPrimitive.Track>
-                                            {price.map((_, i) => (
+
+                                            {[filters.price.from, filters.price.to].map((_, i) => (
                                                 <SliderPrimitive.Thumb
                                                     key={i}
                                                     className="block w-4 h-4 md:w-2 md:h-2 md:border md:border-black bg-Myprimary rounded-full cursor-pointer hover:scale-110 transition"
                                                 />
                                             ))}
                                         </SliderPrimitive.Root>
+
                                         <div className="text-xs pt-5 md:pt-1">
-                                            {price[0]}$ - {price[1]}$
+                                            {filters.price.from ?? 0}$ - {filters.price.to ?? MAX}$
                                         </div>
                                     </div>
-                                    <button className='md:hidden w-full py-2 bg-Myprimary hover:bg-primaryHover rounded-full mt-4 text-black'>Search</button>
 
-                                    <div className='hidden md:flex justify-center w-full md:w-fit'>
+                                    <Link to="/filters" state={{ filters }}>
+                                        <button className='md:hidden w-full py-2 bg-Myprimary hover:bg-primaryHover rounded-full mt-4 text-black'>Search</button>
+                                    </Link>
+
+                                    <Link to="/filters" state={{ filters }} className='hidden md:flex justify-center w-full md:w-fit'>
                                         <button className="bg-black/80 mx-auto md:mx-0 w-12 h-12 flex items-center justify-center rounded-full shadow-md transition ">
                                             <FaSearch className="text-Myprimary hover:text-primaryHover" size={20} />
                                         </button>
-                                    </div>
+                                    </Link>
                                 </div>
                             </TabsContent>
 

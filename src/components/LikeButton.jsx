@@ -33,7 +33,7 @@ export default function LikeButton({ itemType, itemId, initialLiked = false }) {
         setLiked(true);
       })
       .catch((error) => {
-        console.error("حدث خطأ أثناء الإضافة إلى المفضلة:", error);
+        console.error(error);
       })
       .finally(() => {
         setLoading(false);
@@ -48,10 +48,14 @@ export default function LikeButton({ itemType, itemId, initialLiked = false }) {
       className="hover:bg-transparent"
     >
       <Heart
-        className={`w-5 h-5 transition-colors duration-300 ${liked ? "text-yellow-400 animate-heartbeat-glow" : "text-gray-400 animate-heartbeat-glow"
-          }`}
+        className={`w-5 h-5 transition-colors duration-300 text-white`}
         fill={liked ? "#F1EA28" : "none"}
       />
+      {/* <Heart
+        className={`w-5 h-5 transition-colors duration-300 text-Myprimary ${liked ? "text-Myprimary animate-heartbeat-glow" : "text-gray-400 animate-heartbeat-glow"
+          }`}
+        fill={liked ? "#F1EA28" : "none"}
+      /> */}
     </button>
 
   );

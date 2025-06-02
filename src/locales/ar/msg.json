@@ -19,6 +19,10 @@
     "noResults": "لم يتم العثور على نتائج لـ",
     "tryDifferentKeywords": "حاول تعديل كلمات البحث للحصول على نتائج أفضل."
   },
+  "filterResults": {
+    "noFilteredResults": "لا توجد سيارات تطابق خيارات التصفية المحددة.",
+    "errorFetching": "فشل في تحميل نتائج الفلترة. يرجى المحاولة لاحقًا."
+  },
   "cars": {
     "No cars available for this category.": "لا توجد سيارات متوفرة لهذه الفئة.",
     "Failed to fetch data": "فشل في جلب البيانات",

@@ -10,7 +10,7 @@ const Services = () => {
     const images = [
         { src: buy, alt: 'Buy a car', title: t('buy') },
         { src: sell, alt: 'Sell a car', title: t('sell') },
-        { src: rent, alt: 'Rent a car', title: t('rent' ) },
+        { src: rent, alt: 'Rent a car', title: t('rent') },
     ];
 
     return (
@@ -37,11 +37,19 @@ const Services = () => {
                         {/* Back */}
                         <div className="absolute w-full h-full [transform:rotateY(180deg)] [backface-visibility:hidden] bg-MyOption rounded-xl shadow-xl flex items-center justify-center [transform-style:preserve-3d]">
                             <div className="[transform:translateZ(150px)] text-center">
-                                <Link to={'/cars'} state={{ defaultTab: img.title }}>
-                                    <button className="text-black text-sm rounded-full font-semibold bg-Myprimary px-6 py-2  hover:bg-primaryHover transition relative underline uppercase">
+                                {img.title !== t('sell') ? (
+                                    <Link to={'/cars'} state={{ defaultTab: img.title }}>
+                                        <button className="text-black text-sm rounded-full font-semibold bg-Myprimary px-6 py-2 hover:bg-primaryHover transition relative underline uppercase">
+                                            {t("Order Now")}
+                                        </button>
+                                    </Link>
+                                ) : (
+                                    <button
+                                        className="text-black text-sm rounded-full font-semibold bg-Myprimary px-6 py-2 hover:bg-primaryHover transition relative underline uppercase cursor-auto" 
+                                    >
                                         {t("Order Now")}
                                     </button>
-                                </Link>
+                                )}
 
                             </div>
                         </div>

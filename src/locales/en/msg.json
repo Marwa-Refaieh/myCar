@@ -19,11 +19,15 @@
     "noResults": "No results found for",
     "tryDifferentKeywords": "Try refining your search with different keywords."
   },
+  "filterResults": {
+    "noFilteredResults": "No cars match the selected filters.",
+    "errorFetching": "Failed to load filtered results. Please try again later."
+  },
   "cars": {
     "No cars available for this category.": "No cars available for this category.",
-    "Failed to fetch data":"Failed to fetch data",
-    "No cars available for this brand":"No cars available for this brand",
-    "Explore Popular Categories":"Explore Popular Categories",
-    "No cars available":"No cars available"
+    "Failed to fetch data": "Failed to fetch data",
+    "No cars available for this brand": "No cars available for this brand",
+    "Explore Popular Categories": "Explore Popular Categories",
+    "No cars available": "No cars available"
   }
 }
