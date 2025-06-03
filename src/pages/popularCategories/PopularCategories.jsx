@@ -4,12 +4,21 @@ import Hero2 from '@/components/Hero2';
 import Title from '@/components/Title';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import useFetchFavorites from '@/hooks/getFavCars';
 
 const PopularCategories = () => {
     const { t } = useTranslation('home');
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
+
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id));
+        }
+    }, [data]);
 
     useEffect(() => {
         axios.get('https://mycarapplication.com/api/home')
@@ -44,7 +53,7 @@ const PopularCategories = () => {
                 {!loading && !error && (
                     <div className="flex flex-wrap gap-8 justify-center mt-10 md:mt-16">
                         {cars.map((car) => (
-                            <Card key={car.id} car={car} />
+                            <Card key={car.id} car={car} favoriteIds={favoriteIds}/>
                         ))}
                     </div>
                 )}

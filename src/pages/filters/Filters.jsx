@@ -5,6 +5,7 @@ import Hero2 from "../../components/Hero2";
 import Card2 from "@/components/Card2";
 import Title from "@/components/Title";
 import { useTranslation } from "react-i18next";
+import useFetchFavorites from "@/hooks/getFavCars";
 
 const Filters = () => {
 
@@ -15,6 +16,15 @@ const Filters = () => {
 
     const [filteredCars, setFilteredCars] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
+
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id));
+        }
+    }, [data]);
 
     const buildFiltersArray = (filters) => {
 
@@ -117,7 +127,7 @@ const Filters = () => {
 
                 <div className="flex flex-wrap gap-8 justify-center mt-10 md:mt-16">
                     {filteredCars.map((car, index) => (
-                        <Card2 key={index} car={car} />
+                        <Card2 key={index} car={car} favoriteIds={favoriteIds}/>
                     ))}
                 </div>
             </div>

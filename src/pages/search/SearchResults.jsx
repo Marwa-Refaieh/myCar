@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Button } from '@/components/ui/button';
 import Card from '@/components/Card';
 import { useTranslation } from 'react-i18next';
+import useFetchFavorites from '@/hooks/getFavCars';
 
 const SearchResults = () => {
     const { t } = useTranslation('msg');
@@ -15,6 +16,15 @@ const SearchResults = () => {
 
     const queryParams = new URLSearchParams(location.search);
     const searchTerm = queryParams.get('q') || '';
+
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
+
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id));
+        }
+    }, [data]);
 
     useEffect(() => {
         if (!searchTerm) {
@@ -90,7 +100,7 @@ const SearchResults = () => {
             {!loading && !error && results.length > 0 && (
                 <div className="flex justify-center gap-6 mt-20">
                     {results.map((car) => (
-                        <Card key={car.id} car={car} />
+                        <Card key={car.id} car={car} favoriteIds={favoriteIds}/>
                     ))}
                 </div>
             )}

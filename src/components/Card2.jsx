@@ -5,12 +5,17 @@ import img from '../assets/image.webp';
 import locationIcon from '../assets/location.svg';
 import { CalendarDays, Gauge, Star } from "lucide-react";
 import { useTranslation } from 'react-i18next';
+import LikeButton from './LikeButton';
 
-const Card2 = ({ car }) => {
-    const { t,i18n } = useTranslation('msg');
-
+const Card2 = ({ car, favoriteIds }) => {
+    const { t, i18n } = useTranslation('msg');
+    if (!car) return null;
+    const handleLikeClick = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+    };
     return (
-        <div  dir={i18n.language === 'ar' ? 'ltr' : 'ltr'} className="xs:w-full w-[60%] md:w-[30%] lg:w-[28%] rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer  transition-all duration-300 hover:shadow-xl bg-[#121212]">
+        <div dir={i18n.language === 'ar' ? 'ltr' : 'ltr'} className="xs:w-full w-[60%] md:w-[30%] lg:w-[28%] rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer  transition-all duration-300 hover:shadow-xl bg-[#121212] relative">
             <Link to={`/details/${car.id}`}>
                 <img
                     src={car.image || car.images?.[0] || img}
@@ -18,8 +23,17 @@ const Card2 = ({ car }) => {
                     className="w-full h-44 object-cover rounded-3xl"
                     style={{ aspectRatio: "600/400", objectFit: "cover" }}
                 />
-
             </Link>
+            <div
+                className="absolute top-6 right-6 z-10 bg-black/60 rounded-full w-8 h-8 flex justify-center items-center"
+                onClick={handleLikeClick}
+            >
+                <LikeButton
+                    itemType="car"
+                    itemId={car.id}
+                    isFavorite={favoriteIds.includes(car.id)}
+                />
+            </div>
 
             <div className="p-4 pb-0 space-y-2">
                 <div className="flex flex-wrap justify-between items-center">

@@ -7,6 +7,7 @@ export default function LikeButton({ itemType, itemId, isFavorite = false }) {
   const [liked, setLiked] = useState(isFavorite);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
   useEffect(() => {
     setLiked(isFavorite);
   }, [isFavorite]);
@@ -23,43 +24,49 @@ export default function LikeButton({ itemType, itemId, isFavorite = false }) {
 
     setLoading(true);
 
-    if (!liked) {
-      
-      axios
-        .post(
-          "https://mycarapplication.com/api/favorites/add",
-          {
-            rateable_type: itemType,
-            rateable_id: itemId,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .then(() => {
-          setLiked(true);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  };
+    const url = liked
+      ? "https://mycarapplication.com/api/favorites/remove"
+      : "https://mycarapplication.com/api/favorites/add";
 
+    axios
+      .post(
+        url,
+        {
+          rateable_type: itemType,
+          rateable_id: itemId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        setLiked(!liked);
+      })
+      .catch((error) => {
+        console.error("Error toggling favorite:", error.response?.data?.message || error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <button
       onClick={handleClick}
       disabled={loading}
       aria-label="Like"
-      className="hover:bg-transparent"
+      className="hover:bg-transparent w-8 h-8 flex items-center justify-center rounded-full"
     >
-      <Heart
-        className={`w-5 h-5 transition-colors duration-300 text-Myprimary`}
-        fill={liked ? "#F1EA28" : "none"}
-      />
+      {loading ? (
+        <span className="w-5 h-5 border-2 border-t-transparent border-Myprimary rounded-full animate-spin inline-block"></span>
+      ) : (
+        <Heart
+          className="w-5 h-5 transition-colors duration-300 text-Myprimary"
+          fill={liked ? "#F1EA28" : "none"}
+        />
+      )}
     </button>
-
   );
 }
