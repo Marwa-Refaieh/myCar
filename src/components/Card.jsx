@@ -7,6 +7,7 @@ import { Gauge } from 'lucide-react';
 import { CalendarDays } from "lucide-react";
 import LikeButton from './LikeButton';
 
+
 const Card = ({ car, favoriteIds }) => {
 
     const { t, i18n } = useTranslation('msg');

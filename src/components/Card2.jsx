@@ -1,18 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import typeCare from '../assets/type.svg';
 import img from '../assets/image.webp';
 import locationIcon from '../assets/location.svg';
 import { CalendarDays, Gauge, Star } from "lucide-react";
 import { useTranslation } from 'react-i18next';
 import LikeButton from './LikeButton';
+import { Pencil } from 'lucide-react';
 
 const Card2 = ({ car, favoriteIds }) => {
     const { t, i18n } = useTranslation('msg');
+    const navigate = useNavigate();
+    const location = useLocation();
+    const path = location.pathname;
+
+    const isProfilePage = path.includes("/sellerProfile") || path.includes("/Profile");
     if (!car) return null;
     const handleLikeClick = (e) => {
         e.stopPropagation();
         e.preventDefault();
+    };
+    const handleEditClick = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        navigate(`/updatecar/${car.id}`);
     };
     return (
         <div dir={i18n.language === 'ar' ? 'ltr' : 'ltr'} className="xs:w-full w-[60%] md:w-[30%] lg:w-[28%] rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer  transition-all duration-300 hover:shadow-xl bg-[#121212] relative">
@@ -24,6 +35,7 @@ const Card2 = ({ car, favoriteIds }) => {
                     style={{ aspectRatio: "600/400", objectFit: "cover" }}
                 />
             </Link>
+
             <div
                 className="absolute top-6 right-6 z-10 bg-black/60 rounded-full w-8 h-8 flex justify-center items-center"
                 onClick={handleLikeClick}
@@ -34,6 +46,15 @@ const Card2 = ({ car, favoriteIds }) => {
                     isFavorite={favoriteIds.includes(car.id)}
                 />
             </div>
+
+            {isProfilePage && (
+                <div
+                    className="absolute top-6 left-6 z-10 bg-black/60 rounded-full w-8 h-8 flex justify-center items-center hover:bg-black/80 cursor-pointer"
+                    onClick={handleEditClick}
+                >
+                    <Pencil className="text-white w-4 h-4" />
+                </div>
+            )}
 
             <div className="p-4 pb-0 space-y-2">
                 <div className="flex flex-wrap justify-between items-center">

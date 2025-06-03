@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
+import useFetchFavorites from '@/hooks/getFavCars';
 
 const Brand = () => {
     const { t } = useTranslation('msg');
@@ -14,7 +15,14 @@ const Brand = () => {
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
 
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id));
+        }
+    }, [data]);
     useEffect(() => {
         axios.get('https://mycarapplication.com/api/car')
             .then(res => {
@@ -30,36 +38,27 @@ const Brand = () => {
             });
     }, [id]);
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-40">
-                <div className="flex space-x-2">
-                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-                    <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
-                </div>
-            </div>
-        );
-    }
-    if (error) {
-        return (
-
-            <div className="max-w-7xl mx-auto px-4 py-20">
-                <p className="text-center text-red-500 text-3xl">{error}</p>
-            </div>
-
-        );
-    }
 
     return (
         <div>
             <Hero2 />
             <div className="max-w-7xl mx-auto px-4 py-20">
                 <Title title={name} />
+                {loading && (
+                    <div className="flex justify-center items-center gap-4 mt-10">
+                        <span className="animate-bounce w-5 h-5 bg-Myprimary rounded-full" />
+                        <span className="animate-bounce w-5 h-5 bg-Myprimary rounded-full delay-150" />
+                        <span className="animate-bounce w-5 h-5 bg-Myprimary rounded-full delay-300" />
+                    </div>
+                )}
+
+                {error && (
+                    <p className="text-red-500 text-center mt-6">{error}</p>
+                )}
                 <div className="flex flex-wrap gap-8 justify-center mt-10 md:mt-16">
                     {cars.length > 0 ? (
                         cars.map((car) => (
-                            <Card key={car.id} car={car} />
+                            <Card key={car.id} car={car} favoriteIds={favoriteIds} />
                         ))
                     ) : (
                         <p className="text-center text-gray-500 text-3xl">

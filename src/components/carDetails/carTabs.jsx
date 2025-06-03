@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Tabs,
     TabsContent,
@@ -17,10 +17,18 @@ import Card2 from '../card2';
 import { Link } from 'react-router-dom';
 import ReportModal from '../ReportModal';
 import { useTranslation } from 'react-i18next';
+import useFetchFavorites from '@/hooks/getFavCars';
 
 const CarTabs = ({ car }) => {
     const { t, i18n } = useTranslation('home');
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
 
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id));
+        }
+    }, [data]);
     return (
         <div>
             <Tabs dir={i18n.language === 'ar' ? 'rtl' : 'ltr'} defaultValue="details" className="w-full mt-20">
@@ -108,14 +116,14 @@ const CarTabs = ({ car }) => {
                         <p className='text-2xl mt-6'>{t("Recommend")}</p>
                         <div className="flex flex-wrap gap-6 py-10 justify-center md:justify-start">
                             {car.recommendedCars?.map((item) => (
-                                <Card2 key={item.id} car={item} />
+                                <Card2 key={item.id} car={item} favoriteIds={favoriteIds} />
                             ))}
                         </div>
                     </div>
                 </TabsContent>
 
                 <TabsContent value="reviews" className="p-4 ">
-                    <ReviewCard reviews={car.reviews} id={car.id} type='car'/>
+                    <ReviewCard reviews={car.reviews} id={car.id} type='car' />
                 </TabsContent>
             </Tabs>
         </div>

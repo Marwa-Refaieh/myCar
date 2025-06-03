@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Hero2 from "../../components/Hero2";
-import Card2 from "@/components/Card2";
+import Card from "@/components/Card";
 import Title from "@/components/Title";
 import { useTranslation } from "react-i18next";
 import useFetchFavorites from "@/hooks/getFavCars";
@@ -127,7 +127,7 @@ const Filters = () => {
 
                 <div className="flex flex-wrap gap-8 justify-center mt-10 md:mt-16">
                     {filteredCars.map((car, index) => (
-                        <Card2 key={index} car={car} favoriteIds={favoriteIds}/>
+                        <Card key={index} car={car} favoriteIds={favoriteIds}/>
                     ))}
                 </div>
             </div>
