@@ -34,17 +34,13 @@ export default function Setting() {
     setOpenDropdown(openDropdown === section ? null : section);
   };
 
-  const toArabic = () =>{
 
-    localStorage.setItem('lang' , 'ar')
-    i18n.changeLanguage('ar')
-  }
 
-  const toEnglish = () =>{
-
-    localStorage.setItem('lang' , 'en')
-    i18n.changeLanguage('en')
-  }
+  const handleLangChange = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem('i18nextLng', lang);
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+};
 
   return (
     <div className="min-h-screen bg-black w-[100%] md:w-[70%] mx-auto font-bold text-white font-sans text-right relative">
@@ -72,8 +68,8 @@ export default function Setting() {
         <SettingItem title={t('lang')} icon={<Languages className="text-yellow-400" />} onClick={() => toggleDropdown("language")} />
         {openDropdown === "language" && (
           <Dropdown>
-            <div className="flex items-center gap-1 justify-center" onClick={toArabic}><label className="  text-right inline py-2" for='ar'>{t('ar')}</label> <input className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:border-yellow-500 checked:bg-yellow-500" type="radio" name="lang" id="ar" /></div>
-            <div className="flex items-center gap-1 justify-center" onClick={toEnglish}><label className="  text-right inline py-2" for='en'>{t('en')}</label> <input className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:border-yellow-500 checked:bg-yellow-500" type="radio" name="lang" id="en" /></div>
+            <div className="flex items-center gap-1 justify-center" onClick={() => handleLangChange('ar')}><label className="  text-right inline py-2" for='ar'>{t('ar')}</label> <input className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:border-yellow-500 checked:bg-yellow-500" type="radio" name="lang" id="ar" /></div>
+            <div className="flex items-center gap-1 justify-center" onClick={() => handleLangChange('en')}><label className="  text-right inline py-2" for='en'>{t('en')}</label> <input className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:border-yellow-500 checked:bg-yellow-500" type="radio" name="lang" id="en" /></div>
 
           </Dropdown>
         )}

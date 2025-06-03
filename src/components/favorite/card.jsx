@@ -37,10 +37,6 @@ const CarCard = ({ image, title, price, km, year, type, location  }) => {
           <span>{year}</span>
         </div>
         <div className="flex items-center gap-1">
-          <Settings className="w-4 h-4" />
-          <span>{type}</span>
-        </div>
-        <div className="flex items-center gap-1">
           <MapPin className="w-4 h-4" />
           <span>{location}</span>
         </div>

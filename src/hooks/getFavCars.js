@@ -3,7 +3,7 @@ import axios from "axios";
 import { baseUrl } from "@/baseUrl";
 
 const useFetchFavorites = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -21,7 +21,7 @@ const useFetchFavorites = () => {
         });
 
         setData(response.data);
-        // console.log(response.data);
+        console.log(response.data);
       } catch (err) {
         console.error("Fetch error:", err);
         setError(err.response?.data?.message || "حدث خطأ أثناء تحميل البيانات.");

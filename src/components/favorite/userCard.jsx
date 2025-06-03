@@ -4,7 +4,7 @@ import ConfirmDeleteUser from '../../components/favorite/confirmDeleteUser';
 
 export default function UserCard({ name , image   ,    following,
     followers,
-    rating,
+    
     reviews}) {
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -44,7 +44,6 @@ export default function UserCard({ name , image   ,    following,
         name = {name}
         following={following}
         followers={followers}
-        rating={rating}
         reviews={reviews}
           onConfirm={() => {
             console.log("User deleted");

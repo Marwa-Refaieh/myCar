@@ -1,12 +1,10 @@
 import React from 'react';
-import { Star } from 'lucide-react';
 
 export default function ConfirmDeleteUser({
   image,
   name,
   following,
   followers,
-  rating,
   reviews,
   onConfirm,
   onCancel,
@@ -41,16 +39,7 @@ export default function ConfirmDeleteUser({
 
         {/* Rating */}
         <div className="flex justify-center items-center space-x-1">
-          {Array.from({ length: 5 }, (_, i) => (
-            <Star
-              key={i}
-              fill={i < rating ? '#FFD700' : 'none'}
-              stroke="#FFD700"
-              className="w-5 h-5"
-            />
-          ))}
-          <span className="text-sm text-gray-300">{rating.toFixed(1)}</span>
-          <span className="text-sm text-gray-500">({reviews} Reviews)</span>
+          <span className="text-sm text-gray-500"><b>email :</b>{reviews} </span>
         </div>
 
         {/* Buttons */}
