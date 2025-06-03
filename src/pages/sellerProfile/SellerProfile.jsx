@@ -18,16 +18,20 @@ export default function SellerProfile() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isFollowing, setIsFollowing] = useState(false);
-    const [favoriteIds, setFavoriteIds] = useState([]);
+    const [isFavorite, setIsFavorite] = useState(false);
     const token = localStorage.getItem("token");
 
 
     useEffect(() => {
         if (!id) return;
-        axios.get(`https://mycarapplication.com/api/user/get-seller-details/${id}`)
+
+        axios.get(`https://mycarapplication.com/api/user/get-seller-details/${id}`, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+        })
             .then((res) => {
                 setSeller(res.data);
                 setIsFollowing(res.data.is_follow || false);
+                setIsFavorite(res.data.is_favorite || false);
             })
             .catch((err) => {
                 console.error("Error fetching seller data", err);
@@ -36,20 +40,7 @@ export default function SellerProfile() {
             .finally(() => {
                 setLoading(false);
             });
-    }, [id]);
-
-    useEffect(() => {
-        if (!token) return;
-
-        axios.get("https://mycarapplication.com/api/favorites/get-sellers", {
-            headers: { Authorization: `Bearer ${token}` },
-        })
-            .then(res => {
-                const favoriteSellers = res.data.data;
-                setFavoriteIds(favoriteSellers.map(car => car.id));
-                console.log(favoriteSellers);
-            })
-    }, []);
+    }, [id, token]);
 
     const handleFollowToggle = () => {
 
@@ -63,8 +54,18 @@ export default function SellerProfile() {
             { seller_id: seller.id },
             { headers: { Authorization: `Bearer ${token}` } }
         )
-            .then(() => setIsFollowing(prev => !prev))
-            .catch((err) => console.error("Follow toggle error", err));
+            .then((response) => {
+                setIsFollowing(response.data.is_following);
+                setSeller(prevSeller => ({
+                    ...prevSeller,
+                    followers: response.data.is_following
+                        ? prevSeller.followers + 1
+                        : prevSeller.followers - 1
+                }));
+            })
+            .catch((err) => {
+                console.error("Follow toggle error", err);
+            });
     };
 
     if (loading) {
@@ -150,13 +151,13 @@ export default function SellerProfile() {
                         <LikeButton
                             itemType="seller"
                             itemId={seller.id}
-                            isFavorite={favoriteIds.includes(seller.id)}
+                            isFavorite={isFavorite}
                         />
                     </div>
                 </div>
             </div>
 
-            <SellerTabs cars={seller.cars || []} reviews={seller.reviews || []} sellerId={seller.id}/>
+            <SellerTabs cars={seller.cars || []} reviews={seller.reviews || []} sellerId={seller.id} />
         </motion.div>
     );
 }

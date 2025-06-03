@@ -7,6 +7,7 @@ import Title from '@/components/Title';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
+import useFetchFavorites from '@/hooks/getFavCars';
 
 const Cars = () => {
     const { t } = useTranslation(['home', 'msg']);
@@ -16,6 +17,15 @@ const Cars = () => {
     const [rent, setRent] = useState([])
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const [favoriteIds, setFavoriteIds] = useState([]);
+    const { data } = useFetchFavorites();
+
+    useEffect(() => {
+        if (data && Array.isArray(data.data)) {
+            setFavoriteIds(data.data.map(car => car.id));
+        }
+    }, [data]);
 
     useEffect(() => {
         axios.get("https://mycarapplication.com/api/car")
@@ -45,10 +55,9 @@ const Cars = () => {
         }
 
         return filteredCars.map(car => (
-            <Card key={car.id} car={car} />
+            <Card key={car.id} car={car} favoriteIds={favoriteIds}/>
         ));
     };
-
 
     if (loading) {
         return (
@@ -97,7 +106,6 @@ const Cars = () => {
                             {t('rent')}
                         </TabsTrigger>
                     </TabsList>
-
 
                     <TabsContent value="buy" className="w-full">
                         <Tabs defaultValue="automatic" className='w-full flex flex-col items-center'>

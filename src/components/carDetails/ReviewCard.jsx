@@ -5,14 +5,14 @@ import CommentModal from '../CommentModal';
 import img from '../../assets/image.webp';
 import axios from 'axios';
 
-const ReviewCard = ({ reviews = [], sellerId }) => {
+const ReviewCard = ({ reviews = [], id, type }) => {
     const { t } = useTranslation('home');
     const [open, setOpen] = useState(false);
     const [comment, setComment] = useState("");
-    console.log(sellerId);
+    const [reviewsState, setReviewsState] = useState(reviews);
 
     const handleSubmit = ({ comment, rating }) => {
-        const token = localStorage.getItem("token"); // أو حسب تخزينك للتوكن
+        const token = localStorage.getItem("token");
 
         if (!token) {
             console.error("Authentication token not found. Please login.");
@@ -20,8 +20,8 @@ const ReviewCard = ({ reviews = [], sellerId }) => {
         }
 
         const payload = {
-            rateable_type: "seller",
-            rateable_id: sellerId,
+            rateable_type: type,
+            rateable_id: id,
             value: rating,
             comment: comment,
         };
@@ -34,23 +34,50 @@ const ReviewCard = ({ reviews = [], sellerId }) => {
             .then((response) => {
                 setOpen(false);
                 setComment("");
-                console.log(response);
+
+                const newReview = {
+                    id: response.data.id,
+                    created_at: new Date().toISOString(),
+                    value: rating,
+                    comment: comment,
+                    user: {
+                        id: response.data.user?.id,
+                        full_name: response.data.user?.full_name,
+                        image_url: response.data.user?.image_url,
+                    },
+                };
+
+                setReviewsState(prevReviews => {
+                    const currentUserId = response.data.user?.id;
+
+                    const existingIndex = prevReviews.findIndex(
+                        review => review.user?.id === currentUserId
+                    );
+
+                    if (existingIndex !== -1) {
+                        const updatedReviews = [...prevReviews];
+                        updatedReviews[existingIndex] = newReview;
+                        return updatedReviews;
+                    } else {
+                        return [newReview, ...prevReviews];
+                    }
+                });
             })
+
             .catch(error => {
-                console.error(error);
+                console.error("Error response:", error.response?.data);
             });
     };
 
-
     return (
         <div>
-            {reviews.length > 0 ? (
-                reviews.map((review) => (
-                    <div key={review.id} className="border-b border-white/50 p-6 text-zinc-400">
+            {reviewsState.length > 0 ? (
+                reviewsState.map((review) => (
+                    <div key={review.id} className="border-b border-white/50 p-6 text-zinc-400 ">
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                             <div>
                                 <img
-                                    src={review.user?.image_url || { img }}
+                                    src={review.user?.image_url || img}
                                     alt={review.user?.full_name || "User"}
                                     className="w-20 h-20 rounded-full object-cover"
                                 />
@@ -77,7 +104,7 @@ const ReviewCard = ({ reviews = [], sellerId }) => {
                     </div>
                 ))
             ) : (
-                <div className="text-center text-gray-400 py-8 space-y-4">
+                <div className="text-gray-400 py-8 space-y-4 flex justify-center items-center flex-col min-h-[50vh]">
                     <p>{t("No reviews yet")}</p>
                     <button
                         onClick={() => setOpen(true)}
@@ -88,7 +115,7 @@ const ReviewCard = ({ reviews = [], sellerId }) => {
                 </div>
             )}
 
-            {reviews.length > 0 && (
+            {reviewsState.length > 0 && (
                 <div className="flex">
                     <button
                         onClick={() => setOpen(true)}

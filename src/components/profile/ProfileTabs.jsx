@@ -9,7 +9,7 @@ import Card2 from '../Card2';
 import ReviewCard from '../carDetails/ReviewCard';
 import { useTranslation } from 'react-i18next';
 
-const SellerTabs = ({ cars, reviews, sellerId }) => {
+const ProfileTabs = ({ cars, reviews, userId }) => {
     const { t, i18n } = useTranslation('home');
 
     return (
@@ -49,7 +49,7 @@ const SellerTabs = ({ cars, reviews, sellerId }) => {
                 </TabsContent>
 
                 <TabsContent value="reviews" className="p-4 space-y-4 min-h-[50vh] ">
-                    <ReviewCard reviews={reviews} id={sellerId} type='seller' />
+                    <ReviewCard reviews={reviews} id={userId} type='seller' />
                 </TabsContent>
 
             </Tabs>
@@ -57,4 +57,4 @@ const SellerTabs = ({ cars, reviews, sellerId }) => {
     );
 }
 
-export default SellerTabs;
+export default ProfileTabs;

@@ -90,14 +90,10 @@ const Hero = () => {
         axios.get('https://mycarapplication.com/api/car-features/get-cities')
             .then(res => {
                 setCity(res.data.data)
-                console.log(res.data.data);
-
             })
         axios.get('https://mycarapplication.com/api/car-features/get-brands')
             .then(res => {
                 setBrand(res.data.data)
-                console.log(res.data.data);
-
             })
 
     }, []);

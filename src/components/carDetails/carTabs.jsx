@@ -115,7 +115,7 @@ const CarTabs = ({ car }) => {
                 </TabsContent>
 
                 <TabsContent value="reviews" className="p-4 ">
-                    <ReviewCard reviews={car.reviews} />
+                    <ReviewCard reviews={car.reviews} id={car.id} type='car'/>
                 </TabsContent>
             </Tabs>
         </div>

@@ -59,9 +59,6 @@ const Filters = () => {
         setLoading(true);
         const Filters = buildFiltersArray(filters);
 
-        console.log("Filters to be sent:", Filters);
-        console.log("orders to be sent:", filters.orders);
-
         try {
             const response = await axios({
                 method: "get",
