@@ -56,15 +56,18 @@ const Brand = () => {
                     <p className="text-red-500 text-center mt-6">{error}</p>
                 )}
                 <div className="flex flex-wrap gap-8 justify-center mt-10 md:mt-16">
-                    {cars.length > 0 ? (
-                        cars.map((car) => (
-                            <Card key={car.id} car={car} favoriteIds={favoriteIds} />
-                        ))
-                    ) : (
-                        <p className="text-center text-gray-500 text-3xl">
-                            {t("cars.No cars available for this brand")}
-                        </p>
+                    {!loading && (
+                        cars.length > 0 ? (
+                            cars.map((car) => (
+                                <Card key={car.id} car={car} favoriteIds={favoriteIds} />
+                            ))
+                        ) : (
+                            <p className="text-center text-gray-500 text-3xl">
+                                {t("cars.No cars available for this brand")}
+                            </p>
+                        )
                     )}
+
                 </div>
             </div>
         </div>
