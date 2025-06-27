@@ -50,12 +50,12 @@ const Brands = () => {
     }
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 justify-center w-full">
+        <div className="flex justify-between items-center flex-wrap mx-auto w-[100%] md:max-w-[80%]">
             {brands.map((brand) => (
                 <div
                     key={brand.id}
                     onClick={() => handleClick(brand.id, brand.name)}
-                    className="flex flex-col items-center justify-center cursor-pointer"
+                    className=" cursor-pointer w-[30%] md:w-fit"
                 >
                     <div
                         className="relative rounded-2xl overflow-hidden

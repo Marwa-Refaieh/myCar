@@ -19,14 +19,12 @@ const Card = ({ car, favoriteIds }) => {
     };
 
     return (
-        <Link to={`/details/${car.id}`} className='w-[75%] xs:w-full sm:w-[60%] md:w-[47%] lg:w-[30%]' dir={i18n.language === 'ar' ? 'ltr' : 'ltr'}>
+        <Link to={`/details/${car.id}`} className='w-full  md:w-[47%] lg:w-[30%]' dir={i18n.language === 'ar' ? 'ltr' : 'ltr'}>
             <div className="border-[1px] border-Myprimary rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl relative">
                 <img
                     src={car.image || img}
                     alt={car.name || t('car.image_alt')}
-                    width={600}
-                    height={400}
-                    className="w-full h-64 object-cover rounded-3xl"
+                    className="w-full h-48 object-cover rounded-3xl"
                     style={{ aspectRatio: "600/400", objectFit: "cover" }}
                 />
                 <div
