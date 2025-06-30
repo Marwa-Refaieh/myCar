@@ -114,7 +114,7 @@ const CarTabs = ({ car }) => {
 
                     <div>
                         <p className='text-2xl mt-6'>{t("Recommend")}</p>
-                        <div className="flex flex-wrap gap-6 py-10 justify-center md:justify-start">
+                        <div className="flex flex-wrap gap-4 md:gap-6  py-10 justify-center md:justify-start">
                             {car.recommendedCars?.map((item) => (
                                 <Card2 key={item.id} car={item} favoriteIds={favoriteIds} />
                             ))}

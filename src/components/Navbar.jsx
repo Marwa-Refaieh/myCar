@@ -1,27 +1,27 @@
 import { useSidebar } from '../context/SidebarContext';
 import logo from '../assets/logo.png';
-// import image from '../assets/image.webp';
-import { FiAlignJustify } from "react-icons/fi";
-import { AlignJustify, Funnel, SlidersHorizontal } from "lucide-react";
+import { AlignJustify, SlidersHorizontal, User2 } from "lucide-react";
 import { FaSearch } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 import NavbarSearch from './nav/Search';
 import MenuList from './nav/MenuList';
 import { useTranslation } from 'react-i18next';
+import UserList from './nav/UserList';
 
 const Navbar = () => {
     const { toggleSidebar } = useSidebar();
     const { t, i18n } = useTranslation('home');
     const [isOpen, setIsOpen] = useState(false);
+    const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("user_id");
 
-    const handleLangChange = (lang) => {
-        i18n.changeLanguage(lang);
-        localStorage.setItem('i18nextLng', lang);
-        document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    };
+
+    // const handleLangChange = (lang) => {
+    //     i18n.changeLanguage(lang);
+    //     localStorage.setItem('i18nextLng', lang);
+    //     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    // };
     return (
 
         <nav dir={i18n.language === 'ar' ? 'ltr' : 'ltr'} className="bg-Mybackground shadow-lg fixed top-0 z-40 shadow-white/10 w-full">
@@ -36,7 +36,7 @@ const Navbar = () => {
                     </div>
 
                     {/* Search */}
-                    <div className="w-full sm:w-80 md:w-[20rem] px-3 mr-2 sm:px-5 flex items-center border rounded-full gap-3">
+                    <div className="md:flex hidden md:w-[20rem] mr-2 sm:px-5 items-center border rounded-full gap-3">
                         <NavbarSearch />
                     </div>
 
@@ -47,29 +47,52 @@ const Navbar = () => {
                                 <Link to={'/'} className='cursor-pointer hover:text-Myprimary transition'>
                                     {t('Home')}
                                 </Link>
+
                                 <Link to={'/cars'} className='cursor-pointer hover:text-Myprimary transition'>
                                     {t("Cars")}
                                 </Link>
 
-                                <MenuList />
+                                <Link to={'/aboutUs'} className='cursor-pointer hover:text-Myprimary transition'>
+                                    {t("About Us")}
+                                </Link>
+
+                                <Link to={'/services'} className='cursor-pointer hover:text-Myprimary transition'>
+                                    {t("Services")}
+                                </Link>
+
+                                <Link to={'/blogs'} className='cursor-pointer hover:text-Myprimary transition'>
+                                    {t("Blogs")}
+                                </Link>
+
+                                <Link to={'/contact Us'} className='cursor-pointer hover:text-Myprimary transition'>
+                                    {t("Contact Us")}
+                                </Link>
+
+                                {/* <MenuList /> */}
                                 {/* زر اللغة */}
-                                <select
+                                {/* <select
                                     onChange={(e) => handleLangChange(e.target.value)}
                                     value={i18n.language}
                                     className="bg-transparent border border-gray-300 rounded-md px-2 py-1 text-white hover:border-Myprimary focus:outline-none"
                                 >
                                     <option value="en" className='text-black'>English</option>
                                     <option value="ar" className='text-black'>العربية</option>
-                                </select>
+                                </select> */}
 
-                                <Link
-                                    to={'/signin'}
-                                    className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
-                                >
-                                    {t('Sign In')}
-                                </Link>
+                                {isLoggedIn ? (
+                                    <UserList />
+                                ) : (
+                                    <Link
+                                        to="/signin"
+                                        className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
+                                    >
+                                        {t('Sign In')}
+                                    </Link>
+                                )}
+
                             </div>
                         </div>
+
                         <button
                             onClick={toggleSidebar}
                             className="hidden md:flex p-2 text-gray-700 hover:text-Myprimary transition text-2xl"
@@ -78,38 +101,45 @@ const Navbar = () => {
 
                         </button>
 
-                        <button
-                            onClick={toggleSidebar}
-                            className="md:hidden flex w-fit items-center px-3 h-[40px] text-sm border border-white  text-white bg-transparent hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary hover:text-Myprimary transition mr-2 rounded-3xl"
-                        >
-                            {t('Filters')}
-                        </button>
+                        {/* زر الفلاتر */}
+                        <div className="md:hidden flex items-center gap-2">
+                            <button
+                                onClick={toggleSidebar}
+                                className="flex items-center justify-center gap-1 px-6 h-[36px] text-sm rounded-full text-black font-medium  bg-Myprimary transition hover:bgprimaryHover">
+                                {t('Filters')}
+                            </button>
 
-                    </div>
+                            {isLoggedIn ? (
+                                <div className='md:hidden flex'>
+                                    <UserList />
+                                </div>
+                            ) : (
+                                <Link
+                                    to="/signin"
+                                    className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
+                                >
+                                    {t('Sign In')}
+                                </Link>
+                            )}
+                        </div>
 
 
-                    {/* <img
-                        src={image}
-                        alt="User"
-                        className="w-10 h-10 rounded-full object-cover cursor-pointer border-2  border-Myprimary"
-                    /> */}
+                        {/* Mobile Button */}
+                        <div className="md:hidden flex items-center">
 
-
-                    {/* Mobile Button */}
-                    <div className="md:hidden flex items-center">
-
-                        <button className='relative w-6 h-6 overflow-hidden' onClick={() => setIsOpen(!isOpen)}>
-                            <span
-                                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
-                            >
-                                <X size={24} />
-                            </span>
-                            <span
-                                className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}
-                            >
-                                <AlignJustify size={24} />
-                            </span>
-                        </button>
+                            <button className='relative w-6 h-6 overflow-hidden' onClick={() => setIsOpen(!isOpen)}>
+                                <span
+                                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+                                >
+                                    <X size={24} />
+                                </span>
+                                <span
+                                    className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${isOpen ? 'opacity-0' : 'opacity-100'}`}
+                                >
+                                    <AlignJustify size={24} />
+                                </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -120,18 +150,34 @@ const Navbar = () => {
                     <Link to={'/'} className='cursor-pointer hover:text-Myprimary transition'>
                         {t("Home")}
                     </Link>
+
                     <Link to={'/cars'} className='cursor-pointer hover:text-Myprimary transition'>
                         {t("Cars")}
                     </Link>
 
-                    <MenuList isMobile={true} />
-
-                    <Link
-                        to={'/signin'}
-                        className="w-20 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
-                    >
-                        {t('Sign In')}
+                    <Link to={'/aboutUs'} className='cursor-pointer hover:text-Myprimary transition'>
+                        {t("About Us")}
                     </Link>
+
+                    <Link to={'/services'} className='cursor-pointer hover:text-Myprimary transition'>
+                        {t("Services")}
+                    </Link>
+
+                    <Link to={'/blogs'} className='cursor-pointer hover:text-Myprimary transition'>
+                        {t("Blogs")}
+                    </Link>
+
+                    <Link to={'/contact Us'} className='cursor-pointer hover:text-Myprimary transition'>
+                        {t("Contact Us")}
+                    </Link>
+
+                    {/* <MenuList isMobile={true} /> */}
+
+                    {/* Search */}
+                    <div className="w- sm:w-80  md:w-[20rem] mr-2 sm:px-5 flex items-center border rounded-full gap-3">
+                        <NavbarSearch />
+                    </div>
+
                 </div>
             )}
         </nav>

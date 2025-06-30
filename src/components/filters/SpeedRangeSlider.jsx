@@ -1,6 +1,7 @@
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import distance from '../../assets/distance.png';
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const MIN = 0;
 const MAX = 200000;
@@ -10,14 +11,18 @@ export default function SpeedRangeSlider({ filters, setFilters }) {
         filters.odometer?.from ?? MIN,
         filters.odometer?.to ?? null,
     ];
+
     const { t } = useTranslation('home');
+
+    const [isEditingMaxSpeed, setIsEditingMaxSpeed] = useState(false);
+    const [manualMaxSpeed, setManualMaxSpeed] = useState('');
 
     const handleSpeedChange = (newRange) => {
         setFilters((prev) => ({
             ...prev,
             odometer: {
                 from: newRange[0],
-                to: newRange[1],
+                to: newRange[1] === MAX ? null : newRange[1],
             },
         }));
     };
@@ -37,8 +42,62 @@ export default function SpeedRangeSlider({ filters, setFilters }) {
                     <p className='text-1xl'>{t("Odometer")}</p>
                 </div>
 
-                <span className="text-lg">
-                    {formatOdometerValue(range[0] || 0)} - {formatOdometerValue(range[1] || MAX)}
+                <span className="text-lg flex items-center gap-1">
+                    {formatOdometerValue(range[0] ?? MIN)} -{" "}
+                    {isEditingMaxSpeed ? (
+                        <input
+                            type="text"
+                            autoFocus
+                            value={manualMaxSpeed}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                if (val === '' || /^[0-9]+$/.test(val)) {
+                                    setManualMaxSpeed(val);
+                                }
+                            }}
+                            onBlur={() => {
+                                const newValue = parseInt(manualMaxSpeed);
+                                setFilters(prev => ({
+                                    ...prev,
+                                    odometer: {
+                                        ...prev.odometer,
+                                        to: isNaN(newValue) ? null : newValue,
+                                    }
+                                }));
+                                setIsEditingMaxSpeed(false);
+                            }}
+                            onKeyDown={(e) => {
+                                if (
+                                    !(
+                                        (e.key >= '0' && e.key <= '9') ||
+                                        e.key === 'Backspace' ||
+                                        e.key === 'ArrowLeft' ||
+                                        e.key === 'ArrowRight' ||
+                                        e.key === 'Delete' ||
+                                        e.key === 'Tab' ||
+                                        e.key === 'Enter'
+                                    )
+                                ) {
+                                    e.preventDefault();
+                                }
+                                if (e.key === 'Enter') {
+                                    e.target.blur();
+                                }
+                            }}
+                            placeholder={t("Unlimited")}
+                            className="transition placeholder:text-sm bg-transparent outline-none text-white px-2 w-24"
+                        />
+                    ) : (
+                        <span
+                            className="cursor-pointer"
+                            onClick={() => {
+                                setManualMaxSpeed(filters.odometer?.to ?? '');
+                                setIsEditingMaxSpeed(true);
+                            }}
+                        >
+                            {filters.odometer?.to === null ? t("Unlimited") : formatOdometerValue(filters.odometer.to)}
+                        </span>
+                    )}
                 </span>
             </div>
 
@@ -47,7 +106,10 @@ export default function SpeedRangeSlider({ filters, setFilters }) {
                 min={MIN}
                 max={MAX}
                 step={1000}
-                value={range}
+                value={[
+                    range[0],
+                    range[1] === null ? MAX : range[1],
+                ]}
                 onValueChange={handleSpeedChange}
                 aria-label="Odometer range"
             >
@@ -55,7 +117,7 @@ export default function SpeedRangeSlider({ filters, setFilters }) {
                     <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full transition-all duration-500 ease-in-out" />
                 </SliderPrimitive.Track>
 
-                {range.map((val, i) => (
+                {[range[0], range[1] === null ? MAX : range[1]].map((val, i) => (
                     <SliderPrimitive.Thumb
                         key={i}
                         className="block w-5 h-5 bg-Myprimary rounded-full cursor-pointer hover:scale-110 hover:shadow-lg transition-transform"
@@ -64,20 +126,33 @@ export default function SpeedRangeSlider({ filters, setFilters }) {
                     />
                 ))}
 
-                {range.map((val, i) =>
-                    val != null ? (
+                {[range[0], range[1]].map((val, i) => {
+                    let leftPercent;
+                    if (val === null) {
+                        leftPercent = 100;
+                    } else if (val > MAX) {
+                        leftPercent = 100;
+                    } else {
+                        leftPercent = ((val - MIN) / (MAX - MIN)) * 100;
+                    }
+
+                    return (
                         <div
                             key={"tooltip-" + i}
-                            className="absolute -top-8 text-sm px-2 py-1 bg-gray-800 rounded transform -translate-x-1/2"
+                            className={`absolute -top-8 text-sm px-2 py-1 bg-gray-800 rounded text-white whitespace-nowrap transition-transform duration-200`}
                             style={{
-                                left: `${((val - MIN) / (MAX - MIN)) * 100}%`,
-                                whiteSpace: 'nowrap',
+                                left: `${leftPercent}%`,
+                                transform: i === 1
+                                    ? `translateX(${leftPercent > 90 ? '-100%' : leftPercent < 10 ? '0%' : '-50%'})`
+                                    : 'translateX(-50%)'
                             }}
                         >
-                            {formatOdometerValue(val)}
+                            {i === 1 && val === null ? t("Unlimited") : `${val}`}
                         </div>
-                    ) : null
-                )}
+
+                    );
+                })}
+
             </SliderPrimitive.Root>
         </div>
     );

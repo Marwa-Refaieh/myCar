@@ -47,7 +47,7 @@ const BodyTypes = ({ filters, setFilters }) => {
             `}
           >
             <div
-              className="w-10 h-10 bg-Myprimary"
+              className="w-16 h-10 bg-Myprimary"
               style={{
                 WebkitMaskImage: `url(${item.src})`,
                 WebkitMaskRepeat: 'no-repeat',

@@ -73,8 +73,8 @@ const ReviewCard = ({ reviews = [], id, type }) => {
         <div>
             {reviewsState.length > 0 ? (
                 reviewsState.map((review) => (
-                    <div key={review.id} className="border-b border-white/50 p-6 text-zinc-400 ">
-                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div key={review.id} className="border-b border-white/50 p-3 sm:p-6 text-zinc-400 ">
+                        <div className="flex sm:flex-row items-start sm:items-center gap-4 ">
                             <div>
                                 <img
                                     src={review.user?.image_url || img}
@@ -87,9 +87,12 @@ const ReviewCard = ({ reviews = [], id, type }) => {
                                     <h3 className="text-lg font-semibold text-zinc-100">
                                         {review.user?.full_name || t("Anonymous")}
                                     </h3>
-                                    <span className="text-sm">{new Date(review.created_at).toLocaleDateString()}</span>
+                                    <span className="text-sm">
+                                        {new Date(review.created_at).toLocaleDateString('en-US')}
+                                    </span>
+
                                 </div>
-                                <div className="flex items-center gap-1 mt-2 sm:mt-3">
+                                <div className="flex items-center gap-1">
                                     <StarRatings
                                         rating={review.value}
                                         starRatedColor="#facc15"
@@ -100,7 +103,7 @@ const ReviewCard = ({ reviews = [], id, type }) => {
                                 </div>
                             </div>
                         </div>
-                        <p className="mt-4 sm:ml-24 text-sm sm:w-[60%] w-full">{review.comment}</p>
+                        <p className="mt-3 sm:ml-24 text-sm sm:w-[60%] w-full">{review.comment}</p>
                     </div>
                 ))
             ) : (

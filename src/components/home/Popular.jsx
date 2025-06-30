@@ -15,7 +15,7 @@ const Popular = () => {
     useEffect(() => {
         if (data && Array.isArray(data.data)) {
             setFavoriteIds(data.data.map(car => car.id));
-        }
+        } 
     }, [data]);
 
     useEffect(() => {
@@ -54,7 +54,7 @@ const Popular = () => {
             <h2 className="text-3xl md:text-5xl font-bold text-center mb-10 text-Myprimary">
                 {t("cars.Explore Popular Categories")}
             </h2>
-            <div className="flex flex-wrap gap-8 justify-center my-10">
+            <div className="flex flex-wrap w-full gap-8 justify-center my-10">
                 {cars.map((car) => (
                     <Card key={car.id} car={car} favoriteIds={favoriteIds} />
                 ))}

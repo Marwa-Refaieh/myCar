@@ -2,13 +2,13 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
 import calendar from '../../assets/calendar.png';
 import { useTranslation } from "react-i18next";
 
-const MIN = 2006;
-const MAX = 2025;
+const MIN = 1970;
+const MAX = new Date().getFullYear();
 
 export default function YearRangeSlider({ filters, setFilters }) {
     const range = [
         filters.year_production?.from ?? MIN,
-        filters.year_production?.to ?? null,
+        filters.year_production?.to ?? MAX,
     ];
 
     const { t } = useTranslation('home');
@@ -33,7 +33,7 @@ export default function YearRangeSlider({ filters, setFilters }) {
                     <p className='text-1xl'>{t("Year")}</p>
                 </div>
                 <span className="text-lg">
-                    {range[0] == null ? "2006" : range[0]} - {range[1] == null ? "2025" : range[1]}
+                    {range[0] == null ? "1970" : range[0]} - {range[1] == null ? "2025" : range[1]}
                 </span>
             </div>
 

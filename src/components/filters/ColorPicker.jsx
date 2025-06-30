@@ -5,21 +5,28 @@ const ColorPicker = ({ onSelectColor }) => {
 
     const colors = [
         '#000000',
-        '#D4AF37',
-        '#9A6E7F',
-        '#E06C5B',
-        '#8E44AD',
-        '#6A5ACD',
-        '#B084CC',
-        '#8B4513',
-        '#CD5C5C',
-        '#FF6347',
-        '#A0522D',
+        '#FFFFFF',
+        '#C0C0C0',
+        '#808080',
+        '#FF0000',
+        '#0000FF',
+        '#008000',
+        '#FFFF00',
+        '#800000',
+        '#FFA500',
+        '#FFC0CB',
+        '#800080',
+        '#A52A2A',
+        '#00FFFF',
+        '#FFD700',
+        '#696969',
+        '#2F4F4F',
     ];
+
 
     const handleColorClick = (color) => {
         setSelectedColor(color);
-        onSelectColor && onSelectColor(color); 
+        onSelectColor && onSelectColor(color);
     };
 
     return (

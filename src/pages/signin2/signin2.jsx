@@ -66,7 +66,7 @@ export default function Signin2() {
   return (
     <div className="min-h-screen bg-black text-white flex flex-col justify-center items-center px-4">
       <div className="mb-6">
-        <img src={logo} alt="Car Logo" className="w-24 h-24 mx-auto" />
+        <img src={logo} alt="Car Logo" className="mx-auto" />
       </div>
 
       <h1 className="text-2xl font-semibold mb-2">Hello !</h1>

@@ -26,7 +26,7 @@ const Card2 = ({ car, favoriteIds }) => {
         navigate(`/updatecar/${car.id}`);
     };
     return (
-        <div dir={i18n.language === 'ar' ? 'ltr' : 'ltr'} className="xs:w-full w-[60%] md:w-[30%] lg:w-[28%] rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer  transition-all duration-300 hover:shadow-xl bg-[#121212] relative">
+        <div dir={i18n.language === 'ar' ? 'ltr' : 'ltr'} className="w-[320px] md:w-[350px] rounded-3xl md:p-4 p-2 shadow-lg overflow-hidden cursor-pointer  transition-all duration-300 hover:shadow-xl bg-[#121212] relative">
             <Link to={`/details/${car.id}`}>
                 <img
                     src={car.image || car.images?.[0] || img}
@@ -56,7 +56,7 @@ const Card2 = ({ car, favoriteIds }) => {
                 </div>
             )}
 
-            <div className="p-4 pb-0 space-y-2">
+            <div className="md:p-4 p-2 pb-0 space-y-2">
                 <div className="flex flex-wrap justify-between items-center">
                     <h3 className="text-2xl font-semibold text-Myprimary">{car.name}</h3>
                 </div>
@@ -94,7 +94,7 @@ const Card2 = ({ car, favoriteIds }) => {
                 </div>
 
                 <div className='flex items-center justify-between'>
-                    <p className='text-white/50'>price: {car.price?.toLocaleString()} $</p>
+                    <p className='text-white/50'>price: ${car.price?.toLocaleString()} </p>
                     <div className='flex items-center text-sm gap-1'>
                         <Star className="w-3 h-3 fill-yellow-500 stroke-yellow-500" />
                         <p className='text-white/50'>{car.rating || 0} Rating</p>

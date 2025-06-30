@@ -6,6 +6,7 @@ import Card from "@/components/Card";
 import Title from "@/components/Title";
 import { useTranslation } from "react-i18next";
 import useFetchFavorites from "@/hooks/getFavCars";
+import { buildFiltersArray } from "@/utils/filterFunctions";
 
 const Filters = () => {
 
@@ -25,43 +26,6 @@ const Filters = () => {
             setFavoriteIds(data.data.map(car => car.id));
         }
     }, [data]);
-
-    const buildFiltersArray = (filters) => {
-
-        const result = [];
-
-        if (Array.isArray(filters.features) && filters.features.length > 0) {
-            result.push({ name: "features", operation: "in", value: filters.features });
-        }
-
-        if (filters.year_production?.from != null && filters.year_production?.to != null) {
-            result.push({ name: "year_production", value: filters.year_production });
-        }
-
-        if (filters.type) result.push({ name: "type", value: filters.type });
-        if (filters.transmission_type) result.push({ name: "transmission_type", value: filters.transmission_type });
-        if (filters.body_type) result.push({ name: "body_type", value: filters.body_type });
-        if (filters.fuel_type) result.push({ name: "fuel_type", value: filters.fuel_type });
-        if (filters.city_id) result.push({ name: "city_id", value: filters.city_id });
-        if (filters.model_id) result.push({ name: "model_id", value: filters.model_id });
-        if (filters.brand_id) result.push({ name: "brand_id", value: filters.brand_id });
-
-        if (filters.odometer?.from != null && filters.odometer?.to != null) {
-            result.push({ name: "odometer", value: filters.odometer });
-        }
-
-        if (filters.price?.from != null && filters.price?.to != null) {
-            result.push({ name: "price", value: filters.price });
-        }
-
-        if (filters.color) result.push({ name: "color", value: filters.color });
-
-        if (filters.horsepower != null) {
-            result.push({ name: "horsepower", operation: "eq", value: filters.horsepower });
-        }
-
-        return result;
-    };
 
     const fetchFilteredCars = async () => {
         if (!filters) return;
@@ -124,12 +88,15 @@ const Filters = () => {
                         <p className="text-2xl text-red-500 font-medium">{error}</p>
                     </div>
                 )}
+                
+                {!loading && !error && (
+                    <div className="flex flex-wrap gap-8 justify-center mt-10 md:mt-16">
+                        {filteredCars.map((car, index) => (
+                            <Card key={index} car={car} favoriteIds={favoriteIds} />
+                        ))}
+                    </div>
+                )}
 
-                <div className="flex flex-wrap gap-8 justify-center mt-10 md:mt-16">
-                    {filteredCars.map((car, index) => (
-                        <Card key={index} car={car} favoriteIds={favoriteIds}/>
-                    ))}
-                </div>
             </div>
         </div>
     );

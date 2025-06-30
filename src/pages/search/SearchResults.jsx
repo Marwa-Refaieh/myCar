@@ -58,14 +58,14 @@ const SearchResults = () => {
     }, [searchTerm, t]);
 
     return (
-        <div className="container mx-auto p-6 min-h-screen text-white">
-            <div className="fixed top-20 right-5 z-50">
+        <div className="container mx-auto p-6 min-h-screen text-white relative">
+            <div className="absolute top-20 right-5 z-10">
                 <button
                     onClick={() => window.history.back()}
-                    className="bg-Myprimary hover:bg-primaryHover text-black p-2 rounded-full shadow-lg transition-transform transform hover:scale-110"
+                    className="bg-Myprimary hover:bg-primaryHover text-black p-1 rounded-full shadow-lg transition-transform transform hover:scale-110"
                     aria-label={t('searchResults.goBack')}
                 >
-                    <X size={20} />
+                    <X size={15} />
                 </button>
             </div>
 
@@ -100,7 +100,7 @@ const SearchResults = () => {
             {!loading && !error && results.length > 0 && (
                 <div className="flex justify-center gap-6 mt-20">
                     {results.map((car) => (
-                        <Card key={car.id} car={car} favoriteIds={favoriteIds}/>
+                        <Card key={car.id} car={car} favoriteIds={favoriteIds} />
                     ))}
                 </div>
             )}

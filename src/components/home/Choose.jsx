@@ -1,5 +1,5 @@
 import React from 'react';
-import choose from '../../assets/home/choose.png'
+import choose from '../../assets/choose.png'
 import { useTranslation } from 'react-i18next';
 
 const Choose = () => {

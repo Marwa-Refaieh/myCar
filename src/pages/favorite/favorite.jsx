@@ -8,7 +8,7 @@ export default function Favorite() {
 
 
  const [notFoundCar , setNotFoundCar] = useState('')
- const [notFoundSaller , setNotFoundSaller] = useState('no car in your favorite')
+ const [notFoundSaller , setNotFoundSaller] = useState('')
   const { data, loading, error } = useFetchFavorites();
   const { dataSaller, loadingSaller, errorSaller } = useFetchFavoritesSaller();
 

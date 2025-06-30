@@ -16,7 +16,6 @@ export default function CarDetails() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-
     useEffect(() => {
         axios.get(`https://mycarapplication.com/api/car/${id}`)
             .then(res => {
@@ -28,7 +27,6 @@ export default function CarDetails() {
                 setLoading(false);
             });
     }, [id]);
-
 
     if (loading) {
         return (

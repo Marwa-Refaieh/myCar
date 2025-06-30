@@ -2,35 +2,26 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import StarRatings from 'react-star-ratings';
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import LikeButton from "@/components/LikeButton";
-import ReportModal from "@/components/ReportModal";
 import { useTranslation } from "react-i18next";
 import img from "../../assets/image.webp";
 import ProfileTabs from "@/components/profile/ProfileTabs";
 
 export default function Profile() {
-  const navigate = useNavigate();
   const { t, i18n } = useTranslation("home");
   const { id } = useParams();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isFollowing, setIsFollowing] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
   const token = localStorage.getItem("token");
 
-
   useEffect(() => {
-
     axios.get(`https://mycarapplication.com/api/auth/me`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     })
       .then((res) => {
         setUser(res.data);
-        setIsFollowing(res.data.is_follow || false);
-        setIsFavorite(res.data.is_favorite || false);      
       })
       .catch((err) => {
         console.error("Error fetching seller data", err);
@@ -40,34 +31,6 @@ export default function Profile() {
         setLoading(false);
       });
   }, [id, token]);
-
-  const handleFollowToggle = () => {
-
-    if (!token) {
-      navigate("/signin");
-      return;
-    }
-
-    // axios.post(
-    //   "https://mycarapplication.com/api/follow/toggle",
-    //   { seller_id: seller.id },
-    //   { headers: { Authorization: `Bearer ${token}` } }
-    // )
-    //   .then((response) => {
-    //     console.log("Follow toggle response:", response.data);
-
-    //     setIsFollowing(response.data.is_following);
-    //     setSeller(prevSeller => ({
-    //       ...prevSeller,
-    //       followers: response.data.is_following
-    //         ? prevSeller.followers + 1
-    //         : prevSeller.followers - 1
-    //     }));
-    //   })
-    //   .catch((err) => {
-    //     console.error("Follow toggle error", err);
-    //   });
-  };
 
   if (loading) {
     return (
@@ -80,7 +43,6 @@ export default function Profile() {
           </div>
         </div>
       </div>
-
     );
   }
 
@@ -93,6 +55,7 @@ export default function Profile() {
       </div>
     );
   }
+
   if (!user) return <div className="text-white text-center mt-10">No seller data.</div>;
 
   return (
@@ -113,8 +76,6 @@ export default function Profile() {
 
         <div className={`flex-1 space-y-4 text-center ${i18n.language === 'en' ? 'md:text-left' : 'md:text-right'}`}>
           <h2 className="text-2xl md:text-3xl font-bold">@{user.username}</h2>
-          {/* <p className="text-gray-400">{user.bio}</p> */}
-          {/* <p className="text-gray-400">{user.city?.name}</p> */}
 
           <div className="flex gap-6 justify-center md:justify-start text-sm text-gray-400">
             <span><strong>{user.following}</strong> {t("Following")}</span>
@@ -134,27 +95,6 @@ export default function Profile() {
             </span>
           </div>
 
-          <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-4">
-            <ReportModal
-              sellerId={user.id}
-              triggerText={t("Report")}
-              title={t("Report user")}
-              placeholder={t("Write the reason for reporting this user...")}
-            />
-
-            <Button
-              onClick={handleFollowToggle}
-              className="text-black hover:bg-primaryHover bg-Myprimary"
-            >
-              {isFollowing ? t("Unfollow") : t("Follow")}
-            </Button>
-
-            {/* <LikeButton
-              itemType="user"
-              itemId={user.id}
-              isFavorite={isFavorite}
-            /> */}
-          </div>
         </div>
       </div>
 

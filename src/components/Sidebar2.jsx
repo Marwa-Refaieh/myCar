@@ -1,6 +1,4 @@
 
-import { FaTimes } from 'react-icons/fa';
-import { useSidebar } from '../context/SidebarContext';
 import sort from '../assets/sort.png';
 import car from '../assets/car.png';
 import fuel from '../assets/fuel.png';
@@ -18,47 +16,17 @@ import BodyTypes from './filters/BodyTypes';
 import ColorPicker from './filters/ColorPicker';
 import HorsepowerSlider from './filters/HorsepowerSlider';
 import Button2 from './Button';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import PriceRangeSlider from './filters/PriceRangeSlider';
-import { countActiveFilters, getOrdersFromSort } from '@/utils/filterFunctions';
+import { countActiveFilters } from '@/utils/filterFunctions';
+import axios from 'axios';
 
-const Sidebar = ({ isPermanent = false, onClose }) => {
+const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
     const { t, i18n } = useTranslation('home');
-    const { sidebarOpen, toggleSidebar } = useSidebar();
     const [city, setCity] = useState([]);
-    const [filters, setFilters] = useState({
-        features: [],
-        year_production: {
-            from: 1970,
-            to: null,
-        },
-        type: null,
-        transmission_type: null,
-        body_type: null,
-        fuel_type: null,
-        city_id: null,
-        model_id: null,
-        brand_id: null,
-        odometer: {
-            from: 0,
-            to: null,
-        },
-        price: {
-            from: 0,
-            to: null,
-        },
-        color: null,
-        horsepower: {
-            from: 0,
-            to: null,
-        },
-        sort: null
-    });
-  
 
-   countActiveFilters(filters)
+
+    countActiveFilters(filters)
 
     const toggleFilter = (key, value, isArray = false) => {
         setFilters(prev => {
@@ -76,17 +44,11 @@ const Sidebar = ({ isPermanent = false, onClose }) => {
     };
 
     useEffect(() => {
-        if (!isPermanent && sidebarOpen) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-
-        return () => {
-            document.body.style.overflow = '';
-        };
-    }, [sidebarOpen, isPermanent]);
-
+        axios.get('https://mycarapplication.com/api/car-features/get-cities')
+            .then(res => {
+                setCity(res.data.data);
+            });
+    }, []);
 
     useEffect(() => {
 
@@ -94,43 +56,19 @@ const Sidebar = ({ isPermanent = false, onClose }) => {
 
     }, [filters]);
 
-    useEffect(() => {
-        axios.get('https://mycarapplication.com/api/car-features/get-cities')
-            .then(res => {
-                setCity(res.data.data);
-            });
-    }, []);
-
-    const handleClose = () => {
-        if (onClose) {
-            onClose();
-        } else {
-            toggleSidebar();
-        }
-    };
 
     return (
         <>
             <div
-                className={`sidebar-scroll overflow-hidden text-white shadow-lg overflow-y-auto ${isPermanent
-                        ? 'bg-[#040403] w-96 h-auto lg:block'
-                        : 'bg-[#121212] fixed top-0 right-0 h-full w-full sm:w-4/5 lg:w-96 transform transition-transform duration-300 z-50 ' +
-                        (sidebarOpen ? 'translate-x-0' : 'translate-x-full')
-                    }`}
+                className={`sidebar-scroll overflow-hidden text-white shadow-lg overflow-y-auto 
+                bg-[#040403] w-96 h-auto lg:block`}
             >
 
                 <div className="p-4 flex justify-between items-center border-b border-gray-700">
                     <h2 className="text-xl font-bold">{t("Filters")}</h2>
-                    {!isPermanent && (
-                        <button
-                            onClick={handleClose}
-                            className="text-gray-300 hover:text-Myprimary text-lg transition"
-                        >
-                            <FaTimes size={18} />
-                        </button>
-                    )}
                 </div>
                 <div className="p-4 space-y-4">
+
                     {/* Sort */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
@@ -376,46 +314,50 @@ const Sidebar = ({ isPermanent = false, onClose }) => {
                     </div>
 
                     <div className='flex justify-center py-3 gap-4'>
-                        <Link
-                            to="/filters"
-                            state={{ filters: { ...filters, orders: getOrdersFromSort(filters.sort) } }}
-                            onClick={isPermanent ? null : handleClose}
-                        >
+                        <div onClick={() => setAppliedFilters(filters)}>
                             <Button2 title={`${t("Show Results")}${countActiveFilters(filters) > 0 ? ` (${countActiveFilters(filters)})` : ''}`} />
-
-                        </Link>
+                        </div>
 
                         <button
-                            onClick={() => setFilters({
-                                features: [],
-                                year_production: { from: 1970, to: null },
-                                type: null,
-                                transmission_type: null,
-                                body_type: null,
-                                fuel_type: null,
-                                city_id: null,
-                                model_id: null,
-                                brand_id: null,
-                                odometer: { from: 0, to: null },
-                                price: { from: 0, to: null },
-                                color: null,
-                                horsepower: { from: 0, to: null },
-                                sort: null
-                            })}
+                            onClick={() => {
+                                setFilters({
+                                    features: [],
+                                    year_production: {
+                                        from: 1970,
+                                        to: null,
+                                    },
+                                    type: null,
+                                    transmission_type: null,
+                                    body_type: null,
+                                    fuel_type: null,
+                                    city_id: null,
+                                    model_id: null,
+                                    brand_id: null,
+                                    odometer: {
+                                        from: 0,
+                                        to: null,
+                                    },
+                                    price: {
+                                        from: 0,
+                                        to: null,
+                                    },
+                                    color: null,
+                                    horsepower: {
+                                        from: 0,
+                                        to: null,
+                                    },
+                                    sort: null
+                                });
+                                setAppliedFilters(null);
+                            }}
                             className="bg-Myprimary rounded-full text-black px-5 py-2 font-bold hover:bg-primaryHover transition"
                         >
                             {t("Reset")}
                         </button>
+
                     </div>
                 </div>
             </div>
-
-            {!isPermanent && sidebarOpen && (
-                <div
-                    className="fixed inset-0 bg-black bg-opacity-50 z-40"
-                    onClick={handleClose}
-                />
-            )}
         </>
     );
 };

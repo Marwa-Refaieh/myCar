@@ -20,6 +20,8 @@ const Hero = () => {
     const [city, setCity] = useState([])
     const [brand, setBrand] = useState([])
     const [model, setModel] = useState([])
+    const [isEditingPrice, setIsEditingPrice] = useState(false);
+
 
     const [input, setInput] = useState({
         cityId: "",
@@ -36,6 +38,8 @@ const Hero = () => {
             to: null,
         },
     });
+    const [manualToPrice, setManualToPrice] = useState(filters.price.to ?? MAX);
+
 
     const handlePriceChange = (newRange) => {
         setFilters(prev => ({
@@ -101,8 +105,7 @@ const Hero = () => {
     return (
         <section
             className="relative min-h-[50vh] md:min-h-[94vh] w-full mt-10 bg-[#040403] flex items-center px-5 md:px-20 flex-col-reverse lg:flex-row justify-between overflow-hidden py-5 lg:py-0 bg-no-repeat bg-right bg-cover"
-            style={{ backgroundImage: `url(${hero3})` }}
-        >
+            style={{ backgroundImage: `url(${hero3})` }} >
             <div className="absolute inset-0 z-0 bg-gradient-to-r from-black via-black/50 to-transparent"></div>
             <div className='flex w-full justify-center md:justify-start'>
                 <div className="relative z-20 flex flex-col justify-center items-start min-h-[50vh] md:min-h-[94vh] gap-6 w-full md:w-[90%] lg:w-[65%] py-10 md:py-0 sm:w-[80%]">
@@ -126,9 +129,16 @@ const Hero = () => {
 
                                 <TabsTrigger
                                     value="new"
-                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto"
+                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto "
                                 >
                                     {t("New Cars")}
+                                </TabsTrigger>
+
+                                <TabsTrigger
+                                    value="used"
+                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto border-t sm:border-t-0 sm:border-l"
+                                >
+                                    {t("Used Cars")}
                                 </TabsTrigger>
                             </TabsList>
                         </div>
@@ -180,9 +190,66 @@ const Hero = () => {
                                             ))}
                                         </SliderPrimitive.Root>
 
-                                        <div className="text-xs pt-5 md:pt-1">
-                                            {filters.price.from ?? 0}$ - {filters.price.to ?? MAX}$
+                                        <div className="text-xs pt-5 md:pt-1 w-full flex items-center ">
+                                            ${filters.price.from} -
+                                            {isEditingPrice ? (
+                                                <input
+                                                    type="text"
+                                                    autoFocus
+                                                    value={manualToPrice === null ? '' : manualToPrice}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        if (val === '' || /^[0-9]+$/.test(val)) {
+                                                            setManualToPrice(val);
+                                                        }
+                                                    }}
+                                                    onBlur={() => {
+                                                        const newValue = parseInt(manualToPrice);
+                                                        setFilters(prev => ({
+                                                            ...prev,
+                                                            price: {
+                                                                ...prev.price,
+                                                                to: isNaN(newValue) ? null : newValue
+                                                            }
+                                                        }));
+                                                        setIsEditingPrice(false);
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        if (
+                                                            !(
+                                                                (e.key >= '0' && e.key <= '9') ||
+                                                                e.key === 'Backspace' ||
+                                                                e.key === 'ArrowLeft' ||
+                                                                e.key === 'ArrowRight' ||
+                                                                e.key === 'Delete' ||
+                                                                e.key === 'Tab' ||
+                                                                e.key === 'Enter'
+                                                            )
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                        if (e.key === 'Enter') {
+                                                            e.target.blur();
+                                                        }
+                                                    }}
+                                                    placeholder="Unlimited"
+                                                    className="transition bg-transparent outline-none text-white px-2 ml-1 w-20"
+                                                />
+
+                                            ) : (
+                                                <span
+                                                    className="ml-1 cursor-pointer flex items-center gap-1 flex-nowrap"
+                                                    onClick={() => {
+                                                        setManualToPrice(filters.price.to ?? '');
+                                                        setIsEditingPrice(true);
+                                                    }}
+                                                >
+                                                    {filters.price.to === null ? t("Unlimited") : `$${filters.price.to}`}
+                                                </span>
+
+                                            )}
                                         </div>
+
                                     </div>
 
                                     <Link to="/filters" state={{ filters }}>
@@ -231,6 +298,7 @@ const Hero = () => {
                                             onValueChange={handlePriceChange}
                                             aria-label="Price range"
                                         >
+
                                             <SliderPrimitive.Track className="bg-[#353534] relative grow h-[0.4rem] md:h-[0.1rem] rounded-md">
                                                 <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />
                                             </SliderPrimitive.Track>
@@ -243,8 +311,184 @@ const Hero = () => {
                                             ))}
                                         </SliderPrimitive.Root>
 
-                                        <div className="text-xs pt-5 md:pt-1">
-                                            {filters.price.from ?? 0}$ - {filters.price.to ?? MAX}$
+                                        <div className="text-xs pt-5 md:pt-1 w-full flex items-center ">
+                                            ${filters.price.from} -
+                                            {isEditingPrice ? (
+                                                <input
+                                                    type="text"
+                                                    autoFocus
+                                                    value={manualToPrice === null ? '' : manualToPrice}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        if (val === '' || /^[0-9]+$/.test(val)) {
+                                                            setManualToPrice(val);
+                                                        }
+                                                    }}
+                                                    onBlur={() => {
+                                                        const newValue = parseInt(manualToPrice);
+                                                        setFilters(prev => ({
+                                                            ...prev,
+                                                            price: {
+                                                                ...prev.price,
+                                                                to: isNaN(newValue) ? null : newValue
+                                                            }
+                                                        }));
+                                                        setIsEditingPrice(false);
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        if (
+                                                            !(
+                                                                (e.key >= '0' && e.key <= '9') ||
+                                                                e.key === 'Backspace' ||
+                                                                e.key === 'ArrowLeft' ||
+                                                                e.key === 'ArrowRight' ||
+                                                                e.key === 'Delete' ||
+                                                                e.key === 'Tab' ||
+                                                                e.key === 'Enter'
+                                                            )
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                        if (e.key === 'Enter') {
+                                                            e.target.blur();
+                                                        }
+                                                    }}
+                                                    placeholder="Unlimited"
+                                                    className="transition bg-transparent outline-none text-white px-2 ml-1 w-20"
+                                                />
+
+                                            ) : (
+                                                <span
+                                                    className="ml-1 cursor-pointer flex items-center gap-1 flex-nowrap"
+                                                    onClick={() => {
+                                                        setManualToPrice(filters.price.to ?? '');
+                                                        setIsEditingPrice(true);
+                                                    }}
+                                                >
+                                                    {filters.price.to === null ? t("Unlimited") : `$${filters.price.to}`}
+                                                </span>
+
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <Link to="/filters" state={{ filters }}>
+                                        <button className='md:hidden w-full py-2 bg-Myprimary hover:bg-primaryHover rounded-full mt-4 text-black'>Search</button>
+                                    </Link>
+
+                                    <Link to="/filters" state={{ filters }} className='hidden md:flex justify-center w-full md:w-fit'>
+                                        <button className="bg-black/80 mx-auto md:mx-0 w-12 h-12 flex items-center justify-center rounded-full shadow-md transition ">
+                                            <FaSearch className="text-Myprimary hover:text-primaryHover" size={20} />
+                                        </button>
+                                    </Link>
+                                </div>
+                            </TabsContent>
+
+                            <TabsContent value="used">
+                                <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
+
+                                    <div className='flex flex-col justify-center gap-2 w-full'>
+                                        <label className='md:text-xl md:mb-2'>{t("Location")}</label>
+                                        <input type='text' placeholder='City' value={input.cityId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
+                                            w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                    </div>
+
+                                    <div className='flex flex-col justify-center gap-2 w-full'>
+                                        <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
+                                        <input type='text' placeholder='BMW' value={input.brandId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                    </div>
+
+                                    <div className='flex flex-col justify-center gap-2 w-full'>
+                                        <label className='md:text-xl md:mb-2'>{t("Model")}</label>
+                                        <input type='text' placeholder='M5' value={input.modelId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                    </div>
+
+                                    <div className='md:w-full '>
+                                        <label className='mb-5 md:mb-2 block md:text-xl'>{t("Price")}</label>
+
+                                        <SliderPrimitive.Root
+                                            className="relative flex items-center select-none touch-none w-full h-3"
+                                            min={MIN}
+                                            max={MAX}
+                                            step={100}
+                                            value={[filters.price.from ?? MIN, filters.price.to ?? MAX]}
+                                            onValueChange={handlePriceChange}
+                                            aria-label="Price range"
+                                        >
+
+                                            <SliderPrimitive.Track className="bg-[#353534] relative grow h-[0.4rem] md:h-[0.1rem] rounded-md">
+                                                <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />
+                                            </SliderPrimitive.Track>
+
+                                            {[filters.price.from, filters.price.to].map((_, i) => (
+                                                <SliderPrimitive.Thumb
+                                                    key={i}
+                                                    className="block w-4 h-4 md:w-2 md:h-2 md:border md:border-black bg-Myprimary rounded-full cursor-pointer hover:scale-110 transition"
+                                                />
+                                            ))}
+                                        </SliderPrimitive.Root>
+
+                                        <div className="text-xs pt-5 md:pt-1 w-full flex items-center ">
+                                            ${filters.price.from} -
+                                            {isEditingPrice ? (
+                                                <input
+                                                    type="text"
+                                                    autoFocus
+                                                    value={manualToPrice === null ? '' : manualToPrice}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        if (val === '' || /^[0-9]+$/.test(val)) {
+                                                            setManualToPrice(val);
+                                                        }
+                                                    }}
+                                                    onBlur={() => {
+                                                        const newValue = parseInt(manualToPrice);
+                                                        setFilters(prev => ({
+                                                            ...prev,
+                                                            price: {
+                                                                ...prev.price,
+                                                                to: isNaN(newValue) ? null : newValue
+                                                            }
+                                                        }));
+                                                        setIsEditingPrice(false);
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        if (
+                                                            !(
+                                                                (e.key >= '0' && e.key <= '9') ||
+                                                                e.key === 'Backspace' ||
+                                                                e.key === 'ArrowLeft' ||
+                                                                e.key === 'ArrowRight' ||
+                                                                e.key === 'Delete' ||
+                                                                e.key === 'Tab' ||
+                                                                e.key === 'Enter'
+                                                            )
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                        if (e.key === 'Enter') {
+                                                            e.target.blur();
+                                                        }
+                                                    }}
+                                                    placeholder="Unlimited"
+                                                    className="transition bg-transparent outline-none text-white px-2 ml-1 w-20"
+                                                />
+
+                                            ) : (
+                                                <span
+                                                    className="ml-1 cursor-pointer flex items-center gap-1 flex-nowrap"
+                                                    onClick={() => {
+                                                        setManualToPrice(filters.price.to ?? '');
+                                                        setIsEditingPrice(true);
+                                                    }}
+                                                >
+                                                    {filters.price.to === null ? t("Unlimited") : `$${filters.price.to}`}
+                                                </span>
+
+                                            )}
                                         </div>
                                     </div>
 

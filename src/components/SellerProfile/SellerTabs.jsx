@@ -44,11 +44,11 @@ const SellerTabs = ({ cars, reviews, sellerId }) => {
                         rounded-none pb-3 transition"
                     >
                         {t("Reviews")} ({reviews.length})
-                    </TabsTrigger>
+                    </TabsTrigger> 
                 </TabsList>
 
                 <TabsContent value="details" className="p-4">
-                    <div className="flex justify-center items-center flex-wrap gap-10 min-h-[50vh]">
+                    <div className="flex justify-center items-center flex-wrap gap-5 md:gap-10 min-h-[50vh]">
                         {cars.length > 0 ? (
                             cars.map((car) => (
                                 <Card2 key={car.id} car={car} favoriteIds={favoriteIds} />
