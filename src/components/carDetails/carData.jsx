@@ -3,6 +3,7 @@ import location from '../../assets/location.png';
 import LikeButton from '../LikeButton';
 import { useTranslation } from 'react-i18next';
 import useFetchFavorites from '@/hooks/getFavCars';
+import { Share2 } from 'lucide-react';
 
 const CarData = ({ car }) => {
     const { t, i18n } = useTranslation('home');
@@ -11,7 +12,7 @@ const CarData = ({ car }) => {
 
     useEffect(() => {
         if (data && Array.isArray(data.data)) {
-            setFavoriteIds(data.data.map(car => car.id)); 
+            setFavoriteIds(data.data.map(car => car.id));
         }
     }, [data]);
 
@@ -24,19 +25,43 @@ const CarData = ({ car }) => {
         return value;
     };
 
+    const prepareShareMessage = (carDetails) => {
+        return `
+            ${carDetails.brand?.name || ''} ${carDetails.model?.name || ''} ${carDetails.year_production || ''} - للبيع \n
+ ${carDetails.description} \n
+ ${carDetails.images[0]}
+    `
+    };
+    const handleShareClick = async (e) => {
+        const message = prepareShareMessage(car);
+
+        if (navigator.share) {
+            await navigator.share({
+                text: message,
+            });
+        } else {
+            await navigator.clipboard.writeText(message);
+        }
+    };
+
     return (
         <div>
             <small className="text-sm text-Myprimary">
                 {car.available === 1 ? t("Available") : t("Not Available")}
             </small>
 
+
             <div className={`flex justify-between items-center ${i18n.language === 'ar' ? 'pl-10' : 'pr-10'}`}>
                 <h4 className="text-2xl">{displayValue(car.name, "name not available")}</h4>
-                <LikeButton
-                    itemType="car"
-                    itemId={car.id}
-                    isFavorite={favoriteIds.includes(car.id)}
-                />
+                <div className='flex items-center gap-3'>
+                    <Share2 onClick={handleShareClick} className="text-white w-5 h-5 cursor-pointer" />
+                    <LikeButton
+                        itemType="car"
+                        itemId={car.id}
+                        isFavorite={favoriteIds.includes(car.id)}
+                    />
+                </div>
+
             </div>
 
             <p className="py-4 text-white whitespace-pre-line">
@@ -44,13 +69,17 @@ const CarData = ({ car }) => {
             </p>
 
             <p className="pt-2">
-                {t("Rental Price")} : SYP {car.price ? car.price.toLocaleString() :
-                    t("price not available")} /{' '}
-                <span className="text-Myprimary">
-                    {car.price_type === 1 ? t("day") : car.price_type === 2 ? t("month") :
-                        t("price type not available")}
-                </span>
+                {car.body_type === 1
+                    ? t("Price")
+                    : car.body_type === 2
+                        ? t("Rental Price")
+                        : t("price type not available")} :
+                ${car.price ? car.price.toLocaleString() : t("price not available")}
+                {car.body_type === 2 && (
+                    <span className="text-Myprimary"> / {t("Per day")}</span>
+                )}
             </p>
+
 
             <div>
                 <h4 className="text-Myprimary text-2xl py-3">{t("What’s included?")}</h4>

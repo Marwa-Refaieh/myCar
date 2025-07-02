@@ -106,7 +106,7 @@ export default function SellerProfile() {
                     <img
                         src={seller.image_url || img}
                         alt={seller.full_name}
-                        className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-yellow-500 shadow-md object-cover transition-transform duration-300 hover:scale-105"
+                        className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-Myprimary shadow-md object-cover transition-transform duration-300 hover:scale-105"
                     />
                 </div>
 

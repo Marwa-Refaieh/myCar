@@ -57,9 +57,9 @@ export default function CompleteInfo() {
       {isSubmitting && (
         <div className="absolute inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
           <div className="flex space-x-2">
-            <span className="w-4 h-4 bg-yellow-400 rounded-full animate-bounce [animation-delay:-0.3s]"></span>
-            <span className="w-4 h-4 bg-yellow-400 rounded-full animate-bounce [animation-delay:-0.15s]"></span>
-            <span className="w-4 h-4 bg-yellow-400 rounded-full animate-bounce"></span>
+            <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+            <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+            <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
           </div>
         </div>
       )}
@@ -109,7 +109,7 @@ export default function CompleteInfo() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-yellow-400 text-black py-3 rounded-full font-semibold hover:bg-yellow-500 transition duration-200"
+          className="w-full bg-Myprimary text-black py-3 rounded-full font-semibold hover:bg-yellow-500 transition duration-200"
         >
           Confirm
         </button>

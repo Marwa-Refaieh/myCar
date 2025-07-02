@@ -22,16 +22,15 @@ const Footer = () => {
 
                         <div className="flex gap-3 w-full justify-center absolute bottom-5 md:bottom-0 left-1/2 -translate-x-1/2 z-20">
                             {[...Array(4)].map((_, i) => (
-                                <span key={i} className="w-4 h-4 bg-yellow-400 rounded-full"></span>
+                                <span key={i} className="w-4 h-4 bg-Myprimary rounded-full"></span>
                             ))}
                         </div>
                     </div>
                 </div>
 
-
                 {/* LINKS */}
                 <div className={`text-center ${i18n.language == 'en' ? 'md:text-left' : 'md:text-right'}`}>
-                    <h3 className="text-yellow-400 font-bold mb-4 text-[1.3rem]">{t("LINKS")}</h3>
+                    <h3 className="text-Myprimary font-bold mb-4 text-[1.3rem]">{t("LINKS")}</h3>
                     <ul className="space-y-2">
                         <li><a href="#" className='hover:text-primaryHover transition'>{t("About Us")}</a></li>
                         <li><a href="#" className='hover:text-primaryHover transition'>{t("My Account")}</a></li>
@@ -42,7 +41,7 @@ const Footer = () => {
 
                 {/* CARS TYPE */}
                 <div className={`text-center ${i18n.language == 'en' ? 'md:text-left' : 'md:text-right'}`}>
-                    <h3 className="text-yellow-400 font-bold mb-4 text-[1.3rem]">{t("CARS TYPE")}</h3>
+                    <h3 className="text-Myprimary font-bold mb-4 text-[1.3rem]">{t("CARS TYPE")}</h3>
                     <ul className="space-y-2">
                         <li><a href="#" className='hover:text-primaryHover transition'>{t("All Cars")}</a></li>
                         <li><a href="#" className='hover:text-primaryHover transition'>{t("Crossovers")}</a></li>

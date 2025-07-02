@@ -7,8 +7,8 @@ import suv from '../../assets/suv.png';
 
 const bodyTypeData = [
   { src: compact, name: "compact", value: 1 },
-  { src: crossover, name: "crossover", value: 3 },
-  { src: sport, name: "sport", value: 2 },
+  { src: crossover, name: "crossover", value: 2 },
+  { src: sport, name: "sport", value: 0 },
   { src: suv, name: "suv", value: 4 },
   { src: sedan, name: "sedan", value: 6 },
 ];
@@ -38,9 +38,6 @@ const BodyTypes = ({ filters, setFilters }) => {
             className={`
               ${baseClass} 
               ${isActive ? activeClass : ''} 
-              hover:border-Myprimary 
-              hover:shadow-[0_0_15px_1px_rgba(255,235,100,0.3)] 
-              hover:bg-[rgba(250,204,21,0.1)] 
               w-[25%] gap-1
               flex flex-col items-center justify-center px-4  
               text-center border rounded-lg transition-all cursor-pointer

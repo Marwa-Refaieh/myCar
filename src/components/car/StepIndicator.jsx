@@ -2,8 +2,8 @@
 import { useTranslation } from 'react-i18next';
 
 const StepIndicator = ({ currentStep }) => {
-  const getCircleStyle = (step) =>  currentStep >= step ? "bg-yellow-400" : "bg-yellow-100";
-  const getLineStyle = (step) => currentStep > step ? "bg-yellow-400" : "bg-gray-200";
+  const getCircleStyle = (step) =>  currentStep >= step ? "bg-Myprimary" : "bg-yellow-100";
+  const getLineStyle = (step) => currentStep > step ? "bg-Myprimary" : "bg-gray-200";
   const { t } = useTranslation('steps');
 
   return (
@@ -14,7 +14,7 @@ const StepIndicator = ({ currentStep }) => {
         <button
           className="flex flex-col items-center group"
         >
-          <div className={`w-16 h-16 rounded-full  bg-yellow-400 text-black flex items-center justify-center text-lg font-bold shadow-md transition-transform group-hover:scale-110`}>
+          <div className={`w-16 h-16 rounded-full  bg-Myprimary text-black flex items-center justify-center text-lg font-bold shadow-md transition-transform group-hover:scale-110`}>
             1
           </div>
           <h4 className={'mt-1'}>{t('brands')}</h4>

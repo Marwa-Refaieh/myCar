@@ -9,6 +9,7 @@ import Card2 from '../Card2';
 import ReviewCard from '../carDetails/ReviewCard';
 import { useTranslation } from 'react-i18next';
 import useFetchFavorites from '@/hooks/getFavCars';
+import Card from '../Card';
 
 const ProfileTabs = ({ cars, reviews, userId }) => {
     const { t, i18n } = useTranslation('home');
@@ -49,7 +50,7 @@ const ProfileTabs = ({ cars, reviews, userId }) => {
                     <div className="flex justify-center items-center flex-wrap gap-10 min-h-[50vh]">
                         {cars.length > 0 ? (
                             cars.map((car) => (
-                                <Card2 key={car.id} car={car} favoriteIds={favoriteIds} />
+                                <Card key={car.id} car={car} favoriteIds={favoriteIds} />
                             ))
                         ) : (
                             <p className="text-gray-400">{t("No cars available")}</p>

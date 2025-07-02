@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 
-const Brands = ({ setFilters, filters }) => {
+const Brands = ({ setFilters, filters, onBrandSelect }) => {
     const { t } = useTranslation('msg');
     const [brandsData, setBrandsData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -11,13 +11,17 @@ const Brands = ({ setFilters, filters }) => {
     const handleBrandClick = (brandId) => {
         setFilters((prev) => ({
             ...prev,
-            brand_id: prev.brand === brandId ? "" : brandId, // تحديث الفلتر بالماركة أو إزالة التحديد
+            brand_id: prev.brand_id === brandId ? null : brandId,
         }));
+        if (onBrandSelect) {
+            onBrandSelect(brandId);
+        }
     };
 
     useEffect(() => {
-        axios.get('https://mycarapplication.com/api/home')
-            .then(res => {
+        axios
+            .get('https://mycarapplication.com/api/home')
+            .then((res) => {
                 setBrandsData(res.data.data.brands);
                 setLoading(false);
             })
@@ -25,7 +29,7 @@ const Brands = ({ setFilters, filters }) => {
                 setError(t('cars.Failed to fetch data'));
                 setLoading(false);
             });
-    }, []);
+    }, [t]);
 
     if (loading) {
         return (
@@ -49,7 +53,7 @@ const Brands = ({ setFilters, filters }) => {
 
     return (
         <div className="flex flex-wrap items-center gap-5">
-            {brandsData.length === 0 && <p>No brands available.</p>}
+            {brandsData.length === 0 && <p>{t('No brands available.')}</p>}
             {brandsData.map((brand, index) => {
                 const isActive = filters.brand_id === brand.id;
 
@@ -57,16 +61,14 @@ const Brands = ({ setFilters, filters }) => {
                     <div
                         key={index}
                         onClick={() => handleBrandClick(brand.id)}
-                        className="flex flex-col items-center justify-center"
+                        className="flex flex-col items-center justify-center cursor-pointer"
                     >
                         <div
-                            className={`relative border rounded-2xl overflow-hidden cursor-pointer
+                            className={`relative border rounded-2xl overflow-hidden
                             shadow-md drop-shadow-[0_0_2px_rgba(255,255,255,0.7)] w-20 h-20 transition
-                            ${isActive ? 'border-Myprimary shadow-[0_0_15px_1px_rgba(255,235,100,0.3)] bg-[rgba(250,204,21,0.1)]' : ''}`}
-                        >
+                            ${isActive ? 'border-Myprimary shadow-[0_0_15px_1px_rgba(255,235,100,0.3)] bg-[rgba(250,204,21,0.1)]' : 'border-transparent'}`}>
                             <img
                                 src={brand.logo}
-                                alt={brand.name}
                                 className="w-full h-full object-cover bg-[#121212]"
                             />
                         </div>

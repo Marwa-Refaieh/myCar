@@ -204,7 +204,7 @@ setTimeout(() => {
 
     </form>
 {showPopup && (
-  <div className="fixed w-[70%] md:w-[40%] h-28 flex justify-center items-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-black text-yellow-400 px-6 py-3 rounded-xl shadow-md shadow-white z-50 transition-opacity duration-300">
+  <div className="fixed w-[70%] md:w-[40%] h-28 flex justify-center items-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-black text-Myprimary px-6 py-3 rounded-xl shadow-md shadow-white z-50 transition-opacity duration-300">
      تم إنشاء السيارة بنجاح!
   </div>
 )}

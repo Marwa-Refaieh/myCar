@@ -54,7 +54,7 @@ const EditProfile = () => {
 </div>
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mt-36 mx-auto p-6 bg-black text-black rounded-lg shadow-lg space-y-4">
-      <h2 className="text-center text-yellow-400 text-2xl font-bold mb-4">Update Profile</h2>
+      <h2 className="text-center text-Myprimary text-2xl font-bold mb-4">Update Profile</h2>
 
       {errorMsg && <p className="text-red-400 text-sm">{errorMsg}</p>}
       {successMsg && <p className="text-green-400 text-sm">{successMsg}</p>}
@@ -84,13 +84,13 @@ const EditProfile = () => {
       <input {...register("image")} type="file" className="w-full p-2 bg-gray-800 rounded" />
 
       <div className="flex justify-between mt-4">
-        <button type="button" className="bg-transparent border border-yellow-400 text-yellow-400 px-4 py-2 rounded hover:bg-yellow-400 hover:text-black">
+        <button type="button" className="bg-transparent border border-Myprimary text-Myprimary px-4 py-2 rounded hover:bg-Myprimary hover:text-black">
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading}
-          className={`px-4 py-2 rounded ${loading ? 'bg-gray-500 cursor-not-allowed' : 'bg-yellow-400 hover:bg-yellow-500'} text-black`}
+          className={`px-4 py-2 rounded ${loading ? 'bg-gray-500 cursor-not-allowed' : 'bg-Myprimary hover:bg-yellow-500'} text-black`}
         >
           Save
         </button>

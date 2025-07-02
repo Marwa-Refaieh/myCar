@@ -42,7 +42,7 @@ if(data.length == 0) return <div className="bg-[#232321] p-3 rounded-xl text-rig
         {data.map((item) =>{
           return       <div key={item.id} className="w-full md:w-[40%] mx-auto bg-[#232321] p-3 mb-3 rounded-xl text-right">
           <div className="flex items-center gap-2 mb-1">
-            <Bell className="text-yellow-400 w-4 h-4" />
+            <Bell className="text-Myprimary w-4 h-4" />
             <span className="font-bold text-white text-sm">{item.title}</span>
           </div>
           <p className="text-gray-300 text-xs pr-6">{item.body}</p>

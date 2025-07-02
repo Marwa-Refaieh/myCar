@@ -82,20 +82,20 @@ export default function Vercode() {
               value={digit}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className="w-12 h-14 text-center text-xl border border-yellow-400 bg-black rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
+              className="w-12 h-14 text-center text-xl border border-Myprimary bg-black rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-500"
             />
           ))}
         </div>
 
         {/* المؤقت */}
         <p className="text-gray-400 text-sm">
-          {t('expires')}: <span className="text-yellow-400">{formatTime(timeLeft)}</span>
+          {t('expires')}: <span className="text-Myprimary">{formatTime(timeLeft)}</span>
         </p>
 
         {/* إعادة الإرسال */}
         <p className="text-sm text-gray-400">
           {t('didnt')}?{' '}
-          <button onClick={handleResend} className="text-yellow-400 underline">
+          <button onClick={handleResend} className="text-Myprimary underline">
             {t('resent')}
           </button>
         </p>
@@ -103,7 +103,7 @@ export default function Vercode() {
         {/* زر التحقق */}
         <button
           onClick={handleVerify}
-          className="w-full bg-yellow-400 text-black font-bold py-3 rounded-full"
+          className="w-full bg-Myprimary text-black font-bold py-3 rounded-full"
         >
           {t('verify')}
         </button>

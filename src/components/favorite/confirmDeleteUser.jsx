@@ -46,13 +46,13 @@ export default function ConfirmDeleteUser({
         <div className="flex justify-center space-x-4 pt-2">
           <button
             onClick={onCancel}
-            className="border border-yellow-400 text-yellow-400 px-6 py-2 rounded-full hover:bg-yellow-500 hover:text-black transition"
+            className="border border-Myprimary text-Myprimary px-6 py-2 rounded-full hover:bg-yellow-500 hover:text-black transition"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="bg-yellow-400 text-black px-6 py-2 rounded-full hover:bg-yellow-300 transition"
+            className="bg-Myprimary text-black px-6 py-2 rounded-full hover:bg-yellow-300 transition"
           >
             Yes, Remove
           </button>

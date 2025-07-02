@@ -70,7 +70,7 @@ export default function Profile() {
           <img
             src={user.image_url || img}
             alt={user.full_name}
-            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-yellow-500 shadow-md object-cover transition-transform duration-300 hover:scale-105"
+            className="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-Myprimary shadow-md object-cover transition-transform duration-300 hover:scale-105"
           />
         </div>
 
@@ -85,7 +85,7 @@ export default function Profile() {
           <div className="flex items-center justify-center md:justify-start gap-1">
             <StarRatings
               rating={user.rating || 0}
-              starRatedColor="#facc15"
+              starRatedColor="#F1EA28"
               numberOfStars={5}
               starDimension="16px"
               starSpacing="2px"

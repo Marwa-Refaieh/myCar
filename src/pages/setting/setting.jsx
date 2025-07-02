@@ -50,7 +50,7 @@ export default function Setting() {
         <div className="flex justify-between items-center bg-gray-900 px-4 py-3 m-2 rounded-xl">
           <span className="text-sm text-gray-300">{t('shouldsignin')}</span>
           <Link to={'/signin2'}
-            className="bg-yellow-400 text-black font-bold px-2 md:px-4 py-1 rounded-full"
+            className="bg-Myprimary text-black font-bold px-2 md:px-4 py-1 rounded-full"
           >
             {t('signin')}
           </Link>
@@ -58,18 +58,18 @@ export default function Setting() {
       )}
 
       <div className="divide-y divide-gray-800 mx-2">
-        <SettingItem title={t('noti')} icon={<Bell className="text-yellow-400" />} onClick={() => toggleDropdown("notifications")} />
+        <SettingItem title={t('noti')} icon={<Bell className="text-Myprimary" />} onClick={() => toggleDropdown("notifications")} />
         {openDropdown === "notifications" && (
           <Dropdown>
             <NotificationItem  />
           </Dropdown>
         )}
 
-        <SettingItem title={t('lang')} icon={<Languages className="text-yellow-400" />} onClick={() => toggleDropdown("language")} />
+        <SettingItem title={t('lang')} icon={<Languages className="text-Myprimary" />} onClick={() => toggleDropdown("language")} />
         {openDropdown === "language" && (
           <Dropdown>
-            <div className="flex items-center gap-1 justify-center" onClick={() => handleLangChange('ar')}><label className="  text-right inline py-2" for='ar'>{t('ar')}</label> <input className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:border-yellow-500 checked:bg-yellow-500" type="radio" name="lang" id="ar" /></div>
-            <div className="flex items-center gap-1 justify-center" onClick={() => handleLangChange('en')}><label className="  text-right inline py-2" for='en'>{t('en')}</label> <input className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:border-yellow-500 checked:bg-yellow-500" type="radio" name="lang" id="en" /></div>
+            <div className="flex items-center gap-1 justify-center" onClick={() => handleLangChange('ar')}><label className="  text-right inline py-2" for='ar'>{t('ar')}</label> <input className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:border-Myprimary checked:bg-Myprimary" type="radio" name="lang" id="ar" /></div>
+            <div className="flex items-center gap-1 justify-center" onClick={() => handleLangChange('en')}><label className="  text-right inline py-2" for='en'>{t('en')}</label> <input className="appearance-none w-5 h-5 rounded-full border-2 border-gray-400 checked:border-Myprimary checked:bg-Myprimary" type="radio" name="lang" id="en" /></div>
 
           </Dropdown>
         )}

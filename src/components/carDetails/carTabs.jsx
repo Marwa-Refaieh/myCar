@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import ReportModal from '../ReportModal';
 import { useTranslation } from 'react-i18next';
 import useFetchFavorites from '@/hooks/getFavCars';
+import Card from '../Card';
 
 const CarTabs = ({ car }) => {
     const { t, i18n } = useTranslation('home');
@@ -116,7 +117,7 @@ const CarTabs = ({ car }) => {
                         <p className='text-2xl mt-6'>{t("Recommend")}</p>
                         <div className="flex flex-wrap gap-4 md:gap-6  py-10 justify-center md:justify-start">
                             {car.recommendedCars?.map((item) => (
-                                <Card2 key={item.id} car={item} favoriteIds={favoriteIds} />
+                                <Card key={item.id} car={item} favoriteIds={favoriteIds} />
                             ))}
                         </div>
                     </div>

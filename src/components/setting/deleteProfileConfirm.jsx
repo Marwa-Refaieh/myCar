@@ -40,7 +40,7 @@ const DeleteConfirmationModal = ({ onClose , name , image}) => {
             </button>
             <button
               onClick={onClose}
-              className="border border-yellow-400 text-yellow-400 w-full py-2 rounded-full text-lg"
+              className="border border-Myprimary text-Myprimary w-full py-2 rounded-full text-lg"
             >
               Cancel
             </button>

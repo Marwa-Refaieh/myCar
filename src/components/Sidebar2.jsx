@@ -20,11 +20,12 @@ import { useTranslation } from 'react-i18next';
 import PriceRangeSlider from './filters/PriceRangeSlider';
 import { countActiveFilters } from '@/utils/filterFunctions';
 import axios from 'axios';
+import Models from './filters/Models';
 
 const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
     const { t, i18n } = useTranslation('home');
     const [city, setCity] = useState([]);
-
+    const [models, setModels] = useState([]);
 
     countActiveFilters(filters)
 
@@ -49,6 +50,17 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                 setCity(res.data.data);
             });
     }, []);
+
+    const handleBrandSelect = (brandId) => {
+        axios.get(`https://mycarapplication.com/api/car-features/get-model-of-brands?brand_id=${brandId}`)
+            .then((response) => {
+                setModels(response.data);
+                console.log("models data:", response.data);
+            })
+            .catch((error) => {
+                console.error("Failed to fetch models:", error);
+            });
+    };
 
     useEffect(() => {
 
@@ -83,7 +95,7 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                                 <RadioGroupItem
                                     value="newest"
                                     id="newest"
-                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400 
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-Myprimary 
                                     ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
                                 <label htmlFor="newest" className="text-white">{t("Newest")}</label>
@@ -93,7 +105,7 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                                 <RadioGroupItem
                                     value="name"
                                     id="name"
-                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-Myprimary
                                     ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
                                 <label htmlFor="name" className="text-white">{t("Name")} (A-Z)</label>
@@ -103,7 +115,7 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                                 <RadioGroupItem
                                     value="price-lowest"
                                     id="price-lowest"
-                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-Myprimary
                                     ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
                                 <label htmlFor="price-lowest" className="text-white">
@@ -114,7 +126,7 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                                 <RadioGroupItem
                                     value="price-highest"
                                     id="price-highest"
-                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-Myprimary
                                     ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
                                 <label htmlFor="price-highest" className="text-white">
@@ -137,7 +149,7 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                                 <RadioGroupItem
                                     value="1"
                                     id="buy"
-                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400 
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-Myprimary 
                                     ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
                                 <label htmlFor="buy" className="text-white">{t("Buy")}</label>
@@ -147,7 +159,7 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                                 <RadioGroupItem
                                     value="2"
                                     id="rental"
-                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-yellow-400 
+                                    className={`border-white text-white data-[state=checked]:border-transparent data-[state=checked]:bg-Myprimary data-[state=checked]:ring-0  data-[state=checked]:after:bg-Myprimary 
                                     ${i18n.language === 'ar' ? 'ml-2' : ''}`}
                                 />
                                 <label htmlFor="rental" className="text-white">{t("Rental")}</label>
@@ -155,7 +167,7 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                         </RadioGroup>
                     </div>
 
-                    {/* Car make/model */}
+                    {/* Brands */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>
                         <div className='flex items-center gap-2'>
                             <div className='w-6 bg-Mycard rounded-full p-1'>
@@ -164,9 +176,31 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
                             <p className='text-1xl'>{t("Car make/model")}</p>
                         </div>
                         <div className='py-5'>
-                            <Brands setFilters={setFilters} filters={filters} />
+                            <Brands setFilters={setFilters} filters={filters}
+                                onBrandSelect={handleBrandSelect} />
                         </div>
                     </div>
+
+                    {/* Models */}
+                    {filters.brand_id && (
+                        <div className='w-full flex flex-col border-b border-white/35 pb-3'>
+                            <div className='flex items-center gap-2'>
+                                <div className='w-6 bg-Mycard rounded-full p-1'>
+                                    <img src={car} className='w-full h-full' alt="car" />
+                                </div>
+                                <p className='text-1xl'>{t("Brand Model")}</p>
+                            </div>
+
+                            <div className='pt-5 flex flex-wrap gap-4'>
+                                <Models
+                                    models={models}
+                                    filters={filters}
+                                    toggleFilter={toggleFilter}
+                                />
+
+                            </div>
+                        </div>
+                    )}
 
                     {/* Price */}
                     <div className='w-full flex flex-col border-b border-white/35 pb-3'>

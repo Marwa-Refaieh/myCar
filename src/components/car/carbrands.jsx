@@ -49,7 +49,7 @@ const CarBrands = ({  selectBrand }) => {
         
           {myBrands.map((e , index) =>{
             return <div key={e.id} onClick={() => setActiveIndex(index)}>
-              <div   className={`text-white relative border-2  mb-3 ${ activeIndex === index ? 'border-yellow-400' : 'border-gray'} flex-col  rounded-sm flex justify-center items-center p-1 cursor-pointer w-[119px] h-[100px]`} onClick={() => handelBrand(e)}>
+              <div   className={`text-white relative border-2  mb-3 ${ activeIndex === index ? 'border-Myprimary' : 'border-gray'} flex-col  rounded-sm flex justify-center items-center p-1 cursor-pointer w-[119px] h-[100px]`} onClick={() => handelBrand(e)}>
                 <img src={e.logo} alt={e}  className='max-h-14 absolute top-1 z-[-1] left-[50%] translate-x-[-50%]'/>
                  <h4 className='mt-[56px]'>{e.name}</h4>
                 </div>

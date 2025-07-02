@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import { useState } from "react";
 import { X } from "lucide-react";
 import NavbarSearch from './nav/Search';
-import MenuList from './nav/MenuList';
 import { useTranslation } from 'react-i18next';
 import UserList from './nav/UserList';
 
@@ -122,7 +121,6 @@ const Navbar = () => {
                                 </Link>
                             )}
                         </div>
-
 
                         {/* Mobile Button */}
                         <div className="md:hidden flex items-center">

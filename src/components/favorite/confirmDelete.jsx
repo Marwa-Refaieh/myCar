@@ -43,13 +43,13 @@ export default function ConfirmDeleteCard({ carTitle , carImage,  carPrice,  car
         <div className="mt-6 flex justify-between">
           <button
             onClick={onCancel}
-            className="border border-yellow-400 text-yellow-400 px-6 py-2 rounded-full font-semibold hover:bg-yellow-600 hover:text-black transition"
+            className="border border-Myprimary text-Myprimary px-6 py-2 rounded-full font-semibold hover:bg-yellow-600 hover:text-black transition"
           >
             Cancel
           </button>
           <button
             onClick={onConfirm}
-            className="bg-yellow-400 text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-500 transition"
+            className="bg-Myprimary text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-500 transition"
           >
             Yes, Remove
           </button>

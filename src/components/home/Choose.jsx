@@ -1,5 +1,5 @@
 import React from 'react';
-import choose from '../../assets/choose.png'
+import choose from '../../assets/home/car10.jpg'
 import { useTranslation } from 'react-i18next';
 
 const Choose = () => {
@@ -7,9 +7,9 @@ const Choose = () => {
 
     return (
         <section className="bg-black text-white md:py-20">
-            <div className="flex flex-col-reverse md:flex-row gap-8 items-center">
+            <div className="flex flex-col-reverse md:flex-row gap-10 items-center">
 
-                <div className="w-full md:w-1/2">
+                <div className="w-full md:w-[50%]">
                     <div className="font-bold mb-4">
                         <h2 className="text-Myprimary text-3xl md:text-5xl pb-5">{t("Why Did You Choose")}</h2>
                         <p className="text-white text-2xl md:text-4xl">{t("Our Car Listing Services?")}</p>
@@ -38,9 +38,8 @@ const Choose = () => {
                     </div>
                 </div>
 
-                <div className="w-full md:w-1/2 flex justify-center md:justify-end">
-                    <img src={choose} alt="Car" className={`w-full max-w-md object-contain 
-                    ${i18n.language === 'ar' ? 'scale-x-100' : '-scale-x-100'}`} />
+                <div className="w-full md:w-[45%] flex justify-center md:justify-end relative rounded-3xl">
+                    <img src={choose} alt="Car" className={`w-full  object-cover rounded-3xl relative z-20`} />
                 </div>
             </div>
         </section>

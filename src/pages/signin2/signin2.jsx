@@ -107,7 +107,7 @@ export default function Signin2() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-yellow-400 text-black py-3 rounded-full font-semibold"
+            className="w-full bg-Myprimary text-black py-3 rounded-full font-semibold"
           >
             go
           </button>
