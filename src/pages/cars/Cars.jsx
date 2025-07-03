@@ -8,13 +8,17 @@ import axios from 'axios';
 import useFetchFavorites from '@/hooks/getFavCars';
 import Sidebar2 from '@/components/Sidebar2';
 import { buildFiltersArray, getOrdersFromSort } from '@/utils/filterFunctions';
+import { useLocation } from 'react-router-dom';
 
 const Cars = () => {
     const { t } = useTranslation(['home', 'msg']);
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-  const [filters, setFilters] = useState({
+    const location = useLocation();
+    const [hasFetchedCars, setHasFetchedCars] = useState(false);
+
+    const [filters, setFilters] = useState({
         features: [],
         year_production: {
             from: 1970,
@@ -45,9 +49,45 @@ const Cars = () => {
     const [appliedFilters, setAppliedFilters] = useState(null);
     const [filteredCars, setFilteredCars] = useState([]);
 
-
     const [favoriteIds, setFavoriteIds] = useState([]);
     const { data } = useFetchFavorites();
+
+    const [hasInitializedFromLocation, setHasInitializedFromLocation] = useState(false);
+
+    useEffect(() => {
+        if (location.state?.type && !hasInitializedFromLocation) {
+            const updatedFilters = { ...filters, type: Number(location.state.type) };
+
+            setFilters(updatedFilters);
+            setTimeout(() => {
+                setAppliedFilters(updatedFilters);
+            }, 400);
+            setHasInitializedFromLocation(true);
+             window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }, [location.state, filters, hasInitializedFromLocation]);
+
+    useEffect(() => {
+        if (appliedFilters) {
+            fetchFilteredCars(appliedFilters);
+        }
+
+    }, [appliedFilters]);
+
+    useEffect(() => {
+        if (appliedFilters === null) {
+            setLoading(true);
+            axios.get("https://mycarapplication.com/api/car")
+                .then(res => {
+                    setCars(res.data.data);
+                    setFilteredCars([]);
+                    setLoading(false);
+                })
+                .catch(() => {
+                    setLoading(false);
+                });
+        }
+    }, [appliedFilters]);
 
     useEffect(() => {
         if (data && Array.isArray(data.data)) {
@@ -58,6 +98,7 @@ const Cars = () => {
     const fetchFilteredCars = async (currentFilters) => {
         setLoading(true);
         const Filters = buildFiltersArray(currentFilters);
+        console.log(" Filters to API:", Filters);
 
         try {
             const response = await axios.get("https://mycarapplication.com/api/car", {
@@ -69,47 +110,21 @@ const Cars = () => {
 
             setFilteredCars(response.data.data);
             setError(null);
+            setHasFetchedCars(true);
         } catch (error) {
             console.error("Error fetching filtered cars:", error);
-            setError(t('searchResults.errorFetching'));
+            setError(t('cars.Failed to fetch data'));
             setFilteredCars([]);
+            setHasFetchedCars(true);
         }
 
         setLoading(false);
     };
 
-
-    useEffect(() => {
-        if (appliedFilters) {
-            fetchFilteredCars(appliedFilters);
-        }
-    }, [appliedFilters]);
-
-
     useEffect(() => {
         console.log(filteredCars);
 
     }, [filteredCars]);
-    useEffect(() => {
-        // عند أول تحميل للصفحة، نعيد تعيين الفلاتر المطبقة ليتم عرض كل السيارات
-        setAppliedFilters(null);
-    }, []);
-    useEffect(() => {
-        if (!appliedFilters) {
-            setLoading(true);
-            axios.get("https://mycarapplication.com/api/car")
-                .then(res => {
-                    setCars(res.data.data);
-                    setFilteredCars([]);
-                    setLoading(false);
-                })
-                .catch(() => {
-                    setError(t('cars.Failed to fetch data', { ns: 'msg' }));
-                    setLoading(false);
-                });
-        }
-    }, [appliedFilters]);
-
 
     if (loading) {
         return (
@@ -155,7 +170,7 @@ const Cars = () => {
                     <div className="max-w-7xl mx-auto px-4 py-16 mt-5 md:mt-0">
                         <Title title={t("Cars")} />
 
-                        {appliedFilters ? (
+                        {/* {appliedFilters ? (
                             filteredCars.length > 0 ? (
                                 <div className="flex flex-wrap gap-8 justify-center my-5">
                                     {filteredCars.map((car, index) => (
@@ -170,12 +185,33 @@ const Cars = () => {
                         ) : (
                             <div className="flex flex-wrap gap-8 justify-center my-5">
                                 {cars.map((car, index) => (
-                                    <Card key={index} car={car} favoriteIds={favoriteIds}  />
+                                    <Card key={index} car={car} favoriteIds={favoriteIds} />
+                                ))}
+                            </div>
+                        )} */}
+
+
+                        {appliedFilters ? (
+                            loading ? (
+                                <></>
+                            ) : filteredCars.length > 0 ? (
+                                <div className="flex flex-wrap gap-8 justify-center my-5">
+                                    {filteredCars.map((car, index) => (
+                                        <Card key={index} car={car} favoriteIds={favoriteIds} />
+                                    ))}
+                                </div>
+                            ) : hasFetchedCars ? (
+                                <div className="text-center text-white text-xl mt-10">
+                                    {t("No cars match your filters")}
+                                </div>
+                            ) : null 
+                        ) : (
+                            <div className="flex flex-wrap gap-8 justify-center my-5">
+                                {cars.map((car, index) => (
+                                    <Card key={index} car={car} favoriteIds={favoriteIds} />
                                 ))}
                             </div>
                         )}
-
-
                     </div>
                 </div>
             </div>

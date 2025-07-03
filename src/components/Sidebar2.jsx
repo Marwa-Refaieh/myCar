@@ -22,7 +22,7 @@ import { countActiveFilters } from '@/utils/filterFunctions';
 import axios from 'axios';
 import Models from './filters/Models';
 
-const Sidebar = ({ filters, setFilters, setAppliedFilters }) => {
+const Sidebar = ({ filters, setFilters, setAppliedFilters, initialType }) => {
     const { t, i18n } = useTranslation('home');
     const [city, setCity] = useState([]);
     const [models, setModels] = useState([]);

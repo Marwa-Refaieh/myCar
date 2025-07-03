@@ -13,7 +13,7 @@ const UserList = () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
     const [user, setUser] = useState(null);
-
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
 
     useEffect(() => {
         axios.get(`https://mycarapplication.com/api/auth/me`, {
@@ -57,20 +57,20 @@ const UserList = () => {
                                 shadow-[0_0_15px_rgba(214,203,33,0.3)] 
                                 md:hover:shadow-[0_0_15px_#d6cb21] transition duration-300 cursor-pointer"
             >
-                {user ? (
-                    user.image_url ? (
-                        <div className='w-[30px] h-[30px] '>
-                            <img
-                                src={user.image_url}
-                                alt={user.full_name}
-                                className="w-full h-full object-cover rounded-full"
-                            />
-                        </div>
-                    ) : (
-                        <FaUserAlt size={80} className="text-gray-700" />
-                    )
-                ) : null}
+                <div className="w-[30px] h-[30px] relative">
+                    {(!user?.image_url || !isImageLoaded) && (
+                        <FaUserAlt className="text-gray-500 absolute inset-0 m-auto" size={20} />
+                    )}
 
+                    {user?.image_url && (
+                        <img
+                            src={user.image_url}
+                            alt={user.full_name}
+                            onLoad={() => setIsImageLoaded(true)}
+                            className={`w-full h-full object-cover rounded-full transition-opacity duration-300 ${isImageLoaded ? 'opacity-100' : 'opacity-0'}`}
+                        />
+                    )}
+                </div>
             </div>
 
             {showMenu && (
