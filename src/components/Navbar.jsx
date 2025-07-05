@@ -8,19 +8,16 @@ import { X } from "lucide-react";
 import NavbarSearch from './nav/Search';
 import { useTranslation } from 'react-i18next';
 import UserList from './nav/UserList';
+import Select from './nav/Select';
+import MenuList from './nav/MenuList';
+
 
 const Navbar = () => {
     const { toggleSidebar } = useSidebar();
     const { t, i18n } = useTranslation('home');
     const [isOpen, setIsOpen] = useState(false);
     const isLoggedIn = !!localStorage.getItem("token") && !!localStorage.getItem("user_id");
-
-
-    // const handleLangChange = (lang) => {
-    //     i18n.changeLanguage(lang);
-    //     localStorage.setItem('i18nextLng', lang);
-    //     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    // };
+ 
     return (
 
         <nav dir={i18n.language === 'ar' ? 'ltr' : 'ltr'} className="bg-Mybackground shadow-lg fixed top-0 z-40 shadow-white/10 w-full">
@@ -67,16 +64,8 @@ const Navbar = () => {
                                     {t("Contact Us")}
                                 </Link>
 
-                                {/* <MenuList /> */}
                                 {/* زر اللغة */}
-                                {/* <select
-                                    onChange={(e) => handleLangChange(e.target.value)}
-                                    value={i18n.language}
-                                    className="bg-transparent border border-gray-300 rounded-md px-2 py-1 text-white hover:border-Myprimary focus:outline-none"
-                                >
-                                    <option value="en" className='text-black'>English</option>
-                                    <option value="ar" className='text-black'>العربية</option>
-                                </select> */}
+                                <Select />
 
                                 {isLoggedIn ? (
                                     <UserList />
@@ -107,6 +96,7 @@ const Navbar = () => {
                                 className="flex items-center justify-center gap-1 px-6 h-[36px] text-sm rounded-full text-black font-medium  bg-Myprimary transition hover:bgprimaryHover">
                                 {t('Filters')}
                             </button>
+
 
                             {isLoggedIn ? (
                                 <div className='md:hidden flex'>
@@ -169,7 +159,7 @@ const Navbar = () => {
                         {t("Contact Us")}
                     </Link>
 
-                    {/* <MenuList isMobile={true} /> */}
+                    <MenuList isMobile={true} />
 
                     {/* Search */}
                     <div className="w- sm:w-80  md:w-[20rem] mr-2 sm:px-5 flex items-center border rounded-full gap-3">

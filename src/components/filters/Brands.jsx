@@ -20,10 +20,12 @@ const Brands = ({ setFilters, filters, onBrandSelect }) => {
 
     useEffect(() => {
         axios
-            .get('https://mycarapplication.com/api/home')
+            .get('https://mycarapplication.com/api/car-features/get-brands')
             .then((res) => {
-                setBrandsData(res.data.data.brands);
+                setBrandsData(res.data.data);
                 setLoading(false);
+                console.log(res.data.data);
+                
             })
             .catch(() => {
                 setError(t('cars.Failed to fetch data'));
@@ -52,30 +54,31 @@ const Brands = ({ setFilters, filters, onBrandSelect }) => {
     }
 
     return (
-        <div className="flex flex-wrap items-center gap-5">
-            {brandsData.length === 0 && <p>{t('No brands available.')}</p>}
-            {brandsData.map((brand, index) => {
-                const isActive = filters.brand_id === brand.id;
+      <div className="flex flex-nowrap items-center gap-5 overflow-x-auto max-w-full scrollbar-hide">
+    {brandsData.length === 0 && <p>{t('No brands available.')}</p>}
+    {brandsData.map((brand, index) => {
+        const isActive = filters.brand_id === brand.id;
 
-                return (
-                    <div
-                        key={index}
-                        onClick={() => handleBrandClick(brand.id)}
-                        className="flex flex-col items-center justify-center cursor-pointer"
-                    >
-                        <div
-                            className={`relative border rounded-2xl overflow-hidden
-                            shadow-md drop-shadow-[0_0_2px_rgba(255,255,255,0.7)] w-20 h-20 transition
-                            ${isActive ? 'border-Myprimary shadow-[0_0_15px_1px_rgba(255,235,100,0.3)] bg-[rgba(250,204,21,0.1)]' : 'border-transparent'}`}>
-                            <img
-                                src={brand.logo}
-                                className="w-full h-full object-cover bg-[#121212]"
-                            />
-                        </div>
-                    </div>
-                );
-            })}
-        </div>
+        return (
+            <div
+                key={index}
+                onClick={() => handleBrandClick(brand.id)}
+                className="flex flex-col items-center justify-center cursor-pointer flex-shrink-0"
+            >
+                <div
+                    className={`relative border rounded-2xl overflow-hidden 
+                    shadow-md drop-shadow-[0_0_2px_rgba(255,255,255,0.7)] w-20 h-20 transition
+                    ${isActive ? 'border-Myprimary shadow-[0_0_15px_1px_rgba(255,235,100,0.3)] bg-[rgba(250,204,21,0.1)]' : 'border-transparent'}`}>
+                    <img
+                        src={brand.logo}
+                        className="w-full h-full object-cover bg-[#121212]"
+                    />
+                </div>
+            </div>
+        );
+    })}
+</div>
+
     );
 };
 

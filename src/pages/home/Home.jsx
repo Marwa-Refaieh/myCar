@@ -22,9 +22,6 @@ const Home = () => {
             <div className='pt-20 max-w-7xl mx-auto px-4'>
                 <h2 className="text-5xl font-bold text-center mb-10 text-Myprimary ">{t('Brands')}</h2>
                 <Brands />
-                <Link to={"/brands"} className='flex justify-center mt-10'>
-                    <Button title={t("SEE ALL BRANDS")} />
-                </Link>
             </div>
             <div className='pt-20 max-w-7xl mx-auto px-4'>
                 <Popular />

@@ -14,7 +14,6 @@ import Signin2 from './pages/signin2/signin2'
 import CarDetails from './pages/carDetails/CarDetails'
 import { useEffect } from 'react'
 import Filters from './pages/filters/Filters'
-import BrandsPage from './pages/brands/BrandsPage'
 import PopularCategories from './pages/popularCategories/PopularCategories'
 import Cars from './pages/cars/Cars'
 import NewArrival from './pages/newArrival/NewArrival'
@@ -61,7 +60,6 @@ function App() {
             <Route path='/sellerProfile/:id' element={<SellerProfile />} />
             <Route path='/setting' element={<Setting />} />
             <Route path='/filters' element={<Filters />} />
-            <Route path='/brands' element={<BrandsPage />} />
             <Route path='/brand/:id' element={<Brand />} />
             <Route path='/popular' element={<PopularCategories />} />
             <Route path='/new' element={<NewArrival />} />

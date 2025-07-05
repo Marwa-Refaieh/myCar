@@ -38,16 +38,22 @@ const Hero = () => {
             to: null,
         },
     });
-    const [manualToPrice, setManualToPrice] = useState(filters.price.to ?? MAX);
 
+    const range = [
+        filters.price?.from ?? MIN,
+        filters.price?.to ?? null,
+    ];
+
+    const [isEditingMaxPrice, setIsEditingMaxPrice] = useState(false);
+    const [manualMaxPrice, setManualMaxPrice] = useState('');
 
     const handlePriceChange = (newRange) => {
-        setFilters(prev => ({
+        setFilters((prev) => ({
             ...prev,
             price: {
                 from: newRange[0],
-                to: newRange[1],
-            }
+                to: newRange[1] === MAX ? null : newRange[1],
+            },
         }));
     };
 
@@ -149,21 +155,21 @@ const Hero = () => {
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
-                                        <input type='text' placeholder='City' value={input.cityId} onChange={(e) =>
+                                        <input type='text' placeholder='Area' value={input.cityId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
-                                            w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                            w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
-                                        <input type='text' placeholder='BMW' value={input.brandId} onChange={(e) =>
-                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                        <input type='text' placeholder='Brand Name' value={input.brandId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Model")}</label>
-                                        <input type='text' placeholder='M5' value={input.modelId} onChange={(e) =>
-                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                        <input type='text' placeholder='Model Name' value={input.modelId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='md:w-full '>
@@ -174,7 +180,10 @@ const Hero = () => {
                                             min={MIN}
                                             max={MAX}
                                             step={100}
-                                            value={[filters.price.from ?? MIN, filters.price.to ?? MAX]}
+                                            value={[
+                                                range[0],
+                                                range[1] === null ? MAX : range[1],
+                                            ]}
                                             onValueChange={handlePriceChange}
                                             aria-label="Price range"
                                         >
@@ -182,73 +191,89 @@ const Hero = () => {
                                                 <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />
                                             </SliderPrimitive.Track>
 
-                                            {[filters.price.from, filters.price.to].map((_, i) => (
+                                            {[range[0], range[1] === null ? MAX : range[1]].map((val, i) => (
                                                 <SliderPrimitive.Thumb
                                                     key={i}
-                                                    className="block w-4 h-4 md:w-2 md:h-2 md:border md:border-black bg-Myprimary rounded-full cursor-pointer hover:scale-110 transition"
+                                                    className="block md:w-2 md:h-2 w-4 h-4 bg-Myprimary rounded-full cursor-pointer hover:scale-110 hover:shadow-lg transition-transform"
+                                                    aria-label={i === 0 ? "Minimum price" : "Maximum price"}
+                                                    style={{ willChange: "transform" }}
                                                 />
                                             ))}
                                         </SliderPrimitive.Root>
 
                                         <div className="text-xs pt-5 md:pt-1 w-full flex items-center ">
-                                            ${filters.price.from} -
-                                            {isEditingPrice ? (
-                                                <input
-                                                    type="text"
-                                                    autoFocus
-                                                    value={manualToPrice === null ? '' : manualToPrice}
-                                                    onChange={(e) => {
-                                                        const val = e.target.value;
-                                                        if (val === '' || /^[0-9]+$/.test(val)) {
-                                                            setManualToPrice(val);
-                                                        }
-                                                    }}
-                                                    onBlur={() => {
-                                                        const newValue = parseInt(manualToPrice);
-                                                        setFilters(prev => ({
-                                                            ...prev,
-                                                            price: {
-                                                                ...prev.price,
-                                                                to: isNaN(newValue) ? null : newValue
+                                            {isEditingMaxPrice ? (
+                                                <>
+                                                    <span>${filters.price.from} - </span>
+                                                    <input
+                                                        type="text"
+                                                        autoFocus
+                                                        value={manualMaxPrice}
+                                                        onChange={(e) => {
+                                                            const val = e.target.value;
+                                                            if (val === '' || /^[0-9]+$/.test(val)) {
+                                                                setManualMaxPrice(val);
                                                             }
-                                                        }));
-                                                        setIsEditingPrice(false);
-                                                    }}
-                                                    onKeyDown={(e) => {
-                                                        if (
-                                                            !(
-                                                                (e.key >= '0' && e.key <= '9') ||
-                                                                e.key === 'Backspace' ||
-                                                                e.key === 'ArrowLeft' ||
-                                                                e.key === 'ArrowRight' ||
-                                                                e.key === 'Delete' ||
-                                                                e.key === 'Tab' ||
-                                                                e.key === 'Enter'
-                                                            )
-                                                        ) {
-                                                            e.preventDefault();
-                                                        }
-                                                        if (e.key === 'Enter') {
-                                                            e.target.blur();
-                                                        }
-                                                    }}
-                                                    placeholder="Unlimited"
-                                                    className="transition bg-transparent outline-none text-white px-2 ml-1 w-20"
-                                                />
-
+                                                        }}
+                                                        onBlur={() => {
+                                                            const newValue = parseInt(manualMaxPrice);
+                                                            setFilters(prev => ({
+                                                                ...prev,
+                                                                price: {
+                                                                    ...prev.price,
+                                                                    to: isNaN(newValue) ? null : newValue,
+                                                                }
+                                                            }));
+                                                            setManualMaxPrice(isNaN(newValue) ? '' : newValue.toString());
+                                                            setIsEditingMaxPrice(false);
+                                                        }}
+                                                        onKeyDown={(e) => {
+                                                            if (
+                                                                !(
+                                                                    (e.key >= '0' && e.key <= '9') ||
+                                                                    e.key === 'Backspace' ||
+                                                                    e.key === 'ArrowLeft' ||
+                                                                    e.key === 'ArrowRight' ||
+                                                                    e.key === 'Delete' ||
+                                                                    e.key === 'Tab' ||
+                                                                    e.key === 'Enter'
+                                                                )
+                                                            ) {
+                                                                e.preventDefault();
+                                                            }
+                                                            if (e.key === 'Enter') {
+                                                                const newValue = parseInt(manualMaxPrice);
+                                                                setFilters(prev => ({
+                                                                    ...prev,
+                                                                    price: {
+                                                                        ...prev.price,
+                                                                        to: isNaN(newValue) ? null : newValue,
+                                                                    }
+                                                                }));
+                                                                setManualMaxPrice(isNaN(newValue) ? '' : newValue.toString());
+                                                                setIsEditingMaxPrice(false);
+                                                                e.target.blur();
+                                                            }
+                                                        }}
+                                                        placeholder={t("Unlimited")}
+                                                        className="transition placeholder:text-sm bg-transparent outline-none text-white px-2 w-24"
+                                                    />
+                                                </>
                                             ) : (
                                                 <span
-                                                    className="ml-1 cursor-pointer flex items-center gap-1 flex-nowrap"
+                                                    className="cursor-pointer"
                                                     onClick={() => {
-                                                        setManualToPrice(filters.price.to ?? '');
-                                                        setIsEditingPrice(true);
+                                                        setManualMaxPrice(filters.price?.to ?? '');
+                                                        setIsEditingMaxPrice(true);
                                                     }}
                                                 >
-                                                    {filters.price.to === null ? t("Unlimited") : `$${filters.price.to}`}
+                                                    {filters.price?.to === null
+                                                        ? `$${filters.price.from} - ${t("Unlimited")}`
+                                                        : `$${filters.price.from} - $${filters.price.to}`}
                                                 </span>
-
                                             )}
                                         </div>
+
 
                                     </div>
 
@@ -269,21 +294,21 @@ const Hero = () => {
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
-                                        <input type='text' placeholder='City' value={input.cityId} onChange={(e) =>
+                                        <input type='text' placeholder='Area' value={input.cityId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
-                                            w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                            w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
-                                        <input type='text' placeholder='BMW' value={input.brandId} onChange={(e) =>
-                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                        <input type='text' placeholder='Brand Name' value={input.brandId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Model")}</label>
-                                        <input type='text' placeholder='M5' value={input.modelId} onChange={(e) =>
-                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                        <input type='text' placeholder='Model Name' value={input.modelId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='md:w-full '>
@@ -294,82 +319,101 @@ const Hero = () => {
                                             min={MIN}
                                             max={MAX}
                                             step={100}
-                                            value={[filters.price.from ?? MIN, filters.price.to ?? MAX]}
+                                            value={[
+                                                range[0],
+                                                range[1] === null ? MAX : range[1],
+                                            ]}
                                             onValueChange={handlePriceChange}
                                             aria-label="Price range"
                                         >
-
                                             <SliderPrimitive.Track className="bg-[#353534] relative grow h-[0.4rem] md:h-[0.1rem] rounded-md">
                                                 <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />
                                             </SliderPrimitive.Track>
 
-                                            {[filters.price.from, filters.price.to].map((_, i) => (
+                                            {[range[0], range[1] === null ? MAX : range[1]].map((val, i) => (
                                                 <SliderPrimitive.Thumb
                                                     key={i}
-                                                    className="block w-4 h-4 md:w-2 md:h-2 md:border md:border-black bg-Myprimary rounded-full cursor-pointer hover:scale-110 transition"
+                                                    className="block md:w-2 md:h-2 w-4 h-4 bg-Myprimary rounded-full cursor-pointer hover:scale-110 hover:shadow-lg transition-transform"
+                                                    aria-label={i === 0 ? "Minimum price" : "Maximum price"}
+                                                    style={{ willChange: "transform" }}
                                                 />
                                             ))}
                                         </SliderPrimitive.Root>
 
                                         <div className="text-xs pt-5 md:pt-1 w-full flex items-center ">
-                                            ${filters.price.from} -
-                                            {isEditingPrice ? (
-                                                <input
-                                                    type="text"
-                                                    autoFocus
-                                                    value={manualToPrice === null ? '' : manualToPrice}
-                                                    onChange={(e) => {
-                                                        const val = e.target.value;
-                                                        if (val === '' || /^[0-9]+$/.test(val)) {
-                                                            setManualToPrice(val);
-                                                        }
-                                                    }}
-                                                    onBlur={() => {
-                                                        const newValue = parseInt(manualToPrice);
-                                                        setFilters(prev => ({
-                                                            ...prev,
-                                                            price: {
-                                                                ...prev.price,
-                                                                to: isNaN(newValue) ? null : newValue
+                                            {isEditingMaxPrice ? (
+                                                <>
+                                                    <span>${filters.price.from} - </span>
+                                                    <input
+                                                        type="text"
+                                                        autoFocus
+                                                        value={manualMaxPrice}
+                                                        onChange={(e) => {
+                                                            const val = e.target.value;
+                                                            if (val === '' || /^[0-9]+$/.test(val)) {
+                                                                setManualMaxPrice(val);
                                                             }
-                                                        }));
-                                                        setIsEditingPrice(false);
-                                                    }}
-                                                    onKeyDown={(e) => {
-                                                        if (
-                                                            !(
-                                                                (e.key >= '0' && e.key <= '9') ||
-                                                                e.key === 'Backspace' ||
-                                                                e.key === 'ArrowLeft' ||
-                                                                e.key === 'ArrowRight' ||
-                                                                e.key === 'Delete' ||
-                                                                e.key === 'Tab' ||
-                                                                e.key === 'Enter'
-                                                            )
-                                                        ) {
-                                                            e.preventDefault();
-                                                        }
-                                                        if (e.key === 'Enter') {
-                                                            e.target.blur();
-                                                        }
-                                                    }}
-                                                    placeholder="Unlimited"
-                                                    className="transition bg-transparent outline-none text-white px-2 ml-1 w-20"
-                                                />
-
+                                                        }}
+                                                        onBlur={() => {
+                                                            const newValue = parseInt(manualMaxPrice);
+                                                            setFilters(prev => ({
+                                                                ...prev,
+                                                                price: {
+                                                                    ...prev.price,
+                                                                    to: isNaN(newValue) ? null : newValue,
+                                                                }
+                                                            }));
+                                                            setManualMaxPrice(isNaN(newValue) ? '' : newValue.toString());
+                                                            setIsEditingMaxPrice(false);
+                                                        }}
+                                                        onKeyDown={(e) => {
+                                                            if (
+                                                                !(
+                                                                    (e.key >= '0' && e.key <= '9') ||
+                                                                    e.key === 'Backspace' ||
+                                                                    e.key === 'ArrowLeft' ||
+                                                                    e.key === 'ArrowRight' ||
+                                                                    e.key === 'Delete' ||
+                                                                    e.key === 'Tab' ||
+                                                                    e.key === 'Enter'
+                                                                )
+                                                            ) {
+                                                                e.preventDefault();
+                                                            }
+                                                            if (e.key === 'Enter') {
+                                                                const newValue = parseInt(manualMaxPrice);
+                                                                setFilters(prev => ({
+                                                                    ...prev,
+                                                                    price: {
+                                                                        ...prev.price,
+                                                                        to: isNaN(newValue) ? null : newValue,
+                                                                    }
+                                                                }));
+                                                                setManualMaxPrice(isNaN(newValue) ? '' : newValue.toString());
+                                                                setIsEditingMaxPrice(false);
+                                                                e.target.blur();
+                                                            }
+                                                        }}
+                                                        placeholder={t("Unlimited")}
+                                                        className="transition placeholder:text-sm bg-transparent outline-none text-white px-2 w-24"
+                                                    />
+                                                </>
                                             ) : (
                                                 <span
-                                                    className="ml-1 cursor-pointer flex items-center gap-1 flex-nowrap"
+                                                    className="cursor-pointer"
                                                     onClick={() => {
-                                                        setManualToPrice(filters.price.to ?? '');
-                                                        setIsEditingPrice(true);
+                                                        setManualMaxPrice(filters.price?.to ?? '');
+                                                        setIsEditingMaxPrice(true);
                                                     }}
                                                 >
-                                                    {filters.price.to === null ? t("Unlimited") : `$${filters.price.to}`}
+                                                    {filters.price?.to === null
+                                                        ? `$${filters.price.from} - ${t("Unlimited")}`
+                                                        : `$${filters.price.from} - $${filters.price.to}`}
                                                 </span>
-
                                             )}
                                         </div>
+
+
                                     </div>
 
                                     <Link to="/filters" state={{ filters }}>
@@ -389,21 +433,21 @@ const Hero = () => {
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
-                                        <input type='text' placeholder='City' value={input.cityId} onChange={(e) =>
+                                        <input type='text' placeholder='Area' value={input.cityId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
-                                            w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                            w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
-                                        <input type='text' placeholder='BMW' value={input.brandId} onChange={(e) =>
-                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                        <input type='text' placeholder='Brand Name' value={input.brandId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Model")}</label>
-                                        <input type='text' placeholder='M5' value={input.modelId} onChange={(e) =>
-                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full md:w-20 px-3 rounded-full bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-lg' />
+                                        <input type='text' placeholder='Model Name' value={input.modelId} onChange={(e) =>
+                                            setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='md:w-full '>
@@ -414,82 +458,101 @@ const Hero = () => {
                                             min={MIN}
                                             max={MAX}
                                             step={100}
-                                            value={[filters.price.from ?? MIN, filters.price.to ?? MAX]}
+                                            value={[
+                                                range[0],
+                                                range[1] === null ? MAX : range[1],
+                                            ]}
                                             onValueChange={handlePriceChange}
                                             aria-label="Price range"
                                         >
-
                                             <SliderPrimitive.Track className="bg-[#353534] relative grow h-[0.4rem] md:h-[0.1rem] rounded-md">
                                                 <SliderPrimitive.Range className="absolute bg-Myprimary rounded-full h-full" />
                                             </SliderPrimitive.Track>
 
-                                            {[filters.price.from, filters.price.to].map((_, i) => (
+                                            {[range[0], range[1] === null ? MAX : range[1]].map((val, i) => (
                                                 <SliderPrimitive.Thumb
                                                     key={i}
-                                                    className="block w-4 h-4 md:w-2 md:h-2 md:border md:border-black bg-Myprimary rounded-full cursor-pointer hover:scale-110 transition"
+                                                    className="block md:w-2 md:h-2 w-4 h-4 bg-Myprimary rounded-full cursor-pointer hover:scale-110 hover:shadow-lg transition-transform"
+                                                    aria-label={i === 0 ? "Minimum price" : "Maximum price"}
+                                                    style={{ willChange: "transform" }}
                                                 />
                                             ))}
                                         </SliderPrimitive.Root>
 
                                         <div className="text-xs pt-5 md:pt-1 w-full flex items-center ">
-                                            ${filters.price.from} -
-                                            {isEditingPrice ? (
-                                                <input
-                                                    type="text"
-                                                    autoFocus
-                                                    value={manualToPrice === null ? '' : manualToPrice}
-                                                    onChange={(e) => {
-                                                        const val = e.target.value;
-                                                        if (val === '' || /^[0-9]+$/.test(val)) {
-                                                            setManualToPrice(val);
-                                                        }
-                                                    }}
-                                                    onBlur={() => {
-                                                        const newValue = parseInt(manualToPrice);
-                                                        setFilters(prev => ({
-                                                            ...prev,
-                                                            price: {
-                                                                ...prev.price,
-                                                                to: isNaN(newValue) ? null : newValue
+                                            {isEditingMaxPrice ? (
+                                                <>
+                                                    <span>${filters.price.from} - </span>
+                                                    <input
+                                                        type="text"
+                                                        autoFocus
+                                                        value={manualMaxPrice}
+                                                        onChange={(e) => {
+                                                            const val = e.target.value;
+                                                            if (val === '' || /^[0-9]+$/.test(val)) {
+                                                                setManualMaxPrice(val);
                                                             }
-                                                        }));
-                                                        setIsEditingPrice(false);
-                                                    }}
-                                                    onKeyDown={(e) => {
-                                                        if (
-                                                            !(
-                                                                (e.key >= '0' && e.key <= '9') ||
-                                                                e.key === 'Backspace' ||
-                                                                e.key === 'ArrowLeft' ||
-                                                                e.key === 'ArrowRight' ||
-                                                                e.key === 'Delete' ||
-                                                                e.key === 'Tab' ||
-                                                                e.key === 'Enter'
-                                                            )
-                                                        ) {
-                                                            e.preventDefault();
-                                                        }
-                                                        if (e.key === 'Enter') {
-                                                            e.target.blur();
-                                                        }
-                                                    }}
-                                                    placeholder="Unlimited"
-                                                    className="transition bg-transparent outline-none text-white px-2 ml-1 w-20"
-                                                />
-
+                                                        }}
+                                                        onBlur={() => {
+                                                            const newValue = parseInt(manualMaxPrice);
+                                                            setFilters(prev => ({
+                                                                ...prev,
+                                                                price: {
+                                                                    ...prev.price,
+                                                                    to: isNaN(newValue) ? null : newValue,
+                                                                }
+                                                            }));
+                                                            setManualMaxPrice(isNaN(newValue) ? '' : newValue.toString());
+                                                            setIsEditingMaxPrice(false);
+                                                        }}
+                                                        onKeyDown={(e) => {
+                                                            if (
+                                                                !(
+                                                                    (e.key >= '0' && e.key <= '9') ||
+                                                                    e.key === 'Backspace' ||
+                                                                    e.key === 'ArrowLeft' ||
+                                                                    e.key === 'ArrowRight' ||
+                                                                    e.key === 'Delete' ||
+                                                                    e.key === 'Tab' ||
+                                                                    e.key === 'Enter'
+                                                                )
+                                                            ) {
+                                                                e.preventDefault();
+                                                            }
+                                                            if (e.key === 'Enter') {
+                                                                const newValue = parseInt(manualMaxPrice);
+                                                                setFilters(prev => ({
+                                                                    ...prev,
+                                                                    price: {
+                                                                        ...prev.price,
+                                                                        to: isNaN(newValue) ? null : newValue,
+                                                                    }
+                                                                }));
+                                                                setManualMaxPrice(isNaN(newValue) ? '' : newValue.toString());
+                                                                setIsEditingMaxPrice(false);
+                                                                e.target.blur();
+                                                            }
+                                                        }}
+                                                        placeholder={t("Unlimited")}
+                                                        className="transition placeholder:text-sm bg-transparent outline-none text-white px-2 w-24"
+                                                    />
+                                                </>
                                             ) : (
                                                 <span
-                                                    className="ml-1 cursor-pointer flex items-center gap-1 flex-nowrap"
+                                                    className="cursor-pointer"
                                                     onClick={() => {
-                                                        setManualToPrice(filters.price.to ?? '');
-                                                        setIsEditingPrice(true);
+                                                        setManualMaxPrice(filters.price?.to ?? '');
+                                                        setIsEditingMaxPrice(true);
                                                     }}
                                                 >
-                                                    {filters.price.to === null ? t("Unlimited") : `$${filters.price.to}`}
+                                                    {filters.price?.to === null
+                                                        ? `$${filters.price.from} - ${t("Unlimited")}`
+                                                        : `$${filters.price.from} - $${filters.price.to}`}
                                                 </span>
-
                                             )}
                                         </div>
+
+
                                     </div>
 
                                     <Link to="/filters" state={{ filters }}>

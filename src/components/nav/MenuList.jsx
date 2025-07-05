@@ -1,27 +1,39 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { useTranslation } from "react-i18next";
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem,
-} from "@/components/ui/dropdown-menu";
+import { useTranslation } from 'react-i18next';
+import { MdLanguage } from "react-icons/md";
+
 
 export default function MenuList({ isMobile = false }) {
-  const { t } = useTranslation('home');
+  const { t, i18n } = useTranslation('home');
   const [isOpen, setIsOpen] = useState(false);
+
+  const [language, setLanguage] = useState(i18n.language);
+
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem('i18nextLng', lang);
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    setLanguage(lang);
+    setIsOpen(false);
+  };
+
+  const languageOptions = [
+    { value: 'en', label: 'English' },
+    { value: 'ar', label: 'العربية' },
+  ];
 
   if (isMobile) {
     return (
       <div className="space-y-2">
         <button
           onClick={() => setIsOpen(prev => !prev)}
-          className="w-full flex gap-3 items-center text-white hover:text-Myprimary transition"
+          className="flex items-center rounded-full text-black font-medium  bg-Myprimary transition hover:bgprimaryHover px-3 gap-1 h-[36px] text-sm "
         >
-          <span>{t("Pages")}</span>
-          {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          <MdLanguage size={20} />
+          <span className="capitalize text-sm">
+            {languageOptions.find(opt => opt.value === language)?.label}
+          </span>
         </button>
 
         <div
@@ -30,18 +42,16 @@ export default function MenuList({ isMobile = false }) {
             ${isOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"}
           `}
         >
-          <Link to="/favorite" className="block text-sm hover:text-Myprimary transition">
-            {t("Favorite")}
-          </Link>
-          <Link to="/create" className="block text-sm hover:text-Myprimary transition">
-            Create Car
-          </Link>
-          <Link to="/profile" className="block text-sm hover:text-Myprimary transition">
-            {t("Profile")}
-          </Link>
-          <Link to="/setting" className="block text-sm hover:text-Myprimary transition">
-            {t("Setting")}
-          </Link>
+          {languageOptions.map((opt) => (
+            <p
+              key={opt.value}
+              onClick={() => handleLanguageChange(opt.value)}
+              className={`flex flex-col hover:text-Myprimary cursor-pointer transition ${opt.value === language ? 'text-Myprimary' : ''
+                }`}
+            >
+              {opt.label}
+            </p>
+          ))}
         </div>
       </div>
     );

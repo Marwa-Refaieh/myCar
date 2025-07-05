@@ -286,12 +286,12 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters, initialType }) => {
                             </div>
                             <p className='text-1xl'>{t("City")}</p>
                         </div>
-                        <div className='pt-5 flex flex-wrap gap-4'>
+                        <div className='pt-5 flex overflow-x-auto gap-4 scrollbar-hide'>
                             {city.map((cityItem) => (
                                 <div
                                     key={cityItem.id}
                                     onClick={() => toggleFilter("city_id", cityItem.id)}
-                                    className="cursor-pointer"
+                                    className="cursor-pointer shrink-0"
                                 >
                                     <Button
                                         title={cityItem.name}

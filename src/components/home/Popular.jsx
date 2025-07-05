@@ -55,7 +55,7 @@ const Popular = () => {
                 {t("cars.Explore Popular Categories")}
             </h2>
             <div className="flex flex-wrap w-full gap-8 justify-center my-10">
-                {cars.map((car) => (
+                {cars.slice(0, 6).map((car) => (
                     <Card key={car.id} car={car} favoriteIds={favoriteIds} />
                 ))}
             </div>

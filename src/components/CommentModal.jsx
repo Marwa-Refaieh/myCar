@@ -42,7 +42,7 @@ const CommentModal = ({ open, setOpen, comment, setComment, onSubmit }) => {
                     <div className="flex justify-center">
                         <StarRatings
                             rating={rating}
-                            starRatedColor="#facc15"
+                            starRatedColor="#F1EA28"
                             changeRating={setRating}
                             numberOfStars={5}
                             name="rating"
