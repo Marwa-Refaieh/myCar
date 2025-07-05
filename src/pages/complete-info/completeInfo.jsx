@@ -65,8 +65,8 @@ export default function CompleteInfo() {
       )}
 
       {/* Logo */}
-      <div className="mb-6">
-        <img src={logo} alt="Car Logo" className="w-24 h-24 mx-auto" />
+      <div className="">
+        <img src={logo} alt="Car Logo" className="max-w-[100%] max-h-[100%] mx-auto" />
       </div>
 
       <h1 className="text-2xl font-semibold mb-2">Hello !</h1>

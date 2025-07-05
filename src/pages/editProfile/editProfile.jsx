@@ -59,38 +59,38 @@ const EditProfile = () => {
       {errorMsg && <p className="text-red-400 text-sm">{errorMsg}</p>}
       {successMsg && <p className="text-green-400 text-sm">{successMsg}</p>}
 
-      <input {...register("full_name")} placeholder="Full Name" className="w-full p-2 bg-gray-800 rounded" />
-      <input {...register("username")} placeholder="Username" className="w-full p-2 bg-gray-800 rounded" />
-      <input {...register("national_number")} placeholder="National Number" className="w-full p-2 bg-gray-800 rounded" />
-      <input {...register("address")} placeholder="Address" className="w-full p-2 bg-gray-800 rounded" />
+      <input {...register("full_name")} placeholder="Full Name" className="w-full p-2 text-white bg-neutral-800 rounded" />
+      <input {...register("username")} placeholder="Username" className="w-full p-2 text-white bg-neutral-800 rounded" />
+      <input {...register("national_number")} placeholder="National Number" className="w-full p-2 text-white bg-neutral-800 rounded" />
+      <input {...register("address")} placeholder="Address" className="w-full p-2 text-white bg-neutral-800 rounded" />
 
-      <select {...register("city_id")} className="w-full p-2 bg-gray-800 rounded">
-        <option value="">Select City</option>
+      <select {...register("city_id")} className="w-full p-2 text-white bg-neutral-800 rounded">
+        <option value="" hidden>Select City</option>
         {cities.map(city => (
           <option key={city.id} value={city.id}>{city.name}</option>
         ))}
       </select>
 
-      <input type='date' {...register("birth_date")} className="w-full p-2 bg-gray-800 rounded" />
-      <input type="email" {...register("email")} placeholder="Email" className="w-full p-2 bg-gray-800 rounded" />
-      <textarea {...register("bio")} placeholder="Bio" className="w-full p-2 bg-gray-800 rounded" />
+      <input type='date' {...register("birth_date")} className="w-full text-white p-2 bg-neutral-800 rounded" />
+      <input type="email" {...register("email")} placeholder="Email" className="w-full text-white p-2 bg-neutral-800 rounded" />
+      <textarea {...register("bio")} placeholder="Bio" className="w-full p-2 text-white bg-neutral-800 rounded" />
 
-      <select {...register("gender")} className="w-full p-2 bg-gray-800 rounded">
-        <option value="">Select Gender</option>
+      <select {...register("gender")} className="w-full p-2 text-white bg-neutral-800 rounded">
+        <option value="" hidden>Select Gender</option>
         <option value="1">Male</option>
         <option value="2">Female</option>
       </select>
 
-      <input {...register("image")} type="file" className="w-full p-2 bg-gray-800 rounded" />
+      <input {...register("image")} type="file" className="w-full p-2 text-white bg-neutral-800 rounded" />
 
       <div className="flex justify-between mt-4">
-        <button type="button" className="bg-transparent border border-Myprimary text-Myprimary px-4 py-2 rounded hover:bg-Myprimary hover:text-black">
+        <button type="button" className="bg-transparent w-[35%] md:w-fit border border-Myprimary text-Myprimary px-4 py-2 rounded hover:bg-Myprimary hover:text-black">
           Cancel
         </button>
         <button
           type="submit"
           disabled={loading}
-          className={`px-4 py-2 rounded ${loading ? 'bg-gray-500 cursor-not-allowed' : 'bg-Myprimary hover:bg-yellow-500'} text-black`}
+          className={`px-4 py-2 w-[60%] md:w-fit rounded ${loading ? 'bg-gray-500 cursor-not-allowed' : 'bg-[#f1ea28] hover:bg-[#f1ea28]'} text-black`}
         >
           Save
         </button>
