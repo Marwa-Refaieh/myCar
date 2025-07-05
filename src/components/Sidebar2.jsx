@@ -21,6 +21,7 @@ import PriceRangeSlider from './filters/PriceRangeSlider';
 import { countActiveFilters } from '@/utils/filterFunctions';
 import axios from 'axios';
 import Models from './filters/Models';
+import Features from './filters/Features';
 
 const Sidebar = ({ filters, setFilters, setAppliedFilters, initialType }) => {
     const { t, i18n } = useTranslation('home');
@@ -328,23 +329,8 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters, initialType }) => {
                             </div>
                             <p className='text-1xl'>{t("Features")}</p>
                         </div>
-                        <div className='pt-5 flex flex-wrap gap-4'>
-                            <div onClick={() => toggleFilter("features", 1, true)}>
-                                <Button title={t("Navigation")} active={filters.features.includes(1)} />
-                            </div>
+                        <Features filters={filters} setFilters={setFilters} toggleFilter={toggleFilter} />
 
-                            <div onClick={() => toggleFilter("features", 2, true)}>
-                                <Button title={t("Sun Roof")} active={filters.features.includes(2)} />
-                            </div>
-
-                            <div onClick={() => toggleFilter("features", 3, true)}>
-                                <Button title={t("2 doors")} active={filters.features.includes(3)} />
-                            </div>
-
-                            <div onClick={() => toggleFilter("features", 4, true)}>
-                                <Button title={t("7 seater")} active={filters.features.includes(4)} />
-                            </div>
-                        </div>
                     </div>
 
                     <div className='flex justify-center py-3 gap-4'>
