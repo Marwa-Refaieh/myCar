@@ -11,7 +11,7 @@ import Setting from './pages/setting/setting'
 import Signin from './pages/signin/signin'
 import Vercode from './pages/verCode/verCode'
 import Signin2 from './pages/signin2/signin2'
-import CarDetails from './pages/carDetails/CarDetails'
+import CarDetails from './pages/carDetails/CarDetails' 
 import { useEffect } from 'react'
 import Filters from './pages/filters/Filters'
 import PopularCategories from './pages/popularCategories/PopularCategories'
@@ -27,6 +27,7 @@ import '../src/i18/index.js';
 import BestSeller from './pages/bestSeller/BestSeller'
 import CompleteInfo from './pages/complete-info/completeInfo'
 import UpdateCar from './pages/updateCar/updateCar'
+import AboutUs from './pages/AboutUs/AboutUs'
 
 function App() {
 
@@ -71,6 +72,7 @@ function App() {
             <Route path='/editprofile' element={<EditProfile />} />
             <Route path='/create' element={<CreateCarPage />} />
             <Route path='/updatecar/:id' element={<UpdateCar />} />
+            <Route path='/aboutUs' element={<AboutUs/>}/>
           </Route> 
 
 
