@@ -29,16 +29,16 @@ export default function UserCard({ name , image   ,    following,
         <p className="mt-3 text-lg font-medium">{name}</p>
 
         {/* Delete button */}
-        <button
+        {/* <button
           onClick={() => setShowConfirm(true)}
           className="mt-4 bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-1.5 rounded-full transition"
         >
           Delete
-        </button>
+        </button> */}
       </div>
 
       {/* Confirm Delete Modal */}
-      {showConfirm && (
+      {/* {showConfirm && (
         <ConfirmDeleteUser
         image={image}
         name = {name}
@@ -51,7 +51,7 @@ export default function UserCard({ name , image   ,    following,
           }}
           onCancel={() => setShowConfirm(false)}
         />
-      )}
+      )} */}
     </>
   );
 }

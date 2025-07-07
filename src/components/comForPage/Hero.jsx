@@ -2,21 +2,15 @@ import React from "react";
 
 export default function HeroSection({ title, page1, page2 , img }) {
   return (
-    <div className="relative h-[60vh] bg-black">
+    <div className="relative h-[20vh] bg-black mt-16">
       {/* الخلفية */}
-      <img 
-        src={img}
-        alt="hero"
-        className="absolute inset-0 w-full h-full object-cover opacity-40"
-      />
-
       {/* التعتيم والكتابة */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-4">
-        <h1 className="text-4xl md:text-5xl font-bold mb-2">{title}</h1>
+        <h1 className="text-4xl text-[#f1ea28] md:text-5xl font-bold mb-2">{title}</h1>
         <div className="flex items-center gap-2 text-xs text-gray-300">
           <span>{page1}</span>
           <svg
-            className="w-4 h-4 text-blue-500"
+            className="w-4 h-4 text-[#f1ea28]"
             fill="currentColor"
             viewBox="0 0 20 20"
           >

@@ -3,7 +3,7 @@ import React from "react";
 export default function FeatureCard({ title, description, img }) {
   return (
     <div
-      className="relative p-6 border bg-[#111] border-[#f8f8f820] hover:border-blue-500 bg-dark text-white flex-1 min-w-[250px] overflow-hidden"
+      className="relative p-6 border bg-black border-[#f8f8f820] hover:border-[#f1ea28]  text-white flex-1 min-w-[250px] overflow-hidden"
     >
       {/* صورة علامة مائية في الأعلى يمين */}
       <img
@@ -13,7 +13,7 @@ export default function FeatureCard({ title, description, img }) {
       />
 
       {/* العنوان بخط جانبي */}
-      <p className="relative text-sm text-white mb-16 uppercase tracking-wider pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[2px] before:h-6 before:bg-blue-400">
+      <p className="relative text-sm text-white mb-16 uppercase tracking-wider pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[2px] before:h-6 before:bg-[#f1ea28]">
         {title}
       </p>
 

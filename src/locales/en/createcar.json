@@ -1,7 +1,10 @@
 {
     "next" : "next",
     "back" : "back",
-    "create" : "create car",
+    "create" : "Done",
     "cancel" :"cancel",
-    "update" : "update"
+    "update" : "update",
+    "sale" : "Sale",
+    "rent" : "Rent",
+    "add" : "Add Car"
 }

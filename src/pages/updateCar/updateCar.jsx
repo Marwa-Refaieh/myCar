@@ -85,7 +85,7 @@ const UpdateCar = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",
         },
-      });
+      }); 
   
       console.log("Update car Success:", response.data);
 

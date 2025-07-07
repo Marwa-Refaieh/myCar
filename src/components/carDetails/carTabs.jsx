@@ -57,7 +57,7 @@ const CarTabs = ({ car }) => {
 
                         <div className="flex flex-col items-start md:flex-row md:items-center gap-8 md:gap-28 mt-4">
 
-                            <div className="flex xs:w-full xs:flex-col xs:items-center items-start sm:items-center gap-4 sm:gap-8">
+                            <div className="flex md:flex-row xs:w-full xs:flex-row xs:items-center items-start sm:items-center gap-4 sm:gap-8">
                                 <div className="w-28 h-28">
                                     <img
                                         src={car.user?.image_url || img}
