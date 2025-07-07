@@ -128,21 +128,21 @@ const Hero = () => {
                             <TabsList className="bg-transparent flex flex-col sm:flex-row w-full my-10 md:my-0  sm:w-auto">
                                 <TabsTrigger
                                     value="all"
-                                    className="hover:text-Myprimary text-white px-4 py-2 rounded-none data-[state=active]:bg-Myprimary border-b sm:border-b-0 sm:border-r w-full sm:w-auto"
+                                    className="hover:text-Myprimary text-white px-4 py-2 rounded-none data-[state=active]:bg-Myprimary border-b sm:border-b-0 sm:border-r w-full sm:w-auto border-none"
                                 >
                                     {t("All Conditions")}
                                 </TabsTrigger>
 
                                 <TabsTrigger
                                     value="new"
-                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto "
+                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto  border-r-2 border-l-2 border-white/50"
                                 >
                                     {t("New Cars")}
                                 </TabsTrigger>
 
                                 <TabsTrigger
                                     value="used"
-                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto border-t sm:border-t-0 sm:border-l"
+                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto border-t sm:border-t-0 sm:border-l border-none"
                                 >
                                     {t("Used Cars")}
                                 </TabsTrigger>
@@ -151,24 +151,24 @@ const Hero = () => {
 
                         <div className=" text-white font-medium" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
                             <TabsContent value="all">
-                                <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
+                                 <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
-                                        <input type='text' placeholder='Area' value={input.cityId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Area")} value={input.cityId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
                                             w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
-                                        <input type='text' placeholder='Brand Name' value={input.brandId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Brand Name")} value={input.brandId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Model")}</label>
-                                        <input type='text' placeholder='Model Name' value={input.modelId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Model Name")} value={input.modelId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
@@ -294,20 +294,20 @@ const Hero = () => {
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
-                                        <input type='text' placeholder='Area' value={input.cityId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Area")} value={input.cityId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
                                             w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
-                                        <input type='text' placeholder='Brand Name' value={input.brandId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Brand Name")} value={input.brandId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Model")}</label>
-                                        <input type='text' placeholder='Model Name' value={input.modelId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Model Name")} value={input.modelId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
@@ -429,24 +429,23 @@ const Hero = () => {
                             </TabsContent>
 
                             <TabsContent value="used">
-                                <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
-
+                             <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
-                                        <input type='text' placeholder='Area' value={input.cityId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Area")} value={input.cityId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, cityId: e.target.value }))} className='py-3 md:p-0
                                             w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Brand")}</label>
-                                        <input type='text' placeholder='Brand Name' value={input.brandId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Brand Name")} value={input.brandId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, brandId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Model")}</label>
-                                        <input type='text' placeholder='Model Name' value={input.modelId} onChange={(e) =>
+                                        <input type='text' placeholder={t("Model Name")} value={input.modelId} onChange={(e) =>
                                             setInput(prev => ({ ...prev, modelId: e.target.value }))} className='py-3 md:p-0 w-full px-3 rounded-full md:rounded-none bg-[#0e0e0c] md:bg-transparent border border-white/5 md:border-none md:px-0 outline-none placeholder:text-sm placeholder:text-white/55 placeholder:font-normal md:placeholder:text-[16px]' />
                                     </div>
 

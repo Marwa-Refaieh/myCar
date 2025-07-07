@@ -32,6 +32,7 @@ const CarData = ({ car }) => {
  ${carDetails.images[0]}
     `
     };
+
     const handleShareClick = async (e) => {
         const message = prepareShareMessage(car);
 
@@ -53,7 +54,7 @@ const CarData = ({ car }) => {
 
             <div className={`flex justify-between items-center ${i18n.language === 'ar' ? 'pl-10' : 'pr-10'}`}>
                 <h4 className="text-2xl">{displayValue(car.name, "name not available")}</h4>
-                <div className='flex items-center gap-3'>
+                <div className='hidden md:flex items-center gap-3'>
                     <Share2 onClick={handleShareClick} className="text-white w-5 h-5 cursor-pointer" />
                     <LikeButton
                         itemType="car"
@@ -79,7 +80,6 @@ const CarData = ({ car }) => {
                     <span className="text-Myprimary"> / {t("Per day")}</span>
                 )}
             </p>
-
 
             <div>
                 <h4 className="text-Myprimary text-2xl py-3">{t("What’s included?")}</h4>

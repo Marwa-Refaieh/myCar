@@ -28,6 +28,7 @@ import BestSeller from './pages/bestSeller/BestSeller'
 import CompleteInfo from './pages/complete-info/completeInfo'
 import UpdateCar from './pages/updateCar/updateCar'
 import AboutUs from './pages/AboutUs/AboutUs'
+import Services from './pages/Services/Services'
 
 function App() {
 
@@ -73,6 +74,7 @@ function App() {
             <Route path='/create' element={<CreateCarPage />} />
             <Route path='/updatecar/:id' element={<UpdateCar />} />
             <Route path='/aboutUs' element={<AboutUs/>}/>
+            <Route path='/services' element={<Services/>}/>
           </Route> 
 
 

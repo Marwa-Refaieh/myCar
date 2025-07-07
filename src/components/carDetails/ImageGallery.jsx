@@ -3,14 +3,19 @@ import { useKeenSlider } from 'keen-slider/react';
 import 'keen-slider/keen-slider.min.css';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import img from '../../assets/image.webp';
+import useFetchFavorites from '@/hooks/getFavCars';
+import { Share2 } from 'lucide-react';
+import LikeButton from '../LikeButton';
 
-const ImageGallery = ({ images, video }) => {
+const ImageGallery = ({ images, video, carId ,car }) => {
   const hasImages = images && images.length > 0;
   const multipleImages = hasImages && images.length > 1;
 
   const [currentSlide, setCurrentSlide] = useState(0);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [favoriteIds, setFavoriteIds] = useState([]);
+  const { data } = useFetchFavorites();
 
   const [sliderRef, instanceRef] = useKeenSlider(
     multipleImages
@@ -23,6 +28,12 @@ const ImageGallery = ({ images, video }) => {
       }
       : null
   );
+
+  useEffect(() => {
+    if (data && Array.isArray(data.data)) {
+      setFavoriteIds(data.data.map(car => car.id));
+    }
+  }, [data]);
 
   useEffect(() => {
     if (!multipleImages) return;
@@ -41,6 +52,26 @@ const ImageGallery = ({ images, video }) => {
     setOpen(true);
   };
 
+  const prepareShareMessage = (carDetails) => {
+    return `
+            ${carDetails.brand?.name || ''} ${carDetails.model?.name || ''} ${carDetails.year_production || ''} - للبيع \n
+ ${carDetails.description} \n
+ ${carDetails.images[0]}
+    `
+  };
+
+  const handleShareClick = async (e) => {
+    const message = prepareShareMessage(car);
+
+    if (navigator.share) {
+      await navigator.share({
+        text: message,
+      });
+    } else {
+      await navigator.clipboard.writeText(message);
+    }
+  };
+
   const imagesToShow = hasImages ? images : [img];
 
   return (
@@ -52,11 +83,29 @@ const ImageGallery = ({ images, video }) => {
           } relative rounded-md overflow-hidden w-full h-[18rem] md:h-[25rem] ${!hasImages ? 'cursor-default' : 'cursor-pointer'
           }`}
       >
+        <div className="absolute top-2 right-2 z-20 flex md:hidden items-center gap-2">
+     
+          <div className="bg-black/40 p-2 rounded-full backdrop-blur-sm">
+            <Share2
+              onClick={handleShareClick}
+              className="text-white w-5 h-5 cursor-pointer hover:text-primary"
+            />
+          </div>
+
+          <div className="bg-black/40 p-2 rounded-full backdrop-blur-sm">
+            <LikeButton
+              itemType="car"
+              itemId={carId}
+              isFavorite={favoriteIds.includes(carId)}
+            />
+          </div>
+        </div>
+
+
         {imagesToShow.map((imageSrc, idx) => (
           <div
             key={idx}
-            className={`${multipleImages ? 'keen-slider__slide' : ''
-              } flex justify-center items-center`}
+            className={`${multipleImages ? 'keen-slider__slide' : ''} flex justify-center items-center`}
             onClick={() => hasImages && handleImageClick(imageSrc)}
           >
             <img
@@ -91,7 +140,7 @@ const ImageGallery = ({ images, video }) => {
 
       {/* Thumbnails */}
       {multipleImages && (
-        <div className="flex flex-wrap justify-center items-center gap-4 mt-4">
+        <div className="hidden md:flex flex-wrap justify-center items-center gap-4 mt-4">
           {images.map((img, idx) => (
             <button
               key={idx}

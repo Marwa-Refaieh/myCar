@@ -67,13 +67,13 @@ const Specifications = ({ car }) => {
 
 
     return (
-        <div>
-            <p className='text-2xl mb-5 mt-8'>{t("Specifications")}</p>
-            <div className='flex flex-wrap justify-center md:justify-start gap-2 md:gap-6'>
+        <div className='border-b border-white/30 md:border-none pb-6'>
+            <p className='text-2xl mb-5 mt-6'>{t("Specifications")}</p>
+            <div className='flex flex-wrap justify-center md:justify-start gap-3 md:gap-6'>
                 {
                     specs.map((item, index) => (
-                        <div key={index} className='border border-Mycard w-24 md:w-32 h-32 rounded-lg flex justify-center items-center flex-col gap-1 md:gap-2 bg-MyOption'>
-                            <img src={item.icon} alt={item.label} className='w-6' />
+                        <div key={index} className='border border-Mycard w-24 h-24 md:w-32 md:h-32 rounded-lg flex justify-center items-center flex-col gap-1 md:gap-2 bg-MyOption'>
+                            <img src={item.icon} alt={item.label} className='w-4 md:w-6 mb-1' />
                             <p className='text-xs md:text-sm'>{item.label}</p>
                             <p className='text-white/50 text-xs md:text-sm text-center break-words'>{item.value}</p>
                         </div>

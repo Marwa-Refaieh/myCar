@@ -57,7 +57,7 @@ export default function LikeButton({ itemType, itemId, isFavorite = false }) {
       onClick={handleClick}
       disabled={loading}
       aria-label="Like"
-      className="hover:bg-transparent w-8 h-8 flex items-center justify-center rounded-full"
+      className="hover:bg-transparent  flex items-center justify-center rounded-full"
     >
       {loading ? (
         <span className="w-5 h-5 border-2 border-t-transparent border-Myprimary rounded-full animate-spin inline-block"></span>

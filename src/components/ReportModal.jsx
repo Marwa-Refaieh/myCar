@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 export default function ReportModal({
     sellerId,
@@ -15,7 +15,10 @@ export default function ReportModal({
     const [reason, setReason] = useState("");
     const [open, setOpen] = useState(false);
     const { t } = useTranslation('home');
-    
+    const location = useLocation();
+    const isDetailsPage = location.pathname.includes("details");
+
+
     const handleClick = () => {
 
         const token = localStorage.getItem("token");
@@ -47,9 +50,15 @@ export default function ReportModal({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" className="text-black hover:bg-primaryHover bg-Myprimary border-none">
-                    {triggerText}
-                </Button>
+                {isDetailsPage ? (
+                    <button className='px-12 border border-Myprimary py-2 text-Myprimary rounded-sm'>
+                        {triggerText}
+                    </button>
+                ) : (
+                    <Button variant="outline" className="text-black hover:bg-primaryHover bg-Myprimary border-none">
+                        {triggerText}
+                    </Button>
+                )}
             </DialogTrigger>
 
             <DialogContent className="bg-[#121212] text-white border-none">

@@ -50,15 +50,21 @@ const CarTabs = ({ car }) => {
                 </TabsList>
 
                 <TabsContent value="details" className="p-4 ">
-                    <div>
-                        <p className="text-white/50 xs:text-center">
-                            {car.created_at ? car.created_at.split(' ')[0] : t("Unknown date")}
+                    <div className='border-b border-white/30 md:border-none pb-6'>
+                        <p className="text-white/50 text-sm">
+                            {car.created_at
+                                ? `${new Date(car.created_at).toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric'
+                                })} · 10 min`
+                                : t("Unknown date")}
+
                         </p>
 
                         <div className="flex flex-col items-start md:flex-row md:items-center gap-8 md:gap-28 mt-4">
 
-                            <div className="flex xs:w-full xs:flex-col xs:items-center items-start sm:items-center gap-4 sm:gap-8">
-                                <div className="w-28 h-28">
+                            <div className="flex xs:w-full items-start sm:items-center gap-4 sm:gap-8">
+                                <div className="w-24 h-24 md:w-28 md:h-28">
                                     <img
                                         src={car.user?.image_url || img}
                                         alt={car.user?.full_name || "User image"}
@@ -68,41 +74,35 @@ const CarTabs = ({ car }) => {
 
                                 <div className="flex flex-col gap-2">
                                     <div className="flex items-center gap-3">
-                                        <img src={userIcon} alt="user" className="w-5 h-5" />
+                                        <img src={userIcon} alt="user" className="w-4 h-4 md:w-5 md:h-5" />
                                         <p>{car.user?.full_name || t("name not available")}</p>
                                     </div>
 
                                     <div className="flex items-center gap-3">
-                                        <img src={callIcon} alt="call" className="w-5 h-5" />
+                                        <img src={callIcon} alt="call" className="w-4 h-4 md:w-5 md:h-5" />
                                         <p>{car.user?.mobile || t("mobile not available")}</p>
                                     </div>
 
                                     <div className="flex items-center gap-3">
-                                        <img src={starIcon} alt="star" className="w-5 h-5" />
+                                        <img src={starIcon} alt="star" className="w-4 h-4 md:w-5 md:h-5" />
                                         <p>
                                             {car.user?.rating || 0}{" "}
                                             {car.user?.rating === 1 ? t("Review") : t("Reviews")}
                                         </p>
-
                                     </div>
                                 </div>
                             </div>
 
                             <div className="xs:w-full flex flex-row md:flex-col gap-3 mt-4 lg:mt-0 xs:justify-center">
-                                {car.user && car.user.id ? (
-                                    <Link to={`/sellerProfile/${car.user.id}`}>
-                                        <Button2 title={t("Details")} style="px-3 py-1" />
-                                    </Link>
-                                ) : (
-                                    <span>{t("Seller info not available")}</span>
-                                )}
-
                                 <ReportModal
                                     sellerId={car.user.id}
                                     triggerText={t("Report")}
                                     title={t("Report Seller")}
                                     placeholder={t("Write the reason for reporting this seller...")}
                                 />
+                                <Link to={`/sellerProfile/${car.user.id}`}>
+                                    <button className='px-12 bg-Myprimary py-2 text-black rounded-sm'>{t("Details")}</button>
+                                </Link>
                             </div>
                         </div>
                     </div>

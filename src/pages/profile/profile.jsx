@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import StarRatings from 'react-star-ratings';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useTranslation } from "react-i18next";
 import img from "../../assets/image.webp";
@@ -93,6 +93,19 @@ export default function Profile() {
             <span className="ml-2 text-sm text-gray-400">
               {user.rating || 0} ({user.reviews_count || 0} {t("Reviews")})
             </span>
+          </div>
+
+          <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-4">
+            <Link to={'/editprofile'}>
+              <button className='border border-Myprimary hover:border-primaryHover text-Myprimary  transition rounded-full px-6 py-1 capitalize'>
+                edit Profile
+              </button>
+            </Link>
+
+            <button className='border text-black hover:bg-primaryHover bg-Myprimary rounded-full px-6 py-1  border-none capitalize transition'>
+              Share Profile
+            </button>
+
           </div>
 
         </div>
