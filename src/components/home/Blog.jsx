@@ -18,7 +18,7 @@ const Blog = () => {
             image: car8,
         },
     ];
-
+ 
     return (
         <section className="text-white py-20 flex flex-col gap-20">
             <h2 className="text-3xl md:text-5xl font-bold text-center lg:mb-10 text-Myprimary">Read Our Blog Post</h2>

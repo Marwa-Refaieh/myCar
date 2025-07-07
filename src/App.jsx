@@ -53,7 +53,7 @@ function App() {
               <Navbar />
               <Sidebar />
               <Outlet />
-              <Footer />
+              {/* <Footer /> */}
             </SidebarProvider>
           }>
             <Route path='/' element={<Home />} />

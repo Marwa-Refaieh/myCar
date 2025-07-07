@@ -25,25 +25,31 @@ const CarData = ({ car }) => {
         return value;
     };
 
-    const prepareShareMessage = (carDetails) => {
-        return `
-            ${carDetails.brand?.name || ''} ${carDetails.model?.name || ''} ${carDetails.year_production || ''} - للبيع \n
- ${carDetails.description} \n
- ${carDetails.images[0]}
-    `
-    };
+    //     const prepareShareMessage = (carDetails) => {
+    //         return `
+    //             ${carDetails.brand?.name || ''} ${carDetails.model?.name || ''} ${carDetails.year_production || ''} - للبيع \n
+    //  ${carDetails.description} \n
+    //  ${carDetails.images[0]}
+    //     `
+    //     };
 
-    const handleShareClick = async (e) => {
-        const message = prepareShareMessage(car);
+    const handleShareClick = async () => {
+        const origin = window.location.origin; 
+        const path = window.location.pathname;
+        const fullUrl = `${origin}${path}`;
 
         if (navigator.share) {
             await navigator.share({
-                text: message,
+                url: fullUrl,
             });
         } else {
-            await navigator.clipboard.writeText(message);
+            await navigator.clipboard.writeText(fullUrl);
         }
     };
+
+
+
+
 
     return (
         <div>

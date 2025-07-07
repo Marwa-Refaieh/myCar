@@ -14,13 +14,13 @@ const StepIndicator = ({ currentStep }) => {
   };
 
   const steps = [
-    { number: 1, label: t('brands') },
+    { number: 1, label: t('brands') }, 
     { number: 2, label: t('specification') },
     { number: 3, label: t('photos') },
   ];
 
   return (
-    <div className="flex items-center justify-center max-w-[90%] mx-auto space-x-6 rtl:space-x-reverse mt-14">
+    <div className="flex items-center justify-center max-w-[85%] md:max-w-[90%] mx-auto space-x-3 rtl:space-x-reverse mt-24">
       {steps.map((step, index) => (
         <div key={step.number} className="flex items-center">
           {/* Circle */}

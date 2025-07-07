@@ -42,7 +42,7 @@ export default function CarDetails() {
             </div>
 
         );
-    }
+    } 
     if (error) {
         return (
             <div>

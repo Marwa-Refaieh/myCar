@@ -16,6 +16,24 @@ export default function Profile() {
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
 
+  const handleShareProfileClick = async () => {
+    const origin = window.location.origin; // رابط الموقع الحالي (الدومين)
+    const path = window.location.pathname; // المسار الحالي مثل "/profile" أو "/user/123"
+    const fullUrl = `${origin}${path}`;
+
+    if (navigator.share) {
+      await navigator.share({
+        title: "صفحتي الشخصية",
+        text: "تفقد ملفي الشخصي هنا:",
+        url: fullUrl,
+      });
+    } else {
+      await navigator.clipboard.writeText(fullUrl);
+      alert("✅ تم نسخ رابط الصفحة الشخصية إلى الحافظة");
+    }
+  };
+
+
   useEffect(() => {
     axios.get(`https://mycarapplication.com/api/auth/me`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
@@ -102,7 +120,7 @@ export default function Profile() {
               </button>
             </Link>
 
-            <button className='border text-black hover:bg-primaryHover bg-Myprimary rounded-full px-6 py-1  border-none capitalize transition'>
+            <button onClick={handleShareProfileClick} className='border text-black hover:bg-primaryHover bg-Myprimary rounded-full px-6 py-1  border-none capitalize transition'>
               Share Profile
             </button>
 

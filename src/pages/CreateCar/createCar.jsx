@@ -15,7 +15,7 @@ const CreateCarPage = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { t } = useTranslation('createcar');
+  const { t } = useTranslation('createcar'); 
   const navigate = useNavigate();
 
   const {
@@ -124,7 +124,12 @@ const CreateCarPage = () => {
         "fuel_type",
         "body_type",
         "doors",
-        "seats"
+        "seats",
+        "tax_and_insurance",
+        "odometer",
+        "horsepower",
+        "engine_cylinder",
+        "engine_size"
       ]);
     } else if (currentStep === 3) {
       valid = await trigger(["images", "location", "description"]);
@@ -137,7 +142,7 @@ const CreateCarPage = () => {
 
   const goBack = () => {
     if (currentStep > 1) {
-      setCurrentStep((prev) => prev - 1);
+      setCurrentStep((prev) => prev - 1); 
     } else {
       navigate(-1);
     }
@@ -160,18 +165,18 @@ const CreateCarPage = () => {
       {/* Overlay for Sale / Rent Selection */}
       {showOverlay && (
         <div className="fixed inset-0 z-50 bg-black flex flex-col justify-center items-center">
-          <h2 className="text-white text-2xl mb-10 font-semibold">Add Car</h2>
+          <h2 className="text-white text-2xl mb-10 font-semibold">{t("add")}</h2>
           <button
             onClick={() => handleSelectType(1)}
-            className="bg-yellow-400 text-black w-60 py-4 rounded-full mb-4 font-semibold text-lg"
+            className="bg-Myprimary text-black w-60 py-4 rounded-full mb-4 font-semibold text-lg"
           >
-            Sale
+            {t('sale')}
           </button>
           <button
             onClick={() => handleSelectType(2)}
-            className="bg-yellow-400 text-black w-60 py-4 rounded-full font-semibold text-lg"
+            className="bg-Myprimary text-black w-60 py-4 rounded-full font-semibold text-lg"
           >
-            Rent
+            {t('rent')}
           </button>
         </div>
       )}
@@ -218,7 +223,7 @@ const CreateCarPage = () => {
               {t('next')}
             </button>
           ) : (
-            <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
+            <button type="submit" className="bg-[#f1ea28] text-black px-4 py-2 rounded">
               {t('create')}
             </button>
           )}

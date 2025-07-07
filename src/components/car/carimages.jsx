@@ -12,7 +12,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
 
   // === Image Upload per Slot ===
   const handleImageChange = (e, index) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0];    
     if (!file || !(file instanceof File)) return;
 
     const updatedImages = [...images];
@@ -46,7 +46,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
             <div
               key={index}
               onClick={() => imageRefs.current[index]?.click()}
-              className="bg-neutral-800 w-24 h-24 rounded relative cursor-pointer flex items-center justify-center hover:ring-2 hover:ring-yellow-400 transition"
+              className="bg-neutral-800 w-24 h-24 rounded relative cursor-pointer flex items-center justify-center border-2 border-dashed border-[#f1ea2866]  "
             >
               {img ? (
                 <img
@@ -55,7 +55,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
                   className="w-full h-full object-cover rounded"
                 />
               ) : (
-                <span className="bg-yellow-400 text-black w-6 h-6 flex items-center justify-center rounded-full text-lg font-bold">+</span>
+                <span className="bg-[#f1ea28] text-black w-6 h-6 flex items-center justify-center rounded-full text-lg font-bold">+</span>
               )}
               <input
                 type="file"
@@ -88,9 +88,9 @@ const CarImages = ({ register, errors, watch, setValue }) => {
         <label className="block font-medium mb-3">{t('3dfile')}</label>
         <div
           onClick={() => model3dRef.current?.click()}
-          className="bg-neutral-800 w-24 h-24 rounded relative cursor-pointer flex items-center justify-center hover:ring-2 hover:ring-yellow-400 transition"
+          className="bg-neutral-800 w-24 h-24 rounded relative cursor-pointer flex items-center justify-center  border-2 border-dashed border-[#f1ea2866] "
         >
-          <span className="bg-yellow-400 text-black w-6 h-6 flex items-center justify-center rounded-full text-lg font-bold">+</span>
+          <span className="bg-[#f1ea28] text-black w-6 h-6 flex items-center justify-center rounded-full text-lg font-bold">+</span>
         </div>
         <input
           type="file"
@@ -112,72 +112,12 @@ const CarImages = ({ register, errors, watch, setValue }) => {
           type="url"
           placeholder={t('linkvideo')}
           onChange={handleVideoChange}
-          className="w-full p-2 rounded bg-neutral-800 text-white"
+          className="w-full p-2 rounded-full bg-neutral-800 text-white"
         />
         <input type="hidden" {...register("video_link")} />
       </div>
 
-      {/* === Horsepower === */}
-      <div>
-        <label className="block font-medium mb-1">{t('horsepower')}</label>
-        <input
-          type="number"
-          placeholder={t('horsepowerenter')}
-          {...register("horsepower", { required: t('reqhorsepower') })}
-          className="w-full p-2 rounded bg-neutral-800 text-white"
-        />
-        {errors.horsepower && <p className="text-red-600">{errors.horsepower.message}</p>}
-      </div>
 
-      {/* === Odometer === */}
-      <div>
-        <label className="block font-medium mb-1">{t('odometer')}</label>
-        <input
-          type="number"
-          {...register("odometer", { required: t('reqodometer') })}
-          className="w-full p-2 rounded bg-neutral-800 text-white"
-        />
-        {errors.odometer && <p className="text-red-600">{errors.odometer.message}</p>}
-      </div>
-
-      {/* === Engine Size === */}
-      <div>
-        <label className="block font-medium mb-1">{t('engine_size')}</label>
-        <input
-          type="number"
-          step="0.1"
-          {...register("engine_size", { required: t('reqengine_size') })}
-          className="w-full p-2 rounded bg-neutral-800 text-white"
-        />
-        {errors.engine_size && <p className="text-red-600">{errors.engine_size.message}</p>}
-      </div>
-
-      {/* === Tax and Insurance === */}
-      <div>
-        <label className="block font-medium mb-1">{t('tax_and_insurance')}</label>
-        <select
-          {...register("tax_and_insurance", { required: t('reqtax_and_insurance') })}
-          className="w-full p-2 rounded bg-neutral-800 text-white"
-        >
-          <option value="">{t('choose')}</option>
-          <option value="1">{t('yes')}</option>
-          <option value="0">{t('no')}</option>
-        </select>
-        {errors.tax_and_insurance && (
-          <p className="text-red-600">{errors.tax_and_insurance.message}</p>
-        )}
-      </div>
-
-      {/* === Car Name === */}
-      <div>
-        <label className="block font-medium mb-1">{t('name')}</label>
-        <input
-          type="text"
-          {...register("name", { required: t('reqname') })}
-          className="w-full p-2 rounded bg-neutral-800 text-white"
-        />
-        {errors.name && <p className="text-red-600">{errors.name.message}</p>}
-      </div>
 
       {/* === Price === */}
       <div>
@@ -185,7 +125,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
         <input
           type="number"
           {...register("price", { required: t('reqprice') })}
-          className="w-full p-2 rounded bg-neutral-800 text-white"
+          className="w-full p-2 rounded-full bg-neutral-800 text-white"
         />
         {errors.price && <p className="text-red-600">{errors.price.message}</p>}
       </div>
@@ -196,7 +136,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
         <textarea
           rows={4}
           {...register("description", { required: t('reqdesc') })}
-          className="w-full p-2 rounded bg-neutral-800 text-white"
+          className="w-full p-2 rounded-lg bg-neutral-800 text-white"
         ></textarea>
         {errors.description && <p className="text-red-600">{errors.description.message}</p>}
       </div>

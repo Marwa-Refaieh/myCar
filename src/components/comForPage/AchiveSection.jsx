@@ -51,9 +51,9 @@ export default function AchievementsSection() {
       </div>
 
       {/* Right Content */}
-      <div className="p-10 flex flex-col justify-center space-y-6 bg-[#111]">
+      <div className="p-10 flex flex-col justify-center space-y-6 bg-black">
 
-        <h4 className="relative text-white mb-16 uppercase tracking-wider pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[2px] before:h-6 before:bg-blue-400">
+        <h4 className="relative text-white mb-16 uppercase tracking-wider pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[2px] before:h-6 before:bg-[#f1ea28]">
         Achievements
       </h4>
         <h1 className="text-4xl md:text-5xl font-bold leading-tight uppercase">
@@ -79,7 +79,7 @@ export default function AchievementsSection() {
 
 function StatBox({ label, value, suffix = '' }) {
   return (
-    <div className="border-l-2 border-blue-600 pl-4">
+    <div className="border-l-2 border-[#f1ea28] pl-4">
       <div className="text-3xl md:text-4xl font-bold">{value.toLocaleString()}{suffix}</div>
       <div className="text-sm text-gray-400 mt-1">{label}</div>
     </div>

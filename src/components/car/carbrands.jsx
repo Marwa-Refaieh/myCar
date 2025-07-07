@@ -50,7 +50,7 @@ const CarBrands = ({ selectBrand }) => {
         <div
           key={e.id}
           onClick={() => handleBrand(e, index)}
-          className={`cursor-pointer flex flex-col items-center justify-center rounded-xl h-[110px] w-full border-2 transition-all duration-300 ${
+          className={`cursor-pointer flex flex-col items-center justify-center rounded-xl h-[110px] w-full border-2 border-[#363434] transition-all duration-300 ${
             activeIndex === index
               ? 'border-yellow-400 bg-yellow-100/5'
               : 'border-gray-600 hover:border-yellow-400'

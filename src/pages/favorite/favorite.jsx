@@ -3,6 +3,7 @@ import CarCard from '@/components/favorite/card';
 import UserCard from '@/components/favorite/userCard';
 import useFetchFavorites from '@/hooks/getFavCars';
 import useFetchFavoritesSaller from '@/hooks/getFavSaller';
+import { Card } from '@/components/ui/card';
 
 export default function Favorite() {
   const [activeTab, setActiveTab] = useState('cars');
@@ -19,7 +20,7 @@ export default function Favorite() {
     if (!loadingSaller && (!Array.isArray(dataSaller?.data) || dataSaller.data.length === 0)) {
       setNotFoundSaller('No Seller In Your Favorite');
     }
-  }, [loading, data, loadingSaller, dataSaller]);
+  }, [loading, data, loadingSaller, dataSaller]); 
 
   if (loading || loadingSaller) {
     return (
@@ -69,12 +70,13 @@ export default function Favorite() {
               <CarCard
                 key={index}
                 image={item.image}
+                id={item.id}
                 title={item.name}
                 price={`${item.price}`}
                 km={`${item.odometer} km`}
                 year={`${item.year_production}`}
                 location={item.city?.name || 'N/A'}
-              />
+              /> 
             ))
           ) : (
             <p className="text-center text-red-700 text-xl">{notFoundCar}</p>
