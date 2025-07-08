@@ -2,17 +2,17 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const Hero2 = () => {
-    const { t } = useTranslation('home');
+    const { t,i18n } = useTranslation('home');
     return (
         <section
-            className="md:flex hidden relative h-[45vh] w-full mt-16 bg-[#232321] items-center px-6 flex-col-reverse lg:flex-row justify-between overflow-hidden bg-no-repeat bg-cover bg-center"
+            className={`md:flex hidden relative h-[45vh] w-full mt-16 bg-[#232321] items-center px-6 flex-col-reverse lg:flex-row justify-between overflow-hidden bg-no-repeat bg-cover bg-center ${i18n.language === 'ar' ? '-scale-x-100':'scale-x-100'}`}
             style={{
                 backgroundImage: `url('/src/assets/hero6.webp')`
             }}
         >
             <div className="absolute inset-0 bg-black opacity-40 z-10" />
             
-            <div className="w-full h-full flex flex-col items-start pl-16 justify-center text-center z-30">
+            <div className={`w-full h-full flex flex-col items-start justify-center text-center z-30  ${i18n.language === 'ar' ? '-scale-x-100 pr-14':'scale-x-100 pl-16'}`}>
                 <h1 className="text-Myprimary text-4xl sm:text-5xl lg:text-6xl font-bold mb-5">
                     {t("Find A Car")}
                 </h1>

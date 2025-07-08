@@ -24,6 +24,7 @@
   "buy": "buy",
   "sell": "sell",
   "rent": "rent",
+  "Rent": "Rent",
   "Order Now": "Order Now",
   "SEE ALL BRANDS": "SEE ALL BRANDS",
   "See All Popular Categories": "See All Popular Categories",
@@ -136,5 +137,14 @@
   "Create Car":"Create Car",
   "Brand Name":"Brand Name",
   "Area":"Area",
-  "Model Name":"Model Name"
+  "Model Name":"Model Name",
+  "Blogs":"Blogs",
+  "Contact Us":"Contact Us",
+  "Services":"Services",
+  "Address":"Address",
+  "Damascus, Syria":"Damascus, Syria",
+  "Phone":"Phone",
+  "Email":"Email",
+  "We’re Here to Help":"We’re Here to Help",
+  "Connect With Us":"Connect With Us"
 }

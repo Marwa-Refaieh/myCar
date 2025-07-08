@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 export default function ReportModal({
     sellerId,
@@ -17,7 +17,16 @@ export default function ReportModal({
     const { t } = useTranslation('home');
     const location = useLocation();
     const isDetailsPage = location.pathname.includes("details");
+    const navigate = useNavigate();
+    const token = localStorage.getItem('token');
 
+
+    const handleClickSignin = (e) => {
+        if (!token) {
+            e.preventDefault(); 
+            navigate('/signin');
+        }
+    };
 
     const handleClick = () => {
 
@@ -51,11 +60,18 @@ export default function ReportModal({
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 {isDetailsPage ? (
-                    <button className='px-12 border border-Myprimary py-2 text-Myprimary rounded-sm'>
+                    <button
+                        className="px-12 border border-Myprimary py-2 text-Myprimary rounded-sm"
+                        onClick={handleClickSignin}
+                    >
                         {triggerText}
                     </button>
                 ) : (
-                    <Button variant="outline" className="text-black hover:bg-primaryHover bg-Myprimary border-none">
+                    <Button
+                        variant="outline"
+                        className="text-black hover:bg-primaryHover bg-Myprimary border-none"
+                        onClick={handleClickSignin}
+                    >
                         {triggerText}
                     </Button>
                 )}

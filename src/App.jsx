@@ -29,9 +29,12 @@ import CompleteInfo from './pages/complete-info/completeInfo'
 import UpdateCar from './pages/updateCar/updateCar'
 import AboutUs from './pages/AboutUs/AboutUs'
 import Services from './pages/Services/Services'
+import ContactUs from './pages/ContactUs/ContactUs'
 
 function App() {
-
+  // useEffect(() => {
+  //   localStorage.clear();
+  // }, []);
   const ScrollToTop = () => {
     const { pathname } = useLocation();
 
@@ -75,6 +78,7 @@ function App() {
             <Route path='/updatecar/:id' element={<UpdateCar />} />
             <Route path='/aboutUs' element={<AboutUs/>}/>
             <Route path='/services' element={<Services/>}/>
+            <Route path='/contactUs' element={<ContactUs/>}/>
           </Route> 
 
 

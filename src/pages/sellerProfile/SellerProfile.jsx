@@ -72,7 +72,7 @@ export default function SellerProfile() {
         return (
             <div>
                 <div className="flex justify-center items-center min-h-[90vh]">
-                    <div className="flex space-x-2">
+                    <div className="flex gap-2">
                         <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                         <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                         <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>

@@ -13,11 +13,9 @@ const CommentModal = ({ open, setOpen, comment, setComment, onSubmit }) => {
             alert(t("Please enter a comment and rating"));
             return;
         }
-
-        // تمرير التقييم مع التعليق
+       
         onSubmit({ comment, rating });
 
-        // إعادة ضبط القيم
         setOpen(false);
         setComment("");
         setRating(0);

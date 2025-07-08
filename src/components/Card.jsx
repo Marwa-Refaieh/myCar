@@ -20,39 +20,19 @@ const Card = ({ car, favoriteIds }) => {
         e.preventDefault();
     };
 
-    const prepareShareMessage = (carDetails) => {
-        return `
-            ${carDetails.brand?.name || ''} ${carDetails.model?.name || ''} ${carDetails.year_production || ''} - للبيع \n
- ${carDetails.description} \n
- ${carDetails.images[0]}
-    `
-    };
-
-
     const handleShareClick = async (e) => {
         e.stopPropagation();
         e.preventDefault();
+        const origin = window.location.origin;
+        const path = window.location.pathname;
+        const fullUrl = `${origin}${path}details/${car.id}`;
 
-        if (loadingShare) return; 
-
-        setLoadingShare(true);
-        try {
-            const response = await axios.get(`https://mycarapplication.com/api/car/${car.id}`);
-            const carDetails = response.data;
-
-            const message = prepareShareMessage(carDetails);
-
-            if (navigator.share) {
-                await navigator.share({
-                    text: message,
-                });
-            } else {
-                await navigator.clipboard.writeText(message);
-            }
-        } catch (error) {
-            console.error("Error sharing:", error);
-        } finally {
-            setLoadingShare(false);
+        if (navigator.share) {
+            await navigator.share({
+                url: fullUrl,
+            });
+        } else {
+            await navigator.clipboard.writeText(fullUrl);
         }
     };
 
@@ -82,7 +62,7 @@ const Card = ({ car, favoriteIds }) => {
 
                 <div
                     className={`absolute top-5 right-16 z-10 bg-black/60 rounded-full w-8 h-8 flex justify-center items-center cursor-pointer ${loadingShare ? 'opacity-50 pointer-events-none' : ''}`}
-                    onClick={handleShareClick}
+                    onClick={(e) => handleShareClick(e)}
                     title={t('car.share') || "Share"}
                 >
                     <Share2 className="text-white w-5 h-5" />

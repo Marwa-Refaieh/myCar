@@ -11,7 +11,7 @@ import { buildFiltersArray, getOrdersFromSort } from '@/utils/filterFunctions';
 import { useLocation } from 'react-router-dom';
 
 const Cars = () => {
-    const { t } = useTranslation(['home', 'msg']);
+    const { t, i18n } = useTranslation(['home', 'msg']);
     const [cars, setCars] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -63,7 +63,7 @@ const Cars = () => {
                 setAppliedFilters(updatedFilters);
             }, 400);
             setHasInitializedFromLocation(true);
-             window.history.replaceState({}, document.title, window.location.pathname);
+            window.history.replaceState({}, document.title, window.location.pathname);
         }
     }, [location.state, filters, hasInitializedFromLocation]);
 
@@ -131,7 +131,7 @@ const Cars = () => {
             <>
                 <Hero2 />
                 <div className="flex justify-center items-center min-h-[90vh]">
-                    <div className="flex space-x-2">
+                    <div className="flex gap-2">
                         <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                         <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                         <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
@@ -158,7 +158,7 @@ const Cars = () => {
 
             <div className="flex lg:flex-row flex-col">
                 <div
-                    className="sticky top-[70px] max-h-[calc(100vh-70px)] overflow-auto pr-2 border-r "
+                    className={`sticky top-[70px] max-h-[calc(100vh-70px)] overflow-auto pr-2 ${i18n.language === 'ar' ? 'border-l' : 'border-r'}`}
                     style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                 >
                     <div className="hidden lg:flex scrollbar-hide p-0 m-0">
@@ -204,7 +204,7 @@ const Cars = () => {
                                 <div className="text-center text-white text-xl mt-10">
                                     {t("No cars match your filters")}
                                 </div>
-                            ) : null 
+                            ) : null
                         ) : (
                             <div className="flex flex-wrap gap-8 justify-center my-5">
                                 {cars.map((car, index) => (

@@ -18,9 +18,9 @@ const chunkArray = (arr, size) => {
 };
 
 const Brands = () => {
-    const { t } = useTranslation('msg');
+    const { t, i18n } = useTranslation('msg');
     const navigate = useNavigate();
-
+    const swiperKey = i18n.language === 'ar' ? 'ar' : 'en';
     const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -58,7 +58,7 @@ const Brands = () => {
     if (loading) {
         return (
             <div className="flex justify-center items-center h-40">
-                <div className="flex space-x-2">
+                <div className="flex gap-2">
                     <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
                     <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
                     <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
@@ -111,6 +111,7 @@ const Brands = () => {
             ></div>
 
             <Swiper
+                key={swiperKey}
                 modules={[Navigation, Pagination]}
                 navigation={{
                     nextEl: '#next-button',
@@ -122,6 +123,7 @@ const Brands = () => {
                 }}
                 spaceBetween={30}
                 slidesPerView={1}
+                dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
             >
                 {brandChunks.map((chunk, index) => (
                     <SwiperSlide key={index}>

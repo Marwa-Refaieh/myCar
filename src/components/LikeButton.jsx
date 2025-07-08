@@ -28,24 +28,27 @@ export default function LikeButton({ itemType, itemId, isFavorite = false }) {
       ? "https://mycarapplication.com/api/favorites/remove"
       : "https://mycarapplication.com/api/favorites/add";
 
-    axios
-      .post(
-        url,
-        {
-          rateable_type: itemType,
+    const payload = liked
+      ? { car_id: itemId } 
+      : {
+          rateable_type: itemType, 
           rateable_id: itemId,
+        };
+
+    axios
+      .post(url, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      })
       .then(() => {
         setLiked(!liked);
       })
       .catch((error) => {
-        console.error("Error toggling favorite:", error.response?.data?.message || error.message);
+        console.error(
+          "Error toggling favorite:",
+          error.response?.data?.message || error.message
+        );
       })
       .finally(() => {
         setLoading(false);
@@ -57,7 +60,7 @@ export default function LikeButton({ itemType, itemId, isFavorite = false }) {
       onClick={handleClick}
       disabled={loading}
       aria-label="Like"
-      className="hover:bg-transparent  flex items-center justify-center rounded-full"
+      className="hover:bg-transparent flex items-center justify-center rounded-full"
     >
       {loading ? (
         <span className="w-5 h-5 border-2 border-t-transparent border-Myprimary rounded-full animate-spin inline-block"></span>

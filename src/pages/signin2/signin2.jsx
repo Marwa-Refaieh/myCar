@@ -97,7 +97,7 @@ export default function Signin2() {
 
         {isSubmitting ? (
           <div className="absolute bg-black w-full h-full flex justify-center items-center top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <div className="flex space-x-2">
+            <div className="flex gap-2">
               <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
               <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
               <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>

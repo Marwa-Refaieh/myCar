@@ -4,9 +4,11 @@ import StarRatings from 'react-star-ratings';
 import CommentModal from '../CommentModal';
 import img from '../../assets/image.webp';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ReviewCard = ({ reviews = [], id, type }) => {
     const { t } = useTranslation('home');
+    const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const [comment, setComment] = useState("");
     const [reviewsState, setReviewsState] = useState(reviews);
@@ -121,13 +123,21 @@ const ReviewCard = ({ reviews = [], id, type }) => {
             {reviewsState.length > 0 && (
                 <div className="flex">
                     <button
-                        onClick={() => setOpen(true)}
+                        onClick={() => {
+                            const token = localStorage.getItem("token");
+                            if (token) {
+                                setOpen(true);
+                            } else {
+                                navigate('/signin');
+                            }
+                        }}
                         className="inline-block font-bold rounded-full bg-Myprimary text-black transition uppercase px-10 py-2 mt-5 hover:bg-primaryHover"
                     >
                         {t("Add comment")}
                     </button>
                 </div>
             )}
+
 
             <CommentModal
                 open={open}

@@ -20,7 +20,6 @@ const Hero = () => {
     const [city, setCity] = useState([])
     const [brand, setBrand] = useState([])
     const [model, setModel] = useState([])
-    const [isEditingPrice, setIsEditingPrice] = useState(false);
 
 
     const [input, setInput] = useState({
@@ -107,6 +106,7 @@ const Hero = () => {
             })
 
     }, []);
+ 
 
     return (
         <section
@@ -121,7 +121,7 @@ const Hero = () => {
                     <h2 className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold">
                         {t("Quick And Super Easy!")}
                     </h2>
-                    {/* Conditions Tabs */}
+
                     <Tabs defaultValue="all" className="w-full mt-4 ">
                         <div dir={i18n.language === 'ar' ? 'rtl' : 'ltr'} className="flex flex-col justify-center items-start text-white font-semibold gap-2 md:pl-10 flex-wrap">
                             <p className='text-xl font-bold'>{t("I Am Looking For")}</p>
@@ -135,7 +135,7 @@ const Hero = () => {
 
                                 <TabsTrigger
                                     value="new"
-                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto  border-r-2 border-l-2 border-white/50"
+                                    className="hover:text-Myprimary transition px-4 py-2 text-white rounded-none data-[state=active]:bg-Myprimary w-full sm:w-auto  sm:border-r-2 sm:border-l-2 border-t-2 border-b-2 sm:border-t-0  sm:border-b-0 border-white/50 "
                                 >
                                     {t("New Cars")}
                                 </TabsTrigger>
@@ -151,7 +151,7 @@ const Hero = () => {
 
                         <div className=" text-white font-medium" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
                             <TabsContent value="all">
-                                 <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
+                                <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
 
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
@@ -429,7 +429,7 @@ const Hero = () => {
                             </TabsContent>
 
                             <TabsContent value="used">
-                             <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
+                                <div className="mt-6 md:bg-white/10 md:backdrop-blur-lg bg-[#161614] md:border md:border-white/10 p-5 md:px-7 md:py-4 md:rounded-full rounded-3xl flex flex-col md:flex-row gap-3 w-full md:items-center md:justify-between">
                                     <div className='flex flex-col justify-center gap-2 w-full'>
                                         <label className='md:text-xl md:mb-2'>{t("Location")}</label>
                                         <input type='text' placeholder={t("Area")} value={input.cityId} onChange={(e) =>

@@ -1,7 +1,13 @@
+import { useTranslation } from "react-i18next";
+
 const Title = ({ small, text1, text2 }) => {
+    const { i18n } = useTranslation();
     return (
         <div className='text-center'>
-            <small className="relative text-sm text-white uppercase tracking-wider pl-3 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[2px] before:h-4 before:bg-Myprimary">
+            <small
+                className={`relative text-sm text-white uppercase tracking-wider pl-3 before:content-[''] before:absolute ${i18n.language === 'ar' ? 'before:right-0 pl-0 pr-3' : 'before:left-0 pl-3'
+                    } before:top-1/2 before:-translate-y-1/2 before:w-[2px] before:h-4 before:bg-Myprimary`}
+            >
                 {small}
             </small>
 

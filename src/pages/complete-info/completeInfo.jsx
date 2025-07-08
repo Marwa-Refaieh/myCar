@@ -56,7 +56,7 @@ export default function CompleteInfo() {
       {/* Loading Overlay */}
       {isSubmitting && (
         <div className="absolute inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
-          <div className="flex space-x-2">
+          <div className="flex gap-2">
             <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
             <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
             <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>

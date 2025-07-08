@@ -34,8 +34,6 @@ const NewArrival = () => {
             });
     }, []);
 
-
-
     return (
         <div>
             <Hero2 />

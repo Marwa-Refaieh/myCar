@@ -25,16 +25,8 @@ const CarData = ({ car }) => {
         return value;
     };
 
-    //     const prepareShareMessage = (carDetails) => {
-    //         return `
-    //             ${carDetails.brand?.name || ''} ${carDetails.model?.name || ''} ${carDetails.year_production || ''} - للبيع \n
-    //  ${carDetails.description} \n
-    //  ${carDetails.images[0]}
-    //     `
-    //     };
-
     const handleShareClick = async () => {
-        const origin = window.location.origin; 
+        const origin = window.location.origin;
         const path = window.location.pathname;
         const fullUrl = `${origin}${path}`;
 
@@ -46,10 +38,6 @@ const CarData = ({ car }) => {
             await navigator.clipboard.writeText(fullUrl);
         }
     };
-
-
-
-
 
     return (
         <div>
@@ -81,11 +69,14 @@ const CarData = ({ car }) => {
                     : car.body_type === 2
                         ? t("Rental Price")
                         : t("price type not available")} :
-                ${car.price ? car.price.toLocaleString() : t("price not available")}
+                <span dir="ltr" className={`inline-block ${i18n.language === 'ar'? 'mr-1' : 'ml-1'}`} >
+                    ${car.price ? car.price.toLocaleString() : t("price not available")}
+                </span>
                 {car.body_type === 2 && (
                     <span className="text-Myprimary"> / {t("Per day")}</span>
                 )}
             </p>
+
 
             <div>
                 <h4 className="text-Myprimary text-2xl py-3">{t("What’s included?")}</h4>

@@ -21,6 +21,8 @@ import homeEN from '../locales/en/home.json';
 import homeAR from '../locales/ar/home.json';
 import msgEN from '../locales/en/msg.json';
 import msgAR from '../locales/ar/msg.json';
+import servicesAR from '../locales/ar/services.json';
+import servicesEN from '../locales/en/services.json';
 i18n
   .use(initReactI18next)
   .init({
@@ -35,6 +37,7 @@ i18n
         step3: enstep3,
         createcar: encreatecar,
         home: homeEN,
+        services: servicesEN,
         msg: msgEN
       },
       ar: {
@@ -47,6 +50,7 @@ i18n
         step3: arstep3,
         createcar: arcreatecar,
         home: homeAR,
+        services: servicesAR,
         msg: msgAR,
       }
     },

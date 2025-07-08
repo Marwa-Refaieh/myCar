@@ -1,49 +1,60 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const ColorPicker = ({ onSelectColor }) => {
-    const [selectedColor, setSelectedColor] = useState('#000000');
+    const [selectedColor, setSelectedColor] = useState('');
+    const [colors, setColors] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const colors = [
-        '#000000',
-        '#FFFFFF',
-        '#C0C0C0',
-        '#808080',
-        '#FF0000',
-        '#0000FF',
-        '#008000',
-        '#FFFF00',
-        '#800000',
-        '#FFA500',
-        '#FFC0CB',
-        '#800080',
-        '#A52A2A',
-        '#00FFFF',
-        '#FFD700',
-        '#696969',
-        '#2F4F4F',
-    ];
+    useEffect(() => {
+        setLoading(true);
 
+        axios
+            .get('https://mycarapplication.com/api/car-features/get-colors')
+            .then((response) => {
+                setColors(response.data);
+            })
+            .catch((err) => {
+                setError(err.message);
+                console.error("Error fetching colors:", err);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }, []);
 
-    const handleColorClick = (color) => {
-        setSelectedColor(color);
-        onSelectColor && onSelectColor(color);
+    if (loading) return (
+        <div className="flex justify-center items-center h-40">
+            <div className="flex gap-2">
+                <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.3s]"></span>
+                <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce [animation-delay:-0.15s]"></span>
+                <span className="w-4 h-4 bg-Myprimary rounded-full animate-bounce"></span>
+            </div>
+        </div>
+    )
+    if (error) return <p>Error: {error}</p>;
+
+    const handleColorClick = (colorName) => {
+        setSelectedColor(colorName);
+        onSelectColor && onSelectColor(colorName);
     };
 
     return (
         <div className="flex items-center justify-between gap-4">
             <div
-                className="w-16 h-16 flex-shrink-0 rounded-md shadow-md border-2 border-MyOption"
-                style={{ backgroundColor: selectedColor }}
+                className="w-16 h-16 flex-shrink-0 rounded-md shadow-md border border-white/50"
+                style={{ backgroundColor: selectedColor.toLowerCase() }}
             ></div>
 
             <div className="flex flex-wrap gap-4">
                 {colors.map((color, index) => (
                     <button
                         key={index}
-                        onClick={() => handleColorClick(color)}
+                        onClick={() => handleColorClick(color.name)}
                         className={`rounded-full w-6 h-6 cursor-pointer shadow-sm focus:outline-none 
                         ${selectedColor === color ? 'ring-2 ring-white' : ''}`}
-                        style={{ backgroundColor: color }}
+                        style={{ backgroundColor: color.name.toLowerCase() }}
                         aria-label={`Select color ${color}`}
                     />
                 ))}

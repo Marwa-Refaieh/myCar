@@ -2,13 +2,12 @@ import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FaUserAlt } from "react-icons/fa";
-import { Link } from 'react-router-dom';
-import img from "../../assets/image.webp";
-
+import { Link, useNavigate } from 'react-router-dom';
 
 const UserList = () => {
     const [showMenu, setShowMenu] = useState(false);
     const { t } = useTranslation('home');
+    const navigate = useNavigate();
     const menuRef = useRef(null);
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user_id");
@@ -16,16 +15,27 @@ const UserList = () => {
     const [isImageLoaded, setIsImageLoaded] = useState(false);
 
     useEffect(() => {
+        if (!token) {
+            setUser(null)
+            return;
+        }
+
         axios.get(`https://mycarapplication.com/api/auth/me`, {
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => {
                 setUser(res.data);
             })
             .catch((err) => {
                 console.error("Error fetching seller data", err);
-            })
-    }, [userId, token]);
+                if (err.response?.status === 401) {
+                    setUser(null);
+                    localStorage.clear();
+                    navigate('/login');
+                }
+            });
+    }, [token, navigate]);
+
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -48,6 +58,32 @@ const UserList = () => {
     const handleLinkClick = () => {
         setShowMenu(false);
     };
+
+
+    const handleLogout = async () => {
+        try {
+            if (!token) throw new Error("No token found");
+
+            await axios.post(
+                "https://mycarapplication.com/api/auth/logout",
+                {},
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log("Logout successful!");  
+        } catch (error) {
+            console.error("Logout failed:", error);
+        } finally {
+            localStorage.clear();
+            window.location.reload();  
+        }
+    };
+
+
+
 
     return (
         <div className="relative inline-block text-left" ref={menuRef}>
@@ -98,6 +134,14 @@ const UserList = () => {
                             onClick={handleLinkClick}
                         >
                             {t("Setting")}
+                        </Link>
+
+                        <Link
+                            to="/"
+                            className="w-full px-4 py-2 hover:text-Myprimary cursor-pointer transition"
+                            onClick={handleLogout}
+                        >
+                            {t("logout")}
                         </Link>
                     </ul>
                 </div>

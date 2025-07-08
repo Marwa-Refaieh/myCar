@@ -6,11 +6,13 @@ import img from '../../assets/image.webp';
 import useFetchFavorites from '@/hooks/getFavCars';
 import { Share2 } from 'lucide-react';
 import LikeButton from '../LikeButton';
+import { useTranslation } from 'react-i18next';
 
-const ImageGallery = ({ images, video, carId ,car }) => {
+const ImageGallery = ({ images, video, carId, car }) => {
   const hasImages = images && images.length > 0;
   const multipleImages = hasImages && images.length > 1;
-
+  const { i18n } = useTranslation();
+  const isArabic = i18n.language === 'ar';
   const [currentSlide, setCurrentSlide] = useState(0);
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -22,6 +24,7 @@ const ImageGallery = ({ images, video, carId ,car }) => {
       ? {
         loop: true,
         initial: 0,
+        rtl: isArabic,
         slideChanged(slider) {
           setCurrentSlide(slider.track.details.rel);
         },
@@ -52,23 +55,17 @@ const ImageGallery = ({ images, video, carId ,car }) => {
     setOpen(true);
   };
 
-  const prepareShareMessage = (carDetails) => {
-    return `
-            ${carDetails.brand?.name || ''} ${carDetails.model?.name || ''} ${carDetails.year_production || ''} - للبيع \n
- ${carDetails.description} \n
- ${carDetails.images[0]}
-    `
-  };
-
-  const handleShareClick = async (e) => {
-    const message = prepareShareMessage(car);
+  const handleShareClick = async () => {
+    const origin = window.location.origin;
+    const path = window.location.pathname;
+    const fullUrl = `${origin}${path}`;
 
     if (navigator.share) {
       await navigator.share({
-        text: message,
+        url: fullUrl,
       });
     } else {
-      await navigator.clipboard.writeText(message);
+      await navigator.clipboard.writeText(fullUrl);
     }
   };
 
@@ -84,7 +81,7 @@ const ImageGallery = ({ images, video, carId ,car }) => {
           }`}
       >
         <div className="absolute top-2 right-2 z-20 flex md:hidden items-center gap-2">
-     
+
           <div className="bg-black/40 p-2 rounded-full backdrop-blur-sm">
             <Share2
               onClick={handleShareClick}
