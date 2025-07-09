@@ -4,7 +4,7 @@ import UserCard from '@/components/favorite/userCard';
 import useFetchFavorites from '@/hooks/getFavCars';
 import useFetchFavoritesSaller from '@/hooks/getFavSaller';
 import { Card } from '@/components/ui/card';
-
+import { Link } from 'react-router-dom';
 export default function Favorite() {
   const [activeTab, setActiveTab] = useState('cars');
   const [notFoundCar, setNotFoundCar] = useState('');
@@ -47,7 +47,7 @@ export default function Favorite() {
         <button
           onClick={() => setActiveTab('cars')}
           className={`px-6 py-2 rounded-full font-semibold text-white transition-all duration-300 ${
-            activeTab === 'cars' ? 'bg-yellow-400 text-black' : 'bg-gray-800'
+            activeTab === 'cars' ? 'bg-Myprimary text-black' : 'bg-gray-800'
           }`}
         >
           Cars
@@ -55,7 +55,7 @@ export default function Favorite() {
         <button
           onClick={() => setActiveTab('sellers')}
           className={`px-6 py-2 rounded-full font-semibold text-white ml-2 transition-all duration-300 ${
-            activeTab === 'sellers' ? 'bg-yellow-400 text-black' : 'bg-gray-800'
+            activeTab === 'sellers' ? 'bg-Myprimary text-black' : 'bg-gray-800'
           }`}
         >
           Sellers
@@ -67,7 +67,8 @@ export default function Favorite() {
         <div className="w-[98%] md:w-[80%] mx-auto bg-gray-900 flex flex-wrap items-center justify-around p-6 rounded-xl shadow-lg">
           {Array.isArray(data?.data) && data.data.length > 0 ? (
             data.data.map((item, index) => (
-              <CarCard
+             
+                              <CarCard
                 key={index}
                 image={item.image}
                 id={item.id}
@@ -77,6 +78,7 @@ export default function Favorite() {
                 year={`${item.year_production}`}
                 location={item.city?.name || 'N/A'}
               /> 
+              
             ))
           ) : (
             <p className="text-center text-red-700 text-xl">{notFoundCar}</p>

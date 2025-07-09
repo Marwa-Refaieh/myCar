@@ -1,80 +1,64 @@
-import { useEffect, useState } from 'react';
 import carImage from '../../assets/footer.png'; // replace with your image path
-import {Globe, Clock, Rocket, LineChart,Handshake , Shield} from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
 export default function WhyChooseUs() {
-  const [progress, setProgress] = useState({
-    tech: 0,
-    turnaround: 0,
-    quality: 0,
-  });
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setProgress({
-        tech: 99, 
-        turnaround: 85,
-        quality: 90,
-      });
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []); 
-
+  const { t, i18n } = useTranslation('about');
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 min-h-screen bg-black text-white">
       {/* Left content */}
       <div className="p-10 flex flex-col justify-center space-y-6">
-      <h4 className="relative text-white mb-2 uppercase tracking-wider pl-6 before:content-[''] before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-[2px] before:h-6 before:bg-[#f1ea28]">
-      Why Choose My Car?
+      <h4 className="relative text-white mb-2 uppercase tracking-wider pl-6">
+        {t("Why Choose My Car?")}
       </h4>
         <h1 className="text-2xl md:text-3xl font-bold leading-tight uppercase">
-        All-in-One Solution <br />
-        Whether you're buying, selling, or renting, everything is in one place.
+        {t("All-in-One Solution")} <br />
+        {t("Whether you're buying, selling, or renting, everything is in one place.")}
         </h1>
       <div className='flex  gap-1'>
-      <Globe className='text-[#f1ea28]'/>
+      {/* <Globe className='text-[#f1ea28]'/> */}
       <p className="text-gray-300  ">
         
-        <b>Fast & Easy Search</b> <br />
-        Use smart filters to find the right car in seconds.
+        <b>🔍 {t("Fast & Easy Search")}</b> <br />
+        {t("Use smart filters to find the right car in seconds.")}
         </p>
       </div>
 
       <div className='flex  gap-1'>
-      <Globe className='text-[#f1ea28]'/>
+      {/* <Globe className='text-[#f1ea28]'/> */}
       <p className="text-gray-300  ">
         
-        <b>Fast & Easy Search</b> <br />
-        Use smart filters to find the right car in seconds.
-        </p>
-      </div>
-
-
-      <div className='flex  gap-1'>
-      <Globe className='text-[#f1ea28]'/>
-      <p className="text-gray-300  ">
-        
-        <b>Fast & Easy Search</b> <br />
-        Use smart filters to find the right car in seconds.
+        <b>🛡 {t("Verified Listings")} </b> <br />
+        {t("We verify every ad to protect you from scams and fake offers.")}
         </p>
       </div>
 
 
       <div className='flex  gap-1'>
-      <Globe className='text-[#f1ea28]'/>
+      {/* <Globe className='text-[#f1ea28]'/> */}
       <p className="text-gray-300  ">
         
-        <b>Fast & Easy Search</b> <br />
-        Use smart filters to find the right car in seconds.
+        <b>💰 {t("Best Deals in the Market")} </b> <br />
+        {t("We help you find competitive prices and great value.")}
         </p>
       </div>
 
 
       <div className='flex  gap-1'>
-      <Globe className='text-[#f1ea28]'/>
+      {/* <Globe className='text-[#f1ea28]'/> */}
       <p className="text-gray-300  ">
         
-        <b>Fast & Easy Search</b> <br />
-        Use smart filters to find the right car in seconds.
+        <b>📞 {t("Customer Support")} </b> <br />
+        {t("Our team is always ready to assist you")}
+        </p>
+      </div>
+
+
+      <div className='flex  gap-1'>
+      {/* <Globe className='text-[#f1ea28]'/> */}
+      <p className="text-gray-300  ">
+        
+        <b>👥 {t("A Trusted Community")} </b> <br />
+        {t("Thousands of Syrians trust My Car to make car transactions easier and safer.")}
         </p>
       </div>
 
@@ -86,12 +70,7 @@ export default function WhyChooseUs() {
 
 
 
-        {/* Progress Bars */}
-        {/* <div className="space-y-4">
-          <ProgressBar label="Expert Technicians" value={progress.tech} />
-          <ProgressBar label="Quick Turnaround" value={progress.turnaround} />
-          <ProgressBar label="Quality Assurance" value={progress.quality} />
-        </div> */}
+  
       </div>
 
       {/* Right image */}
@@ -99,7 +78,7 @@ export default function WhyChooseUs() {
         <img src={carImage} alt="Car" className="w-full h-full object-cover" />
       </div>
     </div>
-  );
+  ); 
 }
 
 function ProgressBar({ label, value }) {

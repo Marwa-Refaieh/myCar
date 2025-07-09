@@ -30,6 +30,7 @@ import UpdateCar from './pages/updateCar/updateCar'
 import AboutUs from './pages/AboutUs/AboutUs'
 import Services from './pages/Services/Services'
 import ContactUs from './pages/ContactUs/ContactUs'
+import Blog from './pages/Blog/Blog'
 
 function App() {
   // useEffect(() => {
@@ -79,6 +80,7 @@ function App() {
             <Route path='/aboutUs' element={<AboutUs/>}/>
             <Route path='/services' element={<Services/>}/>
             <Route path='/contactUs' element={<ContactUs/>}/>
+            <Route path='/blogs' element={<Blog/>}/>
           </Route> 
 
 

@@ -23,6 +23,10 @@ import msgEN from '../locales/en/msg.json';
 import msgAR from '../locales/ar/msg.json';
 import servicesAR from '../locales/ar/services.json';
 import servicesEN from '../locales/en/services.json';
+import aboutAR from '../locales/ar/about.json'
+import aboutEN from '../locales/en/about.json'
+import blogAR from '../locales/ar/blog.json'
+import blogEN from '../locales/en/blog.json'
 i18n
   .use(initReactI18next)
   .init({
@@ -38,7 +42,9 @@ i18n
         createcar: encreatecar,
         home: homeEN,
         services: servicesEN,
-        msg: msgEN
+        msg: msgEN,
+        about:aboutEN,
+        blog : blogEN
       },
       ar: {
         login: arLogin,
@@ -52,6 +58,8 @@ i18n
         home: homeAR,
         services: servicesAR,
         msg: msgAR,
+        about:aboutAR,
+        blog: blogAR
       }
     },
     lng: 'en', // اللغة الافتراضية

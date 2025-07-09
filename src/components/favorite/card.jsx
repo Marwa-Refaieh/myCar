@@ -4,21 +4,25 @@ import { GiRapidshareArrow } from "react-icons/gi";
 import ConfirmDeleteCard from '../../components/favorite/confirmDelete';
 import { baseUrl } from '@/baseUrl';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'
+import {useNavigate , Link} from 'react-router-dom'
 const CarCard = ({ image, title, price, km, year, type, location , id}) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate()
 
   return (
-    <div className="border-[1px] mb-3 border-Myprimary rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl relative w-full max-w-md bg-black text-white">
+    <div className="border-[1px] mb-3 border-Myprimary rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl relative w-fit  bg-black text-white">
       {/* صورة السيارة */}
       <div className="relative rounded-3xl overflow-hidden">
-        <img
-          src={image}
+      <Link to={`/details/${id}`} className='w-auto'>
+      <img
+      src={image}
           alt={title}
           className="w-full h-48 object-cover rounded-3xl"
           style={{ aspectRatio: "600/400", objectFit: "cover" }}
         />
+      </Link>
+        
+
 
         {/* زر الإعجاب */}
         <div className="absolute top-5 right-6 z-10 bg-black/60 rounded-full w-8 h-8 flex justify-center items-center">
