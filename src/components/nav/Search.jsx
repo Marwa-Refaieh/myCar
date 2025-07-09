@@ -109,13 +109,15 @@ const NavbarSearch = () => {
                     value={term}
                     ref={inputRef}
                     placeholder={t('search')}
-                    className="w-full py-2 pl-10 pr-10 bg-transparent text-white placeholder:text-gray-400 border-none outline-none"
+                    className={`w-full py-2 pl-10 pr-10 bg-transparent text-white placeholder:text-gray-400 border-none outline-none 
+                    ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                     onFocus={() => {
                         if (term.length > 0 && filteredHistory.length > 0) setShowPopover(true);
                     }}
                 />
+
 
                 {filteredHistory.length > 0 && (
                     <>

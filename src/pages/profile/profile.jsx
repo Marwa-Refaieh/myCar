@@ -17,8 +17,8 @@ export default function Profile() {
   const token = localStorage.getItem("token");
 
   const handleShareProfileClick = async () => {
-    const origin = window.location.origin; 
-    const path = window.location.pathname; 
+    const origin = window.location.origin;
+    const path = window.location.pathname;
     const fullUrl = `${origin}${path}`;
 
     if (navigator.share) {
@@ -109,8 +109,13 @@ export default function Profile() {
               starSpacing="2px"
             />
             <span className="ml-2 text-sm text-gray-400">
-              {user.rating || 0} ({user.reviews_count || 0} {t("Reviews")})
+              {user.rating
+                ? (Math.floor(user.rating * 10) / 10).toFixed(1)
+                : 0}
+              {" "} ({user.reviews_count || 0} {t("Reviews")})
             </span>
+
+
           </div>
 
           <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-4">

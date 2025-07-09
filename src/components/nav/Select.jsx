@@ -22,6 +22,13 @@ const Select = () => {
     ];
 
     useEffect(() => {
+        const savedLang = localStorage.getItem('i18nextLng') || 'en';
+        setLanguage(savedLang);
+        i18n.changeLanguage(savedLang);
+        document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+    }, []);
+
+    useEffect(() => {
         const handleClickOutside = (event) => {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
                 setShowMenu(false);

@@ -11,7 +11,7 @@ import Setting from './pages/setting/setting'
 import Signin from './pages/signin/signin'
 import Vercode from './pages/verCode/verCode'
 import Signin2 from './pages/signin2/signin2'
-import CarDetails from './pages/carDetails/CarDetails' 
+import CarDetails from './pages/carDetails/CarDetails'
 import { useEffect } from 'react'
 import Filters from './pages/filters/Filters'
 import PopularCategories from './pages/popularCategories/PopularCategories'
@@ -30,11 +30,10 @@ import UpdateCar from './pages/updateCar/updateCar'
 import AboutUs from './pages/AboutUs/AboutUs'
 import Services from './pages/Services/Services'
 import ContactUs from './pages/ContactUs/ContactUs'
+import { useTranslation } from 'react-i18next'
 
 function App() {
-  // useEffect(() => {
-  //   localStorage.clear();
-  // }, []);
+
   const ScrollToTop = () => {
     const { pathname } = useLocation();
 
@@ -44,8 +43,16 @@ function App() {
 
     return null;
   };
+  const { i18n } = useTranslation();
+  
+  useEffect(() => {
+    const savedLang = localStorage.getItem('i18nextLng') || 'en';
 
+    i18n.changeLanguage(savedLang);
+    document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+  }, []);
   return (
+
     <>
       <BrowserRouter>
         <ScrollToTop />
@@ -76,10 +83,10 @@ function App() {
             <Route path='/editprofile' element={<EditProfile />} />
             <Route path='/create' element={<CreateCarPage />} />
             <Route path='/updatecar/:id' element={<UpdateCar />} />
-            <Route path='/aboutUs' element={<AboutUs/>}/>
-            <Route path='/services' element={<Services/>}/>
-            <Route path='/contactUs' element={<ContactUs/>}/>
-          </Route> 
+            <Route path='/aboutUs' element={<AboutUs />} />
+            <Route path='/services' element={<Services />} />
+            <Route path='/contactUs' element={<ContactUs />} />
+          </Route>
 
 
           <Route path='/signin' element={<Signin />} />

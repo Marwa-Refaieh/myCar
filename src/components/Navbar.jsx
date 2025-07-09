@@ -34,7 +34,7 @@ const Navbar = () => {
                     </Link>
 
                     {/* Search */}
-                    <div className={`md:flex hidden md:w-[20rem]  sm:px-5 items-center border rounded-full gap-3 ${i18n.language === 'ar' ? 'ml-2' : 'mr-2'}`}>
+                    <div className={`md:flex hidden md:w-[16rem]  sm:px-5 items-center border rounded-full gap-3 ${i18n.language === 'ar' ? 'ml-2' : 'mr-2'}`}>
                         <NavbarSearch />
                     </div>
 
@@ -42,7 +42,7 @@ const Navbar = () => {
                     <div className='flex items-center gap-4'>
                         <div className="hidden xl:flex space-x-6">
                             <div className="flex items-center gap-4">
-                                <div className={`flex items-center gap-4 
+                                <div className={`flex items-center gap-3
                                 ${i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
                                     <Link to={'/'} className='cursor-pointer hover:text-Myprimary transition'>
                                         {t('Home')}
@@ -77,7 +77,7 @@ const Navbar = () => {
                                 ) : (
                                     <Link
                                         to="/signin"
-                                        className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
+                                        className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary text-nowrap "
                                     >
                                         {t('Sign In')}
                                     </Link>

@@ -7,6 +7,7 @@ import { baseUrl } from "@/baseUrl";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import countryCodes from '../../data/countries.js';
+import { useTranslation } from "react-i18next";
 
 
 
@@ -22,6 +23,7 @@ const schema = z.object({
 export default function Signin2() {
   const navigate = useNavigate();
   const [selectedCode, setSelectedCode] = useState("+966");
+  const { t } = useTranslation('login2');
 
   const {
     register,
@@ -69,8 +71,8 @@ export default function Signin2() {
         <img src={logo} alt="Car Logo" className="mx-auto" />
       </div>
 
-      <h1 className="text-2xl font-semibold mb-2">Hello !</h1>
-      <p className="text-sm text-gray-400 mb-6">Please enter your account here</p>
+      <h1 className="text-2xl font-semibold mb-2">{t('hello')} !</h1>
+      <p className="text-sm text-gray-400 mb-6">{t('enter')}</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-sm space-y-4">
         <div className="relative">
@@ -81,7 +83,7 @@ export default function Signin2() {
           >
             {countryCodes.map((code) => (
               <option key={code.id} value={code.dial_code}>
-                 <span className="font-bold text-sm text-yellow-50">{code.code}</span> &nbsp; {code.dial_code}
+                <span className="font-bold text-sm text-yellow-50">{code.code}</span> &nbsp; {code.dial_code}
               </option>
             ))}
           </select>
@@ -109,7 +111,7 @@ export default function Signin2() {
             disabled={isSubmitting}
             className="w-full bg-Myprimary text-black py-3 rounded-full font-semibold"
           >
-            go
+            {t("go")}
           </button>
         )}
       </form>

@@ -2,11 +2,14 @@ import React from 'react';
 import buy from '../../assets/home/buy.webp';
 import sell from '../../assets/home/sell.webp';
 import rent from '../../assets/home/rent.webp';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 const Services = () => {
     const { t } = useTranslation('home');
+    const navigate = useNavigate();
+    const isLoggedIn = localStorage.getItem("token");
+
     const images = [
         { src: buy, alt: 'Buy a car', title: t('buy'), type: '1' },
         { src: rent, alt: 'Rent a car', title: t('rent'), type: '2' },
@@ -46,13 +49,19 @@ const Services = () => {
                                                 {t("Order Now")}
                                             </button>
                                         </Link>
-                                    ) : (
+                                    ) : isLoggedIn ? (
                                         <Link to={'/create'} state={{ type: img.type }}>
                                             <button
-                                                className="text-black text-sm rounded-full font-semibold  cursor-pointer bg-Myprimary px-6 py-2 hover:bg-primaryHover transition relative underline uppercase">
+                                                className="text-black text-sm rounded-full font-semibold cursor-pointer bg-Myprimary px-6 py-2 hover:bg-primaryHover transition relative underline uppercase">
                                                 {t("Create Car")}
                                             </button>
                                         </Link>
+                                    ) : (
+                                        <button
+                                            onClick={() => navigate('/signin')}
+                                            className="text-black text-sm rounded-full font-semibold cursor-pointer bg-Myprimary px-6 py-2 hover:bg-primaryHover transition relative underline uppercase">
+                                            {t("Create Car")}
+                                        </button>
                                     )}
 
                                 </div>
@@ -66,11 +75,20 @@ const Services = () => {
             <div className='md:hidden flex flex-col md:flex-row flex-wrap gap-6 md:gap-10 justify-center items-center mx-auto mt-12 w-full md:w-fit'>
 
                 <div>
-                    <Link to={'/create'}
-                        className='text-black rounded-full bg-Myprimary px-8 md:px-12 font-bold py-3 hover:bg-primaryHover transition uppercase text-center block'
-                    >
-                        {t("Sale Your Car With Us")}
-                    </Link>
+                    {isLoggedIn ? (
+                        <Link
+                            to={'/create'}
+                            className='text-black rounded-full bg-Myprimary px-8 md:px-12 font-bold py-3 hover:bg-primaryHover transition uppercase text-center block'
+                        >
+                            {t("Sale Your Car With Us")}
+                        </Link>
+                    ) : (
+                        <button
+                            onClick={() => navigate('/signin')} 
+                            className='text-black rounded-full bg-Myprimary px-8 md:px-12 font-bold py-3 hover:bg-primaryHover transition uppercase text-center block'>
+                            {t("Sale Your Car With Us")}
+                        </button>
+                    )}
                 </div>
 
                 <div className='flex flex-wrap gap-4 justify-center'>

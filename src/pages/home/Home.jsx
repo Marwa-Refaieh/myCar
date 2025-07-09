@@ -15,11 +15,10 @@ const Home = () => {
     return (
         <div>
             <Hero />
-            {localStorage.getItem('token') && (
-                <div className='max-w-7xl mx-auto px-4'>
-                    <Services />
-                </div>
-            )}
+
+            <div className='max-w-7xl mx-auto px-4'>
+                <Services />
+            </div>
 
             <div className='pt-20 max-w-7xl mx-auto px-4'>
                 <h2 className="text-5xl font-bold text-center mb-10 text-Myprimary ">{t('Brands')}</h2>

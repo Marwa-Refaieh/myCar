@@ -86,8 +86,10 @@ const CarTabs = ({ car }) => {
                                     <div className="flex items-center gap-3">
                                         <img src={starIcon} alt="star" className="w-4 h-4 md:w-5 md:h-5" />
                                         <p>
-                                            {car.user?.rating || 0}{" "}
-                                            {car.user?.rating === 1 ? t("Review") : t("Reviews")}
+                                            {car.user?.rating
+                                                ? (Math.floor(car.user.rating * 10) / 10).toFixed(1)
+                                                : 0}{" "}
+                                            {Math.floor(car.user?.rating || 0) === 1 ? t("Review") : t("Reviews")}
                                         </p>
                                     </div>
                                 </div>

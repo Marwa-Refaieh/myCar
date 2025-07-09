@@ -129,8 +129,12 @@ export default function SellerProfile() {
                             starSpacing="2px"
                         />
                         <span className="ml-2 text-sm text-gray-400">
-                            {seller.rating || 0} ({seller.reviews_count || 0} {t("Reviews")})
+                            {seller.rating
+                                ? (Math.floor(seller.rating * 10) / 10).toFixed(1)
+                                : 0}
+                            {" "}({seller.reviews_count || 0} {t("Reviews")})
                         </span>
+
                     </div>
 
                     <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-4">

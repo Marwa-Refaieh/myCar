@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const UserList = () => {
     const [showMenu, setShowMenu] = useState(false);
-    const { t } = useTranslation('home');
+    const { t, i18n } = useTranslation('home');
     const navigate = useNavigate();
     const menuRef = useRef(null);
     const token = localStorage.getItem("token");
@@ -73,12 +73,12 @@ const UserList = () => {
                     },
                 }
             );
-            console.log("Logout successful!");  
+            console.log("Logout successful!");
         } catch (error) {
             console.error("Logout failed:", error);
         } finally {
             localStorage.clear();
-            window.location.reload();  
+            window.location.reload();
         }
     };
 
@@ -111,7 +111,7 @@ const UserList = () => {
 
             {showMenu && (
                 <div className="absolute right-0 mt-5 w-40 bg-[#212120] rounded-md shadow-lg z-50">
-                    <ul className="flex flex-col py-2 text-sm text-gray-700">
+                    <ul className={`flex flex-col py-2 text-sm text-gray-700 ${i18n.language === 'ar' ? 'text-end':'text-start'}`} >
                         <Link
                             to="/profile"
                             className="w-full px-4 py-2 hover:text-Myprimary cursor-pointer transition"
@@ -141,7 +141,7 @@ const UserList = () => {
                             className="w-full px-4 py-2 hover:text-Myprimary cursor-pointer transition"
                             onClick={handleLogout}
                         >
-                            {t("logout")}
+                            {t("Logout")}
                         </Link>
                     </ul>
                 </div>
