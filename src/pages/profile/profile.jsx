@@ -121,12 +121,12 @@ export default function Profile() {
           <div className="flex flex-wrap gap-4 justify-center md:justify-start mt-4">
             <Link to={'/editprofile'}>
               <button className='border border-Myprimary hover:border-primaryHover text-Myprimary  transition rounded-full px-6 py-1 capitalize'>
-                edit Profile
+                {t('edit Profile')}
               </button>
             </Link>
 
             <button onClick={handleShareProfileClick} className='border text-black hover:bg-primaryHover bg-Myprimary rounded-full px-6 py-1  border-none capitalize transition'>
-              Share Profile
+              {t("Share Profile")}
             </button>
 
           </div>

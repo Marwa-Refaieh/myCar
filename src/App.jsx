@@ -31,6 +31,7 @@ import AboutUs from './pages/AboutUs/AboutUs'
 import Services from './pages/Services/Services'
 import ContactUs from './pages/ContactUs/ContactUs'
 import { useTranslation } from 'react-i18next'
+import Blog from './pages/Blog/Blog'
 
 function App() {
 
@@ -83,10 +84,11 @@ function App() {
             <Route path='/editprofile' element={<EditProfile />} />
             <Route path='/create' element={<CreateCarPage />} />
             <Route path='/updatecar/:id' element={<UpdateCar />} />
-            <Route path='/aboutUs' element={<AboutUs />} />
-            <Route path='/services' element={<Services />} />
-            <Route path='/contactUs' element={<ContactUs />} />
-          </Route>
+            <Route path='/aboutUs' element={<AboutUs/>}/>
+            <Route path='/services' element={<Services/>}/>
+            <Route path='/contactUs' element={<ContactUs/>}/>
+            <Route path='/blogs' element={<Blog/>}/>
+          </Route> 
 
 
           <Route path='/signin' element={<Signin />} />
