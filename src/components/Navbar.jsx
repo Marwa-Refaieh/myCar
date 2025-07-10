@@ -95,16 +95,19 @@ const Navbar = () => {
                             {/* زر اللغة */}
                             <Select />
 
-                            {isLoggedIn ? (
-                                <UserList />
-                            ) : (
-                                <Link
-                                    to="/signin"
-                                    className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
-                                >
-                                    {t('Sign In')}
-                                </Link>
-                            )}
+                            <div className='md:hidden lg:flex'>
+                                {isLoggedIn ? (
+                                    <UserList />
+                                ) : (
+                                    <Link
+                                        to="/signin"
+                                        className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary text-nowrap"
+                                    >
+                                        {t('Sign In')}
+                                    </Link>
+                                )}
+                            </div>
+
 
                         </div>
 
@@ -115,7 +118,7 @@ const Navbar = () => {
                             <SlidersHorizontal size={20} />
 
                         </button>
-                     
+
                         <div className="lg:hidden flex items-center gap-2">
                             <button
                                 onClick={toggleSidebar}
@@ -125,13 +128,13 @@ const Navbar = () => {
 
 
                             {isLoggedIn ? (
-                                <div className='md:hidden flex'>
+                                <div className='lg:hidden flex'>
                                     <UserList />
                                 </div>
                             ) : (
                                 <Link
                                     to="/signin"
-                                    className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary"
+                                    className="w-fit px-2 border border-white rounded-md py-1 text-center hover:shadow-[0_0_10px_#d6cb21] hover:border-Myprimary outline-none transition hover:text-Myprimary text-nowrap"
                                 >
                                     {t('Sign In')}
                                 </Link>
