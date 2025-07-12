@@ -114,8 +114,8 @@ const Brands = () => {
                 key={swiperKey}
                 modules={[Navigation, Pagination]}
                 navigation={{
-                    nextEl: '#next-button',
-                    prevEl: '#prev-button',
+                    nextEl: i18n.language === 'ar' ? '#prev-button' : '#next-button',
+                    prevEl: i18n.language === 'ar' ? '#next-button' : '#prev-button',
                 }}
                 pagination={{
                     el: '#custom-pagination',
@@ -147,31 +147,30 @@ const Brands = () => {
                 ))}
             </Swiper>
 
-
             <style jsx>{`
-        #custom-pagination {
-          position: absolute;
-          bottom: -10px;
-          left: 0;
-          right: 0;
-          display: flex;
-          justify-content: center;
-          z-index: 10;
-        }
-        .swiper-pagination-bullet {
-          width: 12px;
-          height: 12px;
-          border: 1px solid #ffff;
-          opacity: 1;
-          margin: 0 6px;
-          border-radius: 50%;
-          transition: background 0.3s;
-          cursor: pointer;
-        }
-        .swiper-pagination-bullet-active {
-          background: #F1EA28;
-        }
-      `}</style>
+                #custom-pagination {
+                    position: absolute;
+                    bottom: -10px;
+                    left: 0;
+                    right: 0;
+                    display: flex;
+                    justify-content: center;
+                    z-index: 10;
+                }
+                .swiper-pagination-bullet {
+                    width: 12px;
+                    height: 12px;
+                    border: 1px solid #ffff;
+                    opacity: 1;
+                    margin: 0 6px;
+                    border-radius: 50%;
+                    transition: background 0.3s;
+                    cursor: pointer;
+                }
+                .swiper-pagination-bullet-active {
+                    background: #F1EA28;
+                }
+            `}</style>
         </div>
     );
 };

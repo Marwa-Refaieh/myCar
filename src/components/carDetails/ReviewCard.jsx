@@ -4,7 +4,7 @@ import StarRatings from 'react-star-ratings';
 import CommentModal from '../CommentModal';
 import img from '../../assets/image.webp';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ReviewCard = ({ reviews = [], id, type }) => {
     const { t } = useTranslation('home');
@@ -12,6 +12,7 @@ const ReviewCard = ({ reviews = [], id, type }) => {
     const [open, setOpen] = useState(false);
     const [comment, setComment] = useState("");
     const [reviewsState, setReviewsState] = useState(reviews);
+    const location = useLocation();
 
     const handleSubmit = ({ comment, rating }) => {
         const token = localStorage.getItem("token");
@@ -120,7 +121,7 @@ const ReviewCard = ({ reviews = [], id, type }) => {
                 </div>
             )}
 
-            {reviewsState.length > 0 && (
+            {reviewsState.length > 0 && !location.pathname.includes('profile') && (
                 <div className="flex">
                     <button
                         onClick={() => {
@@ -137,6 +138,7 @@ const ReviewCard = ({ reviews = [], id, type }) => {
                     </button>
                 </div>
             )}
+
 
 
             <CommentModal

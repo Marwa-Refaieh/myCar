@@ -29,7 +29,6 @@ export default function Profile() {
       });
     } else {
       await navigator.clipboard.writeText(fullUrl);
-      alert("✅ تم نسخ رابط الصفحة الشخصية إلى الحافظة");
     }
   };
 
@@ -40,6 +39,8 @@ export default function Profile() {
     })
       .then((res) => {
         setUser(res.data);
+        console.log(res.data);
+
       })
       .catch((err) => {
         console.error("Error fetching seller data", err);
@@ -95,6 +96,11 @@ export default function Profile() {
         <div className={`flex-1 space-y-4 text-center ${i18n.language === 'en' ? 'md:text-left' : 'md:text-right'}`}>
           <h2 className="text-2xl md:text-3xl font-bold">@{user.username}</h2>
 
+          {user.bio && (
+            <p className="text-gray-400 text-sm max-w-xl mx-auto md:mx-0">
+              {user.bio}
+            </p>
+          )}
           <div className="flex gap-6 justify-center md:justify-start text-sm text-gray-400">
             <span><strong>{user.following}</strong> {t("Following")}</span>
             <span><strong>{user.followers}</strong> {t("Followers")}</span>
