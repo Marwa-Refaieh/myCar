@@ -36,7 +36,6 @@ export default function FaqItem() {
 if(data.length == 0) return <div className="bg-[#232321] p-3 rounded-xl text-right w-full md:w-[40%] mx-auto">
      <h2 className="text-center">not found quastion</h2>
 </div>
-console.log(data);
   return (
 <div>
   {data.amp((item) =>{

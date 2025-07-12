@@ -21,7 +21,6 @@ const useFetchFavorites = () => {
         });
 
         setData(response.data);
-        console.log(response.data);
       } catch (err) {
         console.error("Fetch error:", err);
         setError(err.response?.data?.message || "حدث خطأ أثناء تحميل البيانات.");

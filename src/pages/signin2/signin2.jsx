@@ -45,7 +45,6 @@ export default function Signin2() {
       const response = await axios.post(`${baseUrl}api/auth/login-with-otpless`, payload);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user_id', response.data.user.id);
-      console.log(response.data);
       if (response.data.user.status == null) {
         navigate('/completeinfo');
       } else {

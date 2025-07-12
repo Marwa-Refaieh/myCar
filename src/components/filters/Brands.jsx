@@ -24,8 +24,6 @@ const Brands = ({ setFilters, filters, onBrandSelect }) => {
             .then((res) => {
                 setBrandsData(res.data.data);
                 setLoading(false);
-                console.log(res.data.data);
-                
             })
             .catch(() => {
                 setError(t('cars.Failed to fetch data'));

@@ -98,7 +98,6 @@ const Cars = () => {
     const fetchFilteredCars = async (currentFilters) => {
         setLoading(true);
         const Filters = buildFiltersArray(currentFilters);
-        console.log(" Filters to API:", Filters);
 
         try {
             const response = await axios.get("https://mycarapplication.com/api/car", {
@@ -120,11 +119,6 @@ const Cars = () => {
 
         setLoading(false);
     };
-
-    useEffect(() => {
-        console.log(filteredCars);
-
-    }, [filteredCars]);
 
     if (loading) {
         return (

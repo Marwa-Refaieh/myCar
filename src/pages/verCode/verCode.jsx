@@ -38,15 +38,12 @@ export default function Vercode() {
   const handleResend = () => {
     setOtp(Array(6).fill(''));
     setTimeLeft(180);
-    // إرسال طلب إعادة الإرسال
-    console.log('Resending code...');
   };
 
   const handleVerify = async () => {
     const code = otp.join('');
     try {
       const response = await axios.post('https://your-api.com/verify', { code });
-      console.log('Verification success:', response.data);
     } catch (error) {
       console.error('Verification failed:', error);
     }

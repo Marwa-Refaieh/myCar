@@ -86,9 +86,6 @@ const UpdateCar = () => {
           "Content-Type": "multipart/form-data",
         },
       }); 
-  
-      console.log("Update car Success:", response.data);
-
 
     } catch (error) {
       console.error("Create car Failed:", error.response?.data || error);
@@ -130,7 +127,6 @@ const UpdateCar = () => {
     if (currentStep > 1) {
       setCurrentStep((prev) => prev - 1);
     } else {
-      console.log("إلغاء العملية");
       navigate(-1);
     }
   };

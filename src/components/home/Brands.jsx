@@ -146,8 +146,8 @@ const Brands = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-
-            <style jsx>{`
+            <style>
+                {`
                 #custom-pagination {
                     position: absolute;
                     bottom: -10px;
@@ -170,7 +170,9 @@ const Brands = () => {
                 .swiper-pagination-bullet-active {
                     background: #F1EA28;
                 }
-            `}</style>
+            `}
+            </style>
+
         </div>
     );
 };

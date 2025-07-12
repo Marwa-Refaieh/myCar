@@ -92,8 +92,7 @@ const CreateCarPage = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      console.log("Create car Success:", response.data);
+      
       setShowPopup(true);
       setTimeout(() => {
         setShowPopup(false);

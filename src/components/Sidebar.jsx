@@ -91,13 +91,6 @@ const Sidebar = ({ isPermanent = false, onClose }) => {
         };
     }, [sidebarOpen, isPermanent]);
 
-
-    useEffect(() => {
-
-        console.log("filters", filters);
-
-    }, [filters]);
-
     useEffect(() => {
         axios.get('https://mycarapplication.com/api/car-features/get-cities')
             .then(res => {
@@ -110,7 +103,6 @@ const Sidebar = ({ isPermanent = false, onClose }) => {
         axios.get(`https://mycarapplication.com/api/car-features/get-model-of-brands?brand_id=${brandId}`)
             .then((response) => {
                 setModels(response.data);
-                console.log("models data:", response.data);
                 setLoadingModels(false);
             })
             .catch((error) => {

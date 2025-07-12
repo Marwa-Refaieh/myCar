@@ -14,7 +14,6 @@ const getCity = () => {
         const response = await axios.get(`${baseUrl}api/car-features/get-cities`);
 
         setCity(response.data.data);
-        console.log(response.data.data);
       } catch (error) {
         console.error('Error fetching models:', error);
         setError("Faild To Fetch Data")

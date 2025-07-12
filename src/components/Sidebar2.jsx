@@ -56,19 +56,11 @@ const Sidebar = ({ filters, setFilters, setAppliedFilters, initialType }) => {
         axios.get(`https://mycarapplication.com/api/car-features/get-model-of-brands?brand_id=${brandId}`)
             .then((response) => {
                 setModels(response.data);
-                console.log("models data:", response.data);
             })
             .catch((error) => {
                 console.error("Failed to fetch models:", error);
             });
     };
-
-    useEffect(() => {
-
-        console.log(filters);
-
-    }, [filters]);
-
 
     return (
         <>

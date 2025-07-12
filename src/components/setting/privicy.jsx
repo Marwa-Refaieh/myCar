@@ -36,7 +36,6 @@ if (loading) return <div className="flex justify-center items-center h-40">
 if(data.length == 0) return <div className="bg-[#232321] p-3 rounded-xl text-right w-full md:w-[40%] mx-auto">
    <h2 className="text-center">not found quastion</h2>
 </div>
-console.log(data);
 return (
 <div>
 
