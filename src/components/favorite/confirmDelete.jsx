@@ -1,7 +1,9 @@
 import React from 'react';
 import { Star, Calendar, MapPin, Settings, Gauge } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function ConfirmDeleteCard({ carTitle , carImage,  carPrice,  carKm , carLocation , carYear, carType ,  onConfirm, onCancel }) {
+  const { t, i18n } = useTranslation('fav'); 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
       <div className="bg-[#1C1C1C] text-white rounded-2xl p-6 w-[500px]">
@@ -45,16 +47,17 @@ export default function ConfirmDeleteCard({ carTitle , carImage,  carPrice,  car
             onClick={onCancel}
             className="border border-Myprimary text-Myprimary px-6 py-2 rounded-full font-semibold hover:bg-yellow-600 hover:text-black transition"
           >
-            Cancel
+            {t('Cancel')}
           </button>
           <button
             onClick={onConfirm}
             className="bg-Myprimary text-black px-6 py-2 rounded-full font-semibold hover:bg-yellow-500 transition"
           >
-            Yes, Remove
+            {t('Yes, Remove')}
           </button>
         </div>
       </div>
     </div>
   );
 }
+ 

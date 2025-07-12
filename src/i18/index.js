@@ -27,6 +27,10 @@ import aboutAR from '../locales/ar/about.json'
 import aboutEN from '../locales/en/about.json'
 import blogAR from '../locales/ar/blog.json'
 import blogEN from '../locales/en/blog.json'
+import favAR from '../locales/ar/fav.json'
+import favEN from '../locales/en/fav.json'
+import editAR from '../locales/ar/edit.json'
+import editEN from '../locales/en/edit.json'
 i18n
   .use(initReactI18next)
   .init({
@@ -42,9 +46,11 @@ i18n
         createcar: encreatecar,
         home: homeEN,
         services: servicesEN,
-        msg: msgEN,
+        msg: msgEN, 
         about:aboutEN,
-        blog : blogEN
+        blog : blogEN,
+        fav : favEN,
+        edit : editEN
       },
       ar: {
         login: arLogin,
@@ -59,7 +65,9 @@ i18n
         services: servicesAR,
         msg: msgAR,
         about:aboutAR,
-        blog: blogAR
+        blog: blogAR,
+        fav:favAR,
+        edit : editAR
       }
     },
     lng: 'en', // اللغة الافتراضية

@@ -3,9 +3,10 @@ import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { baseUrl } from '@/baseUrl';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const EditProfile = () => {
-
+  const { t, i18n } = useTranslation('edit'); 
 
   const token = localStorage.getItem("token");
   const [user, setUser] = useState(null);
@@ -72,11 +73,11 @@ const EditProfile = () => {
           'Content-Type': 'multipart/form-data',
         }
       });
-      setSuccessMsg('✅ Profile updated successfully!');
+      setSuccessMsg(t('successUpdate'));
       navigate('/')
       reset();
     } catch (error) {
-      setErrorMsg(error?.response?.data?.message || '❌ Error updating profile.');
+      setErrorMsg(error?.response?.data?.message || t('errorUpdate'));
     } finally {
       setLoading(false);
     }
@@ -90,7 +91,7 @@ const EditProfile = () => {
 </div>
   return (
 <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl mt-28 mx-auto p-4 bg-black text-white rounded-xl space-y-4">
-  <h2 className="text-center text-white text-xl font-bold mb-4">Personal Profile</h2>
+  <h2 className="text-center text-white text-xl font-bold mb-4">{t('title')}</h2>
 
   <div className="flex items-center gap-4">
     {user?.image_url && (
@@ -107,51 +108,51 @@ const EditProfile = () => {
   {errorMsg && <p className="text-red-400 text-sm">{errorMsg}</p>}
   {successMsg && <p className="text-green-400 text-sm">{successMsg}</p>}
 
-  <label className="block text-sm">Full Name</label>
+  <label className="block text-sm">{t('fullName')}</label>
   <input {...register("full_name")} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
 
-  <label className="block text-sm">User Name</label>
+  <label className="block text-sm">{t('userName')}</label>
   <input {...register("username")} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
 
-  <label className="block text-sm">National Number</label>
+  <label className="block text-sm">{t('nationalNumber')}</label>
   <input {...register("national_number")} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
 
-  <label className="block text-sm">Address</label>
+  <label className="block text-sm">{t('address')}</label>
   <input {...register("address")} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
 
-  <label className="block text-sm">City</label>
+  <label className="block text-sm">{t('city')}</label>
   <select {...register("city_id")} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700">
-    <option value="" hidden>Select</option>
+    <option value="" hidden>{t('selectCity')}</option>
     {cities.map(city => (
       <option key={city.id} value={city.id}>{city.name}</option>
     ))}
   </select>
 
-  <label className="block text-sm">Gender</label>
+  <label className="block text-sm">{t('gender')}</label>
   <select {...register("gender")} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700">
-    <option value="" hidden>Select</option>
-    <option value="1">Male</option>
-    <option value="2">Female</option>
+    <option value="" hidden>{t('selectCity')}</option>
+    <option value="1">{t('male')}</option>
+    <option value="2">{t('female')}</option>
   </select>
 
-  <label className="block text-sm">Birth Date</label>
+  <label className="block text-sm">{t('birthDate')}</label>
   <input type="date" {...register("birth_date")} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
 
-  <label className="block text-sm">Email</label>
-  <input type="email" {...register("email")} placeholder="Enter Email" className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
+  <label className="block text-sm">{t('email')}</label>
+  <input type="email" {...register("email")} placeholder={t('emailPlaceholder')} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
 
-  <label className="block text-sm">Bio</label>
-  <textarea {...register("bio")} placeholder="Enter" className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
+  <label className="block text-sm">{t('bio')}</label>
+  <textarea {...register("bio")} placeholder={t('bioPlaceholder')} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
 
-  <label className="block text-sm">ID Image</label>
+  <label className="block text-sm">{t('idImage')}</label>
   <input type="file" {...register("image")} className="w-full p-3 bg-neutral-900 text-white rounded-lg border border-neutral-700" />
 
   <div className="flex justify-between gap-2 pt-4">
-    <button type="button" className="w-1/2 border border-yellow-400 text-yellow-400 py-2 rounded-lg hover:bg-yellow-400 hover:text-black">
-      Cancel
+    <button type="button" className="w-1/2 border border-Myprimary text-Myprimary py-2 rounded-lg hover:bg-Myprimary hover:text-black">
+      {t('cancel')}
     </button>
-    <button type="submit" className="w-1/2 bg-yellow-400 text-black py-2 rounded-lg hover:opacity-90 disabled:opacity-60" disabled={loading}>
-      Save
+    <button type="submit" className="w-1/2 bg-Myprimary text-black py-2 rounded-lg hover:opacity-90 disabled:opacity-60" disabled={loading}>
+      {t('save')}
     </button>
   </div>
 </form>

@@ -5,7 +5,9 @@ import useFetchFavorites from '@/hooks/getFavCars';
 import useFetchFavoritesSaller from '@/hooks/getFavSaller';
 import { Card } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 export default function Favorite() {
+  const { t, i18n } = useTranslation('fav'); 
   const [activeTab, setActiveTab] = useState('cars');
   const [notFoundCar, setNotFoundCar] = useState('');
   const [notFoundSaller, setNotFoundSaller] = useState('');
@@ -15,10 +17,10 @@ export default function Favorite() {
 
   useEffect(() => {
     if (!loading && (!Array.isArray(data?.data) || data.data.length === 0)) {
-      setNotFoundCar('No Car In Your Favorite');
+      setNotFoundCar(t('No Car In Your Favorite'));
     }
     if (!loadingSaller && (!Array.isArray(dataSaller?.data) || dataSaller.data.length === 0)) {
-      setNotFoundSaller('No Seller In Your Favorite');
+      setNotFoundSaller(t('No Seller In Your Favorite'));
     }
   }, [loading, data, loadingSaller, dataSaller]); 
 
@@ -40,7 +42,7 @@ export default function Favorite() {
 
   return (
     <div className="mt-24 min-h-screen">
-      <h2 className="text-center text-3xl font-bold mb-6">Favorite</h2>
+      <h2 className="text-center text-3xl font-bold mb-6">{t('Favorite')}</h2>
 
       {/* Toggle Buttons */}
       <div className="flex justify-center mb-6">
@@ -50,7 +52,7 @@ export default function Favorite() {
             activeTab === 'cars' ? 'bg-Myprimary text-black' : 'bg-gray-800'
           }`}
         >
-          Cars
+          {t("CARS")}
         </button>
         <button
           onClick={() => setActiveTab('sellers')}
@@ -58,7 +60,7 @@ export default function Favorite() {
             activeTab === 'sellers' ? 'bg-Myprimary text-black' : 'bg-gray-800'
           }`}
         >
-          Sellers
+          {t('Sellers')}
         </button>
       </div>
 
@@ -108,3 +110,4 @@ export default function Favorite() {
     </div>
   );
 }
+ 

@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useTranslation } from 'react-i18next';
 export default function ConfirmDeleteUser({
   image,
   name,
@@ -7,8 +7,9 @@ export default function ConfirmDeleteUser({
   followers,
   reviews,
   onConfirm,
-  onCancel,
+  onCancel, 
 }) {
+  const { t, i18n } = useTranslation('fav'); 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-[#1E1E1E] text-white rounded-2xl p-6 w-full max-w-md text-center space-y-4 shadow-xl">
@@ -29,17 +30,17 @@ export default function ConfirmDeleteUser({
         <div className="flex justify-center space-x-8 text-sm">
           <div>
             <p className="font-semibold">{following}</p>
-            <p className="text-gray-400">Following</p>
+            <p className="text-gray-400">{t('Following')}</p>
           </div>
           <div>
             <p className="font-semibold">{followers}</p>
-            <p className="text-gray-400">Followers</p>
+            <p className="text-gray-400">{t('Followers')}</p>
           </div>
         </div>
 
         {/* Rating */}
         <div className="flex justify-center items-center space-x-1">
-          <span className="text-sm text-gray-500"><b>email :</b>{reviews} </span>
+          <span className="text-sm text-gray-500"><b>{t('email')} :</b>{reviews} </span>
         </div>
 
         {/* Buttons */}
@@ -48,13 +49,13 @@ export default function ConfirmDeleteUser({
             onClick={onCancel}
             className="border border-Myprimary text-Myprimary px-6 py-2 rounded-full hover:bg-yellow-500 hover:text-black transition"
           >
-            Cancel
+            {t('Cancel')}
           </button>
           <button
             onClick={onConfirm}
             className="bg-Myprimary text-black px-6 py-2 rounded-full hover:bg-yellow-300 transition"
           >
-            Yes, Remove
+            {t('Yes, Remove')}
           </button>
         </div>
       </div>
