@@ -1,0 +1,25 @@
+{
+    "title": "Personal Profile",
+    "fullName": "Full Name",
+    "userName": "User Name",
+    "nationalNumber": "National Number",
+    "address": "Address",
+    "city": "City",
+    "selectCity": "Select",
+    "gender": "Gender",
+    "selectGender": "Select",
+    "male": "Male",
+    "female": "Female",
+    "birthDate": "Birth Date",
+    "email": "Email",
+    "emailPlaceholder": "Enter Email",
+    "bio": "Bio",
+    "bioPlaceholder": "Enter",
+    "idImage": "ID Image",
+    "cancel": "Cancel",
+    "save": "Save",
+    "loadingCitiesError": "⚠️ Failed to load cities.",
+    "successUpdate": "✅ Profile updated successfully!",
+    "errorUpdate": "❌ Error updating profile."
+  }
+  

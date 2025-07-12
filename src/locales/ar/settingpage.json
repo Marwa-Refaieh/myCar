@@ -10,5 +10,13 @@
     "profile" : "حسابي",
     "complaints" : "الشكاوي",
     "logout" : "تسجيل خروج",
-    "noti" : "الاشعارات"
-}
+    "noti" : "الاشعارات",
+    "My Profile" : "الملف الشخصي",
+    "Following" : "اتابق",
+    "Followers" : "المتابعون",
+    "Reviews" : "الاراء",
+    "delete account" : "حذق الحساب",
+    "delete.." : "جار الحذف...",
+    "The account has been successfully deleted." : "تم حذف الحساب بنجاح.",
+    "EDIT PROFILE" : "تعديل البروفايل"
+} 

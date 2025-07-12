@@ -31,7 +31,7 @@ const UserList = () => {
                 if (err.response?.status === 401) {
                     setUser(null);
                     localStorage.clear();
-                    navigate('/login');
+                    navigate('/signin');
                 }
             });
     }, [token, navigate]);

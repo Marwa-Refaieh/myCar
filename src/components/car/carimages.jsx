@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 const CarImages = ({ register, errors, watch, setValue }) => {
   const { t } = useTranslation('step3');
 
-  const [images, setImages] = useState(Array(12).fill(null));
+  const [images, setImages] = useState(Array(20).fill(null));
   const imageRefs = useRef([]);
   const model3dRef = useRef();
 
@@ -75,7 +75,7 @@ const CarImages = ({ register, errors, watch, setValue }) => {
             required: t('reqphoto'),
             validate: (value) => {
               if (!value || value.length === 0) return t('reqphoto');
-              if (value.length > 12) return t('max12');
+              if (value.length > 20) return t('max20'); // غيّر من max12 إلى max20
               return true;
             },
           })}

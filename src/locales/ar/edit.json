@@ -1,0 +1,25 @@
+{
+    "title": "الملف الشخصي",
+    "fullName": "الاسم الكامل",
+    "userName": "اسم المستخدم",
+    "nationalNumber": "الرقم الوطني",
+    "address": "العنوان",
+    "city": "المدينة",
+    "selectCity": "اختر",
+    "gender": "الجنس",
+    "selectGender": "اختر",
+    "male": "ذكر",
+    "female": "أنثى",
+    "birthDate": "تاريخ الميلاد",
+    "email": "البريد الإلكتروني",
+    "emailPlaceholder": "أدخل البريد الإلكتروني",
+    "bio": "نبذة عنك",
+    "bioPlaceholder": "أدخل",
+    "idImage": "صورة الهوية",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "loadingCitiesError": "⚠️ فشل في تحميل المدن.",
+    "successUpdate": "✅ تم تحديث الملف بنجاح!",
+    "errorUpdate": "❌ حدث خطأ أثناء تحديث الملف."
+  }
+  

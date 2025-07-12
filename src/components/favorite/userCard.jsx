@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Heart } from 'lucide-react';
 import ConfirmDeleteUser from '../../components/favorite/confirmDeleteUser';
-
+import { useTranslation } from 'react-i18next';
 export default function UserCard({ name , image   ,    following,
     followers,
     
     reviews}) {
   const [showConfirm, setShowConfirm] = useState(false);
-
+  const { t, i18n } = useTranslation('fav'); 
   return (
     <>
       {/* User card */}
       <div className="relative w-48 flex flex-col mb-5 items-center bg-black p-4 rounded-2xl text-white">
         {/* Profile image */}
-        <div className="relative">
+        <div className="relative"> 
           <img
             src={image}
             alt={name}
@@ -29,16 +29,16 @@ export default function UserCard({ name , image   ,    following,
         <p className="mt-3 text-lg font-medium">{name}</p>
 
         {/* Delete button */}
-        {/* <button
+        <button
           onClick={() => setShowConfirm(true)}
           className="mt-4 bg-red-500 hover:bg-red-600 text-white text-sm px-4 py-1.5 rounded-full transition"
         >
-          Delete
-        </button> */}
+          {t('Delete')}
+        </button>
       </div>
 
       {/* Confirm Delete Modal */}
-      {/* {showConfirm && (
+      {showConfirm && (
         <ConfirmDeleteUser
         image={image}
         name = {name}
@@ -51,7 +51,7 @@ export default function UserCard({ name , image   ,    following,
           }}
           onCancel={() => setShowConfirm(false)}
         />
-      )} */}
+      )}
     </>
   );
 }

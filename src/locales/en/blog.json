@@ -1,20 +1,28 @@
 {
-    "blogPosts_1_title": "Top Tips for Buying a Used Car in Syria",
-    "blogPosts_1_description": "Learn what to check and how to avoid common mistakes when buying second-hand cars.",
-    
-    "blogPosts_2_title": "Is Renting a Car Cheaper Than Buying?",
-    "blogPosts_2_description": "Discover when renting makes more sense—especially in a changing economy.",
-    
-    "blogPosts_3_title": "How to Sell Your Car Fast Online in Syria",
-    "blogPosts_3_description": "From taking the right photos to writing a good ad, we show you how to get top offers quickly.",
-    
-    "blogPosts_4_title": "Electric vs. Gas Cars in Syria: What’s Better for You?",
-    "blogPosts_4_description": "Explore the pros and cons of both, including availability and cost of ownership.",
-    
-    "blogPosts_5_title": "Documents You Need to Sell or Rent a Car in Syria",
-    "blogPosts_5_description": "A quick guide to the legal paperwork required for a smooth and safe transaction",
-    "BLOGS" : "BLOGS",
-    "PAGE1": "HOME",
-    "PAGE2":"BLOGS"
-}
+  "blogPosts_1_title": "Top Tips for Buying a Used Car in Syria",
+  "blogPosts_1_description": "Learn what to check and how to avoid common mistakes when buying second-hand cars.",
+
+  "blogPosts_2_title": "Is Renting a Car Cheaper Than Buying?",
+  "blogPosts_2_description": "Discover when renting makes more sense—especially in a changing economy.",
+
+  "blogPosts_3_title": "How to Sell Your Car Fast Online in Syria",
+  "blogPosts_3_description": "From taking the right photos to writing a good ad, we show you how to get top offers quickly.",
+
+  "blogPosts_4_title": "Electric vs. Gas Cars in Syria: What’s Better for You?",
+  "blogPosts_4_description": "Explore the pros and cons of both, including availability and cost of ownership.",
+
+  "blogPosts_5_title": "Documents You Need to Sell or Rent a Car in Syria",
+  "blogPosts_5_description": "A quick guide to the legal paperwork required for a smooth and safe transaction",
+  "BLOGS": "BLOGS",
+  "PAGE1": "HOME",
+  "PAGE2": "BLOGS",
   
+  "Avoid Scams. Drive Smart.": "Avoid Scams. Drive Smart.",
+  "Avoid Scams Description": "Not all listings are real—and falling for a fake one can cost you big. This guide shows you red flags to watch out for: unrealistic prices, missing documents, and shady communication. Stay protected and buy with confidence.",
+
+  "First Impressions Matter.": "First Impressions Matter.",
+  "First Impressions Description": "Want to sell your car faster and for more money? This blog will show you simple ways to clean, repair, and photograph your car to attract serious buyers and boost your car’s value instantly.",
+
+  "What’s Everyone Driving?": "What’s Everyone Driving?",
+  "Driving Description": "From fuel efficiency to resale value, we break down the top-selling models in Syria and why people love them. A must-read for anyone unsure what car to buy next."
+}

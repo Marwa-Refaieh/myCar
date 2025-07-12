@@ -5,10 +5,11 @@ import ConfirmDeleteCard from '../../components/favorite/confirmDelete';
 import { baseUrl } from '@/baseUrl';
 import axios from 'axios';
 import {useNavigate , Link} from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
 const CarCard = ({ image, title, price, km, year, type, location , id}) => {
   const [showConfirm, setShowConfirm] = useState(false);
   const navigate = useNavigate()
-
+  const { t, i18n } = useTranslation('fav'); 
   return (
     <div className="border-[1px] mb-3 border-Myprimary rounded-3xl p-4 shadow-lg overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-xl relative w-fit  bg-black text-white">
       {/* صورة السيارة */}
@@ -69,8 +70,8 @@ const CarCard = ({ image, title, price, km, year, type, location , id}) => {
           className="flex items-center gap-1 bg-red-600 cursor-pointer rounded-md py-1 px-3 text-white"
           onClick={() => setShowConfirm(true)}
         >
-          <BadgeX className="w-4 h-4" />
-          <span>Remove</span>
+          {/* <BadgeX className="w-4 h-4" /> */}
+          <span>{t('Delete')}</span>
         </div>
       </div>
 
@@ -116,3 +117,4 @@ const CarCard = ({ image, title, price, km, year, type, location , id}) => {
 };
 
 export default CarCard;
+ 

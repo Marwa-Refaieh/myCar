@@ -10,5 +10,13 @@
     "profile" : "My account",
     "complaints" : "Complaints",
     "logout" : "Log out",
-    "noti" : "notifications"
-}
+    "noti" : "notifications",
+    "My Profile" : "My Profile",
+    "Following" : "Following",
+    "Followers" : "Followers",
+    "Reviews" : "Reviews",
+    "delete account" : "delete account",
+    "delete.." : "delete...",
+    "The account has been successfully deleted." : "The account has been successfully deleted.",
+    "EDIT PROFILE" : "EDIT PROFILE"
+} 

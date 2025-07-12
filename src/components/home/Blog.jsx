@@ -2,51 +2,64 @@ import React from 'react';
 import car7 from '../../assets/home/car7.webp';
 import car8 from '../../assets/home/car8.webp';
 import Button from '../Button';
+import img3 from '../../assets/home/car9.jpg'
+import img2 from '../../assets/home/Impressions.jpg'
+import img from '../../assets/home/scams.jpeg'
+import { useTranslation } from 'react-i18next';
 
 const Blog = () => {
-    const blogs = [
+    const { t, i18n } = useTranslation('blog');
+
+    const blogPosts = [
         {
             id: 1,
-            title: "The Ultimate Guide to Choosing the Perfect Family Car: Factors to Consider for Safety, Comfort, and Versatility",
-            description: "Fusce ipsum dolor sit amet, consectetur adipiscing elit. Vivamus vitae ornare dolor. Morbi fermentum.",
-            image: car7,
+            title: t("Avoid Scams. Drive Smart."),
+            description: t("Avoid Scams Description"),
+            image: img,
         },
         {
             id: 2,
-            title: "Top 10 Family Cars in 2025: Reviews and Comparisons",
-            description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eget purus eu tortor tincidunt consequat.",
-            image: car8,
+            title: t("First Impressions Matter."),
+            description: t("First Impressions Description"),
+            image: img2,
         },
+        {
+            id: 3,
+            title: t("What’s Everyone Driving?"),
+            description: t("Driving Description"),
+            image: img3,
+        }
     ];
- 
+
+
     return (
-        <section className="text-white py-20 flex flex-col gap-20">
-            <h2 className="text-3xl md:text-5xl font-bold text-center lg:mb-10 text-Myprimary">Read Our Blog Post</h2>
+        <section className="text-white pb-20 flex flex-col gap-20">
+            <h2 className="text-3xl md:text-5xl font-bold text-center  text-Myprimary">Read Our Blog Post</h2>
 
-            <div className="space-y-16">
-                {blogs.map((blog, index) => (
+            <div className="max-w-7xl mx-auto grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                {blogPosts.map((post) => (
                     <div
-                        key={blog.id}
-                        className={`flex flex-col-reverse ${index % 2 === 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 items-center justify-between`}
+                        key={post.id}
+                        className="relative bg-[#111] group rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
                     >
-                        <div className="w-full md:w-[80%] lg:w-[50%] text-center lg:text-left">
-                            <p className="text-Myprimary text-2xl md:text-3xl mb-8">
-                                {blog.title}
-                            </p>
+                        {/* Overlay */}
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none" />
 
-                            <p className="text-gray mb-8 leading-relaxed text-[1.3rem]">
-                                {blog.description}
-                            </p>
-
-                            <Button title="Read More" />
+                        {/* Image */}
+                        <div className="overflow-hidden">
+                            <img
+                                src={post.image}
+                                alt={post.title}
+                                className="w-full h-60 object-cover transform transition-transform duration-500 group-hover:scale-105 group-hover:skew-y-1"
+                            />
                         </div>
 
-                        <div className="w-[90%] md:w-[60%] lg:w-[40%] border-[1px] border-Myprimary rounded-[3rem] p-4">
-                            <img
-                                src={blog.image}
-                                alt="Car"
-                                className="w-full object-cover rounded-[3rem]"
-                            />
+                        {/* Content */}
+                        <div className="p-5 relative z-20">
+                            <h3 className="mt-2 text-lg font-bold leading-snug text-Myprimary">
+                                {post.title}
+                            </h3>
+                            <p className="mt-2 text-sm text-white/50">{post.description}</p>
                         </div>
                     </div>
                 ))}

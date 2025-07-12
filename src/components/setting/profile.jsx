@@ -5,21 +5,23 @@ import DeleteConfirmationModal from "./deleteProfileConfirm";
 import useFetchProfile from "@/hooks/getProfile";
 import { baseUrl } from "@/baseUrl";
 import axios from "axios";
+import {useNavigate} from 'react-router-dom'
+import { useTranslation } from 'react-i18next';
 const ProfileCard = ({
   image,
   username,
   following,
   followers,
-  rating,
-  reviews,
+  rating, 
+  reviews, 
 }) => {
-
+  const navigate = useNavigate()
   const { data, loading, error } = useFetchProfile();
   const [showModal, setShowModal] = useState(false);
   const [loadingerr, setLoading] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [errorerr, setError] = useState("");
-
+  const { t, i18n } = useTranslation('settingpage');
 
   const handleDeleteClick = () => {
     setShowModal(true);
@@ -59,25 +61,24 @@ const ProfileCard = ({
       });
 
       // عند النجاح
-      setShowSuccess(true);
-      localStorage.removeItem("token");
 
-      setTimeout(() => {
-        setShowSuccess(false);
-        window.location.href = "/";
-      }, 3000);
+
+
     } catch (err) {
       console.error(err);
       setError(err.response?.data?.message || "حدث خطأ أثناء حذف الحساب.");
     } finally {
       setLoading(false);
+      setShowSuccess(true);
+      localStorage.removeItem("token");
+      window.location = '/'
     }
   };
 
     
   return (
     <div className="bg-black text-white rounded-xl p-6 w-full max-w-md mx-auto text-center">
-      <h2 className="text-2xl font-bold mb-4">My Profile</h2>
+      <h2 className="text-2xl font-bold mb-4">{t('My Profile')}</h2>
       <img
         src={data.image_url} 
         alt="Profile"
@@ -88,11 +89,11 @@ const ProfileCard = ({
       <div className="flex justify-center gap-6 my-3">
         <div>
           <p className="font-bold text-lg">{data.following}</p>
-          <p className="text-sm text-gray-400">Following</p>
+          <p className="text-sm text-gray-400">{t('Following')}</p>
         </div>
         <div>
           <p className="font-bold text-lg">{data.followers}</p>
-          <p className="text-sm text-gray-400">Followers</p>
+          <p className="text-sm text-gray-400">{t('Followers')}</p>
         </div>
       </div>
 
@@ -102,14 +103,14 @@ const ProfileCard = ({
         <span className="text-white ml-2">{data.rating.toFixed(1)}</span>
       </div>
 
-      <p className="text-gray-400 text-sm mb-4">({data.reviews_count} Reviews)</p>
+      <p className="text-gray-400 text-sm mb-4">({data.reviews_count} {t('Reviews')})</p>
 
       <div className="flex justify-center gap-4">
         <Link to={'/editprofile'}>
         <button
-        className='bg-yellow-400 inline-block text-black py-1 md:py-3 w-fit px-3 md:px-10 font-bold rounded-full hover:bg-red-800 transition uppercase '
+        className='bg-yellow-400 inline-block text-black py-1 md:py-3 w-fit px-3 md:px-10 font-bold rounded-full hover:bg-yellow-500 transition uppercase '
       >
-        EDIT PROFILE
+        {t('EDIT PROFILE')}
       </button>
         </Link>
         <button
@@ -117,7 +118,7 @@ const ProfileCard = ({
         onClick={handleDeleteAccount}
         disabled={loadingerr}
       >
-        {loadingerr ? "جاري الحذف..." : "حذف الحساب"}
+        {loadingerr ? t('delete..') : t('delete account')}
       </button>
               {showModal && (
         <DeleteConfirmationModal name={username} image={image} onClose={() => setShowModal(false)} />
@@ -126,7 +127,7 @@ const ProfileCard = ({
             {/* ✅ نافذة نجاح */}
             {showSuccess && (
         <div className="fixed top-[50%] left-1/2 transform -translate-x-1/2 bg-green-600 text-white py-2 px-4 rounded-lg shadow-lg z-50">
-          ✅ تم حذف الحساب بنجاح
+          ✅ {t('The account has been successfully deleted.')}
         </div>
       )}
 
